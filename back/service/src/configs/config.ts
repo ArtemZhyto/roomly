@@ -14,7 +14,7 @@ if (!DATABASE_URL) {
   throw new Error('DATABASE_URL is not configured')
 }
 
-const isProd = process.env.MODE === 'prod'
+export const __IS_PROD = process.env.MODE === 'prod'
 
 export const __PORT = process.env.SERVICE_PORT
 
@@ -24,9 +24,9 @@ if (!__PORT) {
 
 export const __COOKIE_OPTION = {
   httpOnly: true,
-  sameSite: (isProd ? 'strict' : 'lax') as 'strict' | 'lax',
-  secure: isProd,
-  ...(isProd && { domain: process.env.DOMAIN || 'roomly.ua' }),
+  sameSite: (__IS_PROD ? 'strict' : 'lax') as 'strict' | 'lax',
+  secure: __IS_PROD,
+  ...(__IS_PROD && { domain: process.env.DOMAIN || 'roomly.ua' }),
   signed: true,
 }
 
