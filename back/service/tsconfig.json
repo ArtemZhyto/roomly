@@ -16,6 +16,7 @@
     "allowSyntheticDefaultImports": true,
     "typeRoots": ["./node_modules/@types", "../node_modules/@types"],
     "paths": {
+      "@workers/*": ["./src/workers/*"],
       "@configs/*": ["./src/configs/*"],
       "@controllers/*": ["./src/controllers/*"],
       "@mails/*": ["./src/mails/*"],

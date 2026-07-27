@@ -1,5 +1,5 @@
 // Configs
-import PRISMA from '@configs/config'
+import __PRISMA from '@configs/config'
 
 // Modules
 import { Prisma } from '../../prisma/generated/client'
@@ -23,7 +23,7 @@ export const bookingsService = {
     const skip = (pastPage - 1) * pastLimit
 
     const [upcoming, pastItems, pastTotal] = await Promise.all([
-      PRISMA.booking.findMany({
+      __PRISMA.booking.findMany({
         where: {
           userId,
           endTime: {
@@ -45,7 +45,7 @@ export const bookingsService = {
         },
       }),
 
-      PRISMA.booking.findMany({
+      __PRISMA.booking.findMany({
         where: {
           userId,
           endTime: {
@@ -69,7 +69,7 @@ export const bookingsService = {
         take: pastLimit,
       }),
 
-      PRISMA.booking.count({
+      __PRISMA.booking.count({
         where: {
           userId,
           endTime: {
@@ -92,7 +92,7 @@ export const bookingsService = {
   },
 
   createBooking: async (data: CreateBooking) => {
-    const user = await PRISMA.user.findUnique({
+    const user = await __PRISMA.user.findUnique({
       where: {
         id: data.userId,
       },
@@ -109,7 +109,7 @@ export const bookingsService = {
       throw new Error('Email must be verified before booking')
     }
 
-    const room = await PRISMA.room.findUnique({
+    const room = await __PRISMA.room.findUnique({
       where: {
         id: data.roomId,
       },
@@ -148,7 +148,7 @@ export const bookingsService = {
       }
     })
 
-    const overlappingBooking = await PRISMA.booking.findFirst({
+    const overlappingBooking = await __PRISMA.booking.findFirst({
       where: {
         roomId: data.roomId,
         OR: occurrences.map(({ startDate, endDate }) => ({
@@ -173,7 +173,7 @@ export const bookingsService = {
       if (!data.recurrence) {
         const occurrence = occurrences[0]!
 
-        return await PRISMA.booking.create({
+        return await __PRISMA.booking.create({
           data: {
             roomId: data.roomId,
             userId: data.userId,
@@ -184,7 +184,7 @@ export const bookingsService = {
         })
       }
 
-      return await PRISMA.$transaction(async (tx) => {
+      return await __PRISMA.$transaction(async (tx) => {
         const series = await tx.bookingSeries.create({
           data: {
             userId: data.userId,
@@ -227,7 +227,7 @@ export const bookingsService = {
   },
 
   deleteBooking: async (bookingId: number, userId: number) => {
-    const booking = await PRISMA.booking.findUnique({
+    const booking = await __PRISMA.booking.findUnique({
       where: {
         id: bookingId,
       },
@@ -245,7 +245,7 @@ export const bookingsService = {
       throw new Error('You can only cancel your own bookings')
     }
 
-    await PRISMA.booking.delete({
+    await __PRISMA.booking.delete({
       where: {
         id: bookingId,
       },
@@ -253,7 +253,7 @@ export const bookingsService = {
   },
 
   deleteBookingSeries: async (seriesId: number, userId: number) => {
-    const series = await PRISMA.bookingSeries.findUnique({
+    const series = await __PRISMA.bookingSeries.findUnique({
       where: {
         id: seriesId,
       },
@@ -271,7 +271,7 @@ export const bookingsService = {
       throw new Error('You can only cancel your own booking series')
     }
 
-    await PRISMA.bookingSeries.delete({
+    await __PRISMA.bookingSeries.delete({
       where: {
         id: seriesId,
       },

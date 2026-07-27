@@ -756,12 +756,14 @@
         {
           "id": "task-c6f602c1-aa1d-4ebf-85dc-100c4e33ba58",
           "title": "Ensure each notification is sent once",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-c969ddc0-5e28-4e39-9053-1c8c851eb9ba",
           "title": "Configure notification timing through environment variables",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-bd2b6bb5-72d1-4300-a4a0-ef7009403f60",
