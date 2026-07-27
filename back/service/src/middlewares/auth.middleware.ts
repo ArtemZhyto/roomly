@@ -1,12 +1,12 @@
 // Modules
-import { ZodError } from 'zod'
 import jwt from 'jsonwebtoken'
-
-// Types
-import { Response, Request, NextFunction } from 'express'
 
 // Helpers
 import { RegisterSchema, LoginSchema } from '@helpers/authSchemas'
+
+// Types
+import { Response, Request, NextFunction } from 'express'
+import { ZodError } from 'zod'
 
 // Interfaces
 import { AuthRequest, Payload } from '@ts/interfaces/auth'

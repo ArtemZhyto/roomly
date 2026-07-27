@@ -44,4 +44,77 @@ export const roomsController = {
       next(err)
     }
   },
+
+  getRoomAvailability: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const roomId = Number(req.params.roomId)
+      const from = String(req.query.from ?? '')
+      const to = String(req.query.to ?? '')
+
+      if (!Number.isInteger(roomId) || roomId <= 0) {
+        return res.status(400).json({
+          message: 'Invalid room id',
+        })
+      }
+
+      const fromDate = new Date(from)
+      const toDate = new Date(to)
+
+      if (
+        Number.isNaN(fromDate.getTime()) ||
+        Number.isNaN(toDate.getTime()) ||
+        fromDate >= toDate
+      ) {
+        return res.status(400).json({
+          message: 'Invalid date range',
+        })
+      }
+
+      const room = await __PRISMA.room.findUnique({
+        where: {
+          id: roomId,
+        },
+        select: {
+          id: true,
+        },
+      })
+
+      if (!room) {
+        return res.status(404).json({
+          message: 'Room not found',
+        })
+      }
+
+      const bookings = await __PRISMA.booking.findMany({
+        where: {
+          roomId,
+          startTime: {
+            lt: toDate,
+          },
+          endTime: {
+            gt: fromDate,
+          },
+        },
+        select: {
+          id: true,
+          title: true,
+          startTime: true,
+          endTime: true,
+          user: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+        orderBy: {
+          startTime: 'asc',
+        },
+      })
+
+      return res.status(200).json(bookings)
+    } catch (err: unknown) {
+      next(err)
+    }
+  },
 }

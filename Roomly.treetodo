@@ -51,6 +51,11 @@
           "title": "Add project icons and repository metadata",
           "items": [],
           "completed": true
+        },
+        {
+          "id": "item-57b8ad48-80a3-489a-873e-a0c057b502fc",
+          "title": "Maintain frontend and backend .env.example files",
+          "completed": true
         }
       ],
       "x": -900,
@@ -199,6 +204,11 @@
           "title": "Disable authentication form during requests",
           "items": [],
           "completed": false
+        },
+        {
+          "id": "item-24e72b0c-b7be-49a8-9330-b899890316ec",
+          "title": "Restore authenticated user on application startup",
+          "completed": false
         }
       ],
       "x": -212.76274816415363,
@@ -249,6 +259,11 @@
           "completed": true
         },
         {
+          "id": "item-709f49b7-0191-43b6-9a6b-86dad8d9879c",
+          "title": "Implement room availability API",
+          "completed": true
+        },
+        {
           "id": "task-805ad81b-3bbe-4718-bea6-15e7877fcb99",
           "title": "Create room catalog interface",
           "items": []
@@ -275,7 +290,7 @@
         }
       ],
       "x": 136.706889474629,
-      "y": -693.7547484246747
+      "y": -701.4605754099226
     },
     {
       "id": "task-d25ebb86-dd89-4c19-8dc2-f21f04c55ee3",
@@ -343,7 +358,7 @@
         }
       ],
       "x": -900,
-      "y": -100
+      "y": -55.691494834824425
     },
     {
       "id": "task-1345dfea-084c-44c7-b97f-ff8d8e07d553",
@@ -368,7 +383,8 @@
         {
           "id": "task-fc7e4b51-72f9-48cd-b54b-583c4311d79f",
           "title": "Validate office hours using Europe/Kyiv",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-d1b084b6-a4cb-4262-9808-723b5a85bcea",
@@ -378,7 +394,8 @@
         {
           "id": "task-44cc1b35-12be-454e-b4e6-f188e56beb24",
           "title": "Handle daylight-saving time correctly",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-6bcea823-73d3-4077-8c6e-fd9cdb067b5a",
@@ -396,12 +413,14 @@
         {
           "id": "task-eb54c8f6-58dd-4c02-89f8-7a28cdfc9fed",
           "title": "Create booking API endpoint",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-972f8cc3-3fd4-4392-ae4d-1998165ffd48",
           "title": "Create booking form or dialog",
-          "items": []
+          "items": [],
+          "completed": false
         },
         {
           "id": "task-d4137152-c4de-4f2d-a213-a8a43fce59a5",
@@ -411,42 +430,55 @@
         {
           "id": "task-ae21ad03-51b6-43f3-8cb1-7a37d4ce607b",
           "title": "Validate required booking title",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-c1190312-b930-45b3-b4db-47f32ef50fa1",
           "title": "Limit booking title to 100 characters",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-2696d6e3-ce52-4c8c-8f21-dd5efa4f51e5",
           "title": "Validate 30-minute time increments",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-7dde0d28-2e98-4413-af06-5f4db6cd121d",
           "title": "Validate duration between 30 minutes and 4 hours",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-0645ebb5-568d-4d1e-bf00-9f9e7d433303",
           "title": "Reject bookings outside office hours",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-03c0a837-4f61-42ed-86e7-02b25d6f2105",
           "title": "Reject bookings in the past",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-8814b472-072d-4e80-8b60-df98eb09d34e",
           "title": "Reject overlapping bookings",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-d103f22f-7dec-4555-adb0-e19234cac398",
           "title": "Allow adjacent bookings",
-          "items": []
+          "items": [],
+          "completed": true
+        },
+        {
+          "id": "item-9da84cdf-1e5b-47e9-a2f4-310ecf5fa83b",
+          "title": "Include booking author in room availability response",
+          "completed": true
         },
         {
           "id": "task-8bb80138-ab91-42bf-9d79-53555d04c669",
@@ -462,10 +494,15 @@
           "id": "task-493d38b5-5213-443d-a872-66dc0429e244",
           "title": "Refresh schedule after successful booking",
           "items": []
+        },
+        {
+          "id": "item-375e2b24-c4fc-4de8-8cfc-912f892368dc",
+          "title": "Prevent concurrent overlapping bookings",
+          "completed": false
         }
       ],
-      "x": 138.9535391797704,
-      "y": -196.62787649213777
+      "x": 134.13739731399045,
+      "y": -144.61354434171426
     },
     {
       "id": "task-e4747bd0-c6ce-42aa-8643-5e675293cb0f",
@@ -474,17 +511,20 @@
         {
           "id": "task-325a1759-1622-42ec-a63c-25510da6bb09",
           "title": "Implement booking cancellation endpoint",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-cb3bf6bb-97d4-4f97-a393-39eef4161edc",
           "title": "Allow users to cancel their own bookings",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-7b600614-3628-48d6-9164-a808a7bd754e",
           "title": "Reject cancellation of another user's booking",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-054024cf-3ab6-4486-860f-442919f696da",
@@ -497,8 +537,8 @@
           "items": []
         }
       ],
-      "x": 141.35171332440473,
-      "y": 708.360282668583
+      "x": 133.38318769193242,
+      "y": 875.1739236560522
     },
     {
       "id": "task-3244d698-b68e-4591-91d4-3f390a88d375",
@@ -507,7 +547,8 @@
         {
           "id": "task-128b835a-27b9-4efa-97fb-e9210a26673a",
           "title": "Implement current user's bookings API",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-5750e06d-b0b2-4ddb-9e32-2d2c66edde8c",
@@ -517,12 +558,14 @@
         {
           "id": "task-26b3021e-ff3e-4e45-95a1-20e387c315fb",
           "title": "Display upcoming bookings nearest first",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-c40e7bec-b7ea-4335-9189-ba10d3edb488",
           "title": "Display past bookings newest first",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-83d4797f-f477-44e5-8037-f009c5b916af",
@@ -550,8 +593,8 @@
           "items": []
         }
       ],
-      "x": -902.6841076803372,
-      "y": 650.310030098881
+      "x": -901.7208793071812,
+      "y": 693.6553068909006
     },
     {
       "id": "task-a21d1e4d-5ce2-4346-bfbc-6e61cb37ef34",
@@ -662,8 +705,8 @@
           "items": []
         }
       ],
-      "x": -205.95429774355466,
-      "y": -81.10931279299518
+      "x": -214.62335310195857,
+      "y": -44.50663461306753
     },
     {
       "id": "task-b704f9f5-bd4b-4bc4-814b-0f887faa3e00",
@@ -730,8 +773,8 @@
           "items": []
         }
       ],
-      "x": -206.63225862650938,
-      "y": 597.2626008558456
+      "x": -218.19099910438126,
+      "y": 639.6446492747092
     },
     {
       "id": "task-5127337a-21b2-4124-b240-ea01f1453802",
