@@ -1,0 +1,16 @@
+services:
+  roomly_service:
+    build:
+      context: .
+      dockerfile: service/dockerfile
+    env_file:
+      - .env
+      - .env.prod
+    ports:
+      - '${SERVICE_PORT}:${SERVICE_PORT}'
+    networks: [app-network]
+
+networks:
+  app-network:
+    external: true
+    name: roomly_network

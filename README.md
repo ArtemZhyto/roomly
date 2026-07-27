@@ -1,2 +1,7 @@
-# roomly
-A full-stack meeting room booking platform with an intuitive calendar interface
+# Roomly
+
+Meeting room booking application for UA-SKILLS.
+
+## Development
+
+Project is currently under development.

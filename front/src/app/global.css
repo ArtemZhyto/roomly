@@ -1,0 +1,6 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-prosto: var(--font-prosto);
+  --font-afacad: var(--font-afacad);
+}

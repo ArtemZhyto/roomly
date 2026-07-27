@@ -1,0 +1,21 @@
+services:
+  roomly_service:
+    build:
+      context: .
+      dockerfile: service/dockerfile
+    volumes:
+      - ./service:/app/service
+      - /app/node_modules
+      - /app/dist
+    command: npm run dev -w service # Use dev for hot-reloading during development
+    env_file:
+      - .env
+      - .env.prod
+    ports:
+      - '${SERVICE_PORT}:${SERVICE_PORT}'
+    networks: [app-network]
+
+networks:
+  app-network:
+    external: true
+    name: roomly_network

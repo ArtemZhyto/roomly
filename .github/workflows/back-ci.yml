@@ -1,0 +1,56 @@
+name: Backend ci
+
+on:
+  push:
+    paths:
+      - 'back/**'
+      - '.github/workflows/back-ci.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'back/**'
+      - '.github/workflows/back-ci.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  services:
+    name: Build & Test Services
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: back
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            back/package-lock.json
+
+      - name: Install root deps
+        run: npm ci
+
+      - name: Install service deps
+        working-directory: back/service
+        run: npm ci
+
+      - name: Prisma generate (if exists)
+        working-directory: back/service
+        run: |
+          if [ -d "prisma" ]; then
+            npx prisma generate
+          fi
+
+      # - name: Build service
+      #   working-directory: back/service
+      #   run: npm run build
+
+      - name: Test service
+        working-directory: back/service
+        run: npm test -- --passWithNoTests
