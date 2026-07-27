@@ -14,11 +14,13 @@ datasource db {
 }
 
 model User {
-  id           Int       @id @default(autoincrement())
+  id           Int    @id @default(autoincrement())
   name         String
-  email        String    @unique
+  email        String @unique
   passwordHash String
-  bookings     Booking[]
+
+  bookings      Booking[]
+  bookingSeries BookingSeries[]
 
   createdAt DateTime @default(now()) @db.Timestamptz(3)
   updatedAt DateTime @updatedAt @db.Timestamptz(3)
@@ -61,9 +63,27 @@ model Booking {
   roomId Int
   room   Room @relation(fields: [roomId], references: [id], onDelete: Restrict)
 
+  seriesId Int?
+  series   BookingSeries? @relation(fields: [seriesId], references: [id], onDelete: Cascade)
+
   createdAt DateTime @default(now()) @db.Timestamptz(3)
   updatedAt DateTime @updatedAt @db.Timestamptz(3)
 
   @@index([roomId, startTime, endTime])
   @@index([userId, startTime])
+  @@index([seriesId])
+}
+
+model BookingSeries {
+  id               Int @id @default(autoincrement())
+  userId           Int
+  totalOccurrences Int
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bookings Booking[]
+
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @db.Timestamptz(3)
+
+  @@index([userId])
 }

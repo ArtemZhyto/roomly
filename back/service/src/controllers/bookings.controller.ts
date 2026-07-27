@@ -38,7 +38,7 @@ export const bookingsController = {
   setBooking: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { user } = req as AuthRequest
-      const { roomId, title, startTime, endTime } = req.body
+      const { roomId, title, startTime, endTime, recurrence } = req.body
 
       const booking = await bookingsService.createBooking({
         roomId,
@@ -46,6 +46,7 @@ export const bookingsController = {
         title,
         startTime,
         endTime,
+        recurrence,
       })
 
       return res.status(201).json(booking)
@@ -54,7 +55,7 @@ export const bookingsController = {
         return next(err)
       }
 
-      if (err.message === 'Room not found') {
+      if (err.message === 'Room not found' || err.message === 'User not found') {
         return res.status(404).json({
           message: err.message,
         })
@@ -80,12 +81,6 @@ export const bookingsController = {
 
       if (err.message === 'Email must be verified before booking') {
         return res.status(403).json({
-          message: err.message,
-        })
-      }
-
-      if (err.message === 'User not found') {
-        return res.status(404).json({
           message: err.message,
         })
       }
@@ -120,6 +115,41 @@ export const bookingsController = {
       }
 
       if (err.message === 'You can only cancel your own bookings') {
+        return res.status(403).json({
+          message: err.message,
+        })
+      }
+
+      next(err)
+    }
+  },
+
+  deleteBookingSeries: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const seriesId = Number(req.params.seriesId)
+      const { user } = req as AuthRequest
+
+      if (!Number.isInteger(seriesId) || seriesId <= 0) {
+        return res.status(400).json({
+          message: 'Invalid booking series id',
+        })
+      }
+
+      await bookingsService.deleteBookingSeries(seriesId, user.id)
+
+      return res.status(204).send()
+    } catch (err: unknown) {
+      if (!(err instanceof Error)) {
+        return next(err)
+      }
+
+      if (err.message === 'Booking series not found') {
+        return res.status(404).json({
+          message: err.message,
+        })
+      }
+
+      if (err.message === 'You can only cancel your own booking series') {
         return res.status(403).json({
           message: err.message,
         })
