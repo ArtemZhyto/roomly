@@ -27,6 +27,8 @@ model User {
 
   emailVerifiedAt  DateTime?
   verificationCode EmailVerificationCode?
+
+  notifications Notification[]
 }
 
 model EmailVerificationCode {
@@ -69,6 +71,9 @@ model Booking {
   createdAt DateTime @default(now()) @db.Timestamptz(3)
   updatedAt DateTime @updatedAt @db.Timestamptz(3)
 
+  currentBookingNotifications Notification[] @relation("CurrentBooking")
+  nextBookingNotifications    Notification[] @relation("NextBooking")
+
   @@index([roomId, startTime, endTime])
   @@index([userId, startTime])
   @@index([seriesId])
@@ -86,4 +91,25 @@ model BookingSeries {
   updatedAt DateTime @updatedAt @db.Timestamptz(3)
 
   @@index([userId])
+}
+
+model Notification {
+  id Int @id @default(autoincrement())
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  currentBookingId Int     @unique
+  currentBooking   Booking @relation("CurrentBooking", fields: [currentBookingId], references: [id], onDelete: Cascade)
+
+  nextBookingId Int
+  nextBooking   Booking @relation("NextBooking", fields: [nextBookingId], references: [id], onDelete: Cascade)
+
+  message String
+  readAt  DateTime?
+
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+
+  @@index([userId, createdAt])
+  @@index([nextBookingId])
 }
