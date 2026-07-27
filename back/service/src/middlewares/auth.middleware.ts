@@ -1,11 +1,15 @@
 // Modules
 import { ZodError } from 'zod'
+import jwt from 'jsonwebtoken'
 
 // Types
 import { Response, Request, NextFunction } from 'express'
 
 // Helpers
 import { RegisterSchema, LoginSchema } from '@helpers/authSchemas'
+
+// Interfaces
+import { AuthRequest, Payload } from '@ts/interfaces/auth'
 
 export const authMiddleware = {
   register: async (req: Request, res: Response, next: NextFunction) => {
@@ -39,6 +43,34 @@ export const authMiddleware = {
       }
 
       next(err)
+    }
+  },
+
+  requireAuth: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const ACCESS_SECRET = process.env.ACCESS_SECRET
+
+      if (!ACCESS_SECRET) {
+        throw new Error('ACCESS_SECRET is not configured')
+      }
+
+      const accessToken = req.signedCookies.accessToken
+
+      if (!accessToken) {
+        return res.status(401).json({
+          message: 'Unauthorized',
+        })
+      }
+
+      const payload = jwt.verify(accessToken, ACCESS_SECRET) as Payload
+
+      ;(req as AuthRequest).user = payload
+
+      next()
+    } catch {
+      return res.status(401).json({
+        message: 'Unauthorized',
+      })
     }
   },
 }
