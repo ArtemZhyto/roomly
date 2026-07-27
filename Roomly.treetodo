@@ -570,7 +570,8 @@
         {
           "id": "task-83d4797f-f477-44e5-8037-f009c5b916af",
           "title": "Add pagination or incremental loading for past bookings",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-c76d11c3-5850-4f67-a904-4824aa14b36f",
@@ -735,7 +736,8 @@
         {
           "id": "task-65f4167b-aa8d-44a2-95c1-fc398898d03e",
           "title": "Protect against concurrent booking races",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-987493ab-82e4-4d12-bb15-70283f2b093d",
@@ -765,7 +767,8 @@
         {
           "id": "task-eccb7e05-4ef7-4a9f-9aba-58959c4bc7ab",
           "title": "Add room capacity filter",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-95df0949-1fee-4774-a3ba-964266973fcb",

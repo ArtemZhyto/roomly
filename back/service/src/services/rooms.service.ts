@@ -2,8 +2,13 @@
 import __PRISMA from '@configs/config'
 
 export const roomsService = {
-  getRoomsList: async () => {
+  getRoomsList: async (minCapacity: number) => {
     return __PRISMA.room.findMany({
+      where: {
+        capacity: {
+          gte: minCapacity,
+        },
+      },
       orderBy: {
         id: 'asc',
       },

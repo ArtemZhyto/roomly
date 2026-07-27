@@ -7,7 +7,15 @@ import { NextFunction, Request, Response } from 'express'
 export const roomsController = {
   getRoomsList: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const rooms = await roomsService.getRoomsList()
+      const minCapacity = Number(req.query.minCapacity ?? 0)
+
+      if (!Number.isInteger(minCapacity) || minCapacity < 0) {
+        return res.status(400).json({
+          message: 'Invalid minimum capacity',
+        })
+      }
+
+      const rooms = await roomsService.getRoomsList(minCapacity)
 
       return res.status(200).json(rooms)
     } catch (err: unknown) {
