@@ -4,7 +4,6 @@ services:
     env_file:
       - .env
       - .env.prod
-    container_name: client
     volumes:
       - .:/app
       - /app/node_modules
@@ -12,8 +11,5 @@ services:
     command: npm run dev
     ports:
       - '3030:3030'
-    networks: [roomly_network]
-
-networks:
-  roomly_network:
-    external: true
+    networks:
+      - app-network

@@ -1,0 +1,6 @@
+name: roomly-prod
+
+include:
+  - path: ./back/docker-compose.infra.yml
+  - path: ./back/docker-compose.prod.yml
+  - path: ./front/docker-compose.prod.yml

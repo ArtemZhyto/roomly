@@ -8,9 +8,5 @@ services:
       - .env.prod
     ports:
       - '${SERVICE_PORT}:${SERVICE_PORT}'
-    networks: [app-network]
-
-networks:
-  app-network:
-    external: true
-    name: roomly_network
+    networks:
+      - app-network
