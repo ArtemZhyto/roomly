@@ -1,5 +1,5 @@
-// Configs
-import __PRISMA from '@configs/config'
+// Services
+import { roomsService } from '@services/rooms.service'
 
 // Types
 import { NextFunction, Request, Response } from 'express'
@@ -7,11 +7,7 @@ import { NextFunction, Request, Response } from 'express'
 export const roomsController = {
   getRoomsList: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const rooms = await __PRISMA.room.findMany({
-        orderBy: {
-          id: 'asc',
-        },
-      })
+      const rooms = await roomsService.getRoomsList()
 
       return res.status(200).json(rooms)
     } catch (err: unknown) {
@@ -21,26 +17,24 @@ export const roomsController = {
 
   getRoomData: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const id = Number(req.params.roomId)
+      const roomId = Number(req.params.roomId)
 
-      if (!Number.isInteger(id) || id <= 0) {
+      if (!Number.isInteger(roomId) || roomId <= 0) {
         return res.status(400).json({
           message: 'Invalid room id',
         })
       }
 
-      const room = await __PRISMA.room.findUnique({
-        where: { id },
-      })
-
-      if (!room) {
-        return res.status(404).json({
-          message: 'Room not found',
-        })
-      }
+      const room = await roomsService.getRoomData(roomId)
 
       return res.status(200).json(room)
     } catch (err: unknown) {
+      if (err instanceof Error && err.message === 'Room not found') {
+        return res.status(404).json({
+          message: err.message,
+        })
+      }
+
       next(err)
     }
   },
@@ -70,50 +64,16 @@ export const roomsController = {
         })
       }
 
-      const room = await __PRISMA.room.findUnique({
-        where: {
-          id: roomId,
-        },
-        select: {
-          id: true,
-        },
-      })
-
-      if (!room) {
-        return res.status(404).json({
-          message: 'Room not found',
-        })
-      }
-
-      const bookings = await __PRISMA.booking.findMany({
-        where: {
-          roomId,
-          startTime: {
-            lt: toDate,
-          },
-          endTime: {
-            gt: fromDate,
-          },
-        },
-        select: {
-          id: true,
-          title: true,
-          startTime: true,
-          endTime: true,
-          user: {
-            select: {
-              id: true,
-              name: true,
-            },
-          },
-        },
-        orderBy: {
-          startTime: 'asc',
-        },
-      })
+      const bookings = await roomsService.getRoomAvailability(roomId, fromDate, toDate)
 
       return res.status(200).json(bookings)
     } catch (err: unknown) {
+      if (err instanceof Error && err.message === 'Room not found') {
+        return res.status(404).json({
+          message: err.message,
+        })
+      }
+
       next(err)
     }
   },
