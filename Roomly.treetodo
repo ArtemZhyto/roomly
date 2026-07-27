@@ -1,0 +1,762 @@
+{
+  "tasks": [
+    {
+      "id": "task-26d24975-94bd-4cff-98b2-003cd4940ec6",
+      "title": "Project Foundation",
+      "items": [
+        {
+          "id": "task-5fe1f6c9-2c36-43af-aa3f-7bb077cf4341",
+          "title": "Initialize frontend and backend project structure",
+          "items": [],
+          "completed": true
+        },
+        {
+          "id": "task-29ad0c3e-0fc6-49e7-bc7d-5cc454bf7331",
+          "title": "Configure TypeScript",
+          "items": [],
+          "completed": true
+        },
+        {
+          "id": "task-dd20e738-6103-4666-ab74-e85d5bf5a44c",
+          "title": "Configure linting and formatting",
+          "items": [],
+          "completed": true
+        },
+        {
+          "id": "task-9c8d014c-38c5-4bff-8e86-d5abd0f0992d",
+          "title": "Configure npm workspaces for backend services",
+          "items": [],
+          "completed": true
+        },
+        {
+          "id": "task-e84fe915-66d0-49c2-9e44-eb4c7231c536",
+          "title": "Add development and production environment configuration",
+          "items": [],
+          "completed": true
+        },
+        {
+          "id": "task-0b839446-a1ea-4113-a078-e9f692c238bf",
+          "title": "Configure Docker and Docker Compose",
+          "items": [],
+          "completed": true
+        },
+        {
+          "id": "task-70b466ab-5396-49df-b1b6-fb2505d3eece",
+          "title": "Configure frontend and backend CI workflows",
+          "items": [],
+          "completed": true
+        },
+        {
+          "id": "task-11eaa991-dccf-49b2-a6d8-8bcca2bf7f8a",
+          "title": "Add project icons and repository metadata",
+          "items": [],
+          "completed": true
+        }
+      ],
+      "x": -900,
+      "y": -700
+    },
+    {
+      "id": "task-8bcfe7a3-fd83-4ee5-a78d-d550e45fd6bd",
+      "title": "Database",
+      "items": [
+        {
+          "id": "task-3bc20532-0be8-426d-81c0-aea6c03e18a7",
+          "title": "Design Prisma schema",
+          "items": []
+        },
+        {
+          "id": "task-2b82eaf1-6b77-4a2c-a3e3-8008b024534a",
+          "title": "Create User model",
+          "items": []
+        },
+        {
+          "id": "task-1c9a41f6-02da-4d14-97d6-b5de6b6a254f",
+          "title": "Create Rooms model",
+          "items": []
+        },
+        {
+          "id": "task-b9064850-ed0f-4827-bb14-c89c85beee97",
+          "title": "Create Bookings model",
+          "items": []
+        },
+        {
+          "id": "task-84f8aada-5961-44de-9b72-e528fa8b1128",
+          "title": "Add database indexes and constraints",
+          "items": []
+        },
+        {
+          "id": "task-9b8acd12-e3ea-4a97-87ca-277d51f5f20b",
+          "title": "Create initial database migration",
+          "items": []
+        },
+        {
+          "id": "task-290863f0-eccb-4b07-a4a8-48f112a50a5e",
+          "title": "Create seed script",
+          "items": [
+            {
+              "id": "task-38b31ff9-b189-41df-a5c6-15f8c50daacf",
+              "title": "Seed 5–6 meeting rooms",
+              "items": []
+            },
+            {
+              "id": "task-e0652bb6-c35c-4ff3-9dba-895a6ab2c042",
+              "title": "Seed two test users",
+              "items": []
+            },
+            {
+              "id": "task-c108cf10-105c-4be0-8f6d-87be043bbd2e",
+              "title": "Seed demo bookings",
+              "items": []
+            }
+          ]
+        }
+      ],
+      "x": -556.3322834721988,
+      "y": -695.9738384794942
+    },
+    {
+      "id": "task-c6aa2e6a-c8a1-4d1d-8b0b-d6b05ef222b9",
+      "title": "Authentication",
+      "items": [
+        {
+          "id": "task-26d3df2d-99b3-4aca-a1fb-e9f02e7a783b",
+          "title": "Implement user registration",
+          "items": [
+            {
+              "id": "task-25e16ba9-f4fb-4e64-977c-aae57950e00f",
+              "title": "Normalize email address",
+              "items": []
+            },
+            {
+              "id": "task-80e38905-baf2-43ac-85bc-076a9d3643eb",
+              "title": "Validate name, email, and password",
+              "items": []
+            },
+            {
+              "id": "task-023c08bd-1b22-42e5-acae-a19fabde7427",
+              "title": "Enforce case-insensitive email uniqueness",
+              "items": []
+            },
+            {
+              "id": "task-eccc80d8-1ff6-4286-b8f0-66515b8021d7",
+              "title": "Hash passwords securely",
+              "items": []
+            }
+          ]
+        },
+        {
+          "id": "task-11b2945f-67df-41b1-ac04-caa1e9db017f",
+          "title": "Implement user login",
+          "items": []
+        },
+        {
+          "id": "task-fa5b50a7-3439-4b38-87f3-06be5b8cbfd8",
+          "title": "Implement persistent session handling",
+          "items": []
+        },
+        {
+          "id": "task-4b767a7f-bfb7-43e4-9673-f7c28fd37fed",
+          "title": "Implement logout",
+          "items": []
+        },
+        {
+          "id": "task-87568a3a-f30d-4eab-8822-40e14222c90e",
+          "title": "Protect authenticated API routes",
+          "items": []
+        },
+        {
+          "id": "task-476f88f6-6828-4754-a5f9-f740a04fc5d2",
+          "title": "Create registration page",
+          "items": []
+        },
+        {
+          "id": "task-3a477426-b838-411b-832a-254b1d3c664e",
+          "title": "Create login page",
+          "items": []
+        },
+        {
+          "id": "task-4823e07c-047a-4285-9864-e312567b9220",
+          "title": "Display field-level validation errors",
+          "items": []
+        },
+        {
+          "id": "task-424c4a81-5950-492d-984a-3fded45ef38f",
+          "title": "Disable authentication form during requests",
+          "items": []
+        }
+      ],
+      "x": -212.76274816415363,
+      "y": -698.9524898190996
+    },
+    {
+      "id": "task-e42c38b9-91d3-46a3-83f7-1e314dbbcf79",
+      "title": "Meeting Rooms",
+      "items": [
+        {
+          "id": "task-c7a2f2f4-4eac-4099-9747-55823f87b8e9",
+          "title": "Implement room list API",
+          "items": []
+        },
+        {
+          "id": "task-d4a3eae9-13da-4e8e-a747-e1611f8a0f35",
+          "title": "Implement room details API",
+          "items": []
+        },
+        {
+          "id": "task-805ad81b-3bbe-4718-bea6-15e7877fcb99",
+          "title": "Create room catalog interface",
+          "items": []
+        },
+        {
+          "id": "task-0e776c7f-d0c3-4650-9098-cc2acacf47f1",
+          "title": "Display room name, floor, and capacity",
+          "items": []
+        },
+        {
+          "id": "task-9432d277-c65e-4807-ab36-12c1b61ce578",
+          "title": "Add room loading state",
+          "items": []
+        },
+        {
+          "id": "task-e60f148d-67ca-4d19-b91c-378bb392ab70",
+          "title": "Add room empty state",
+          "items": []
+        },
+        {
+          "id": "task-58d4b5a4-6c3d-4925-a32a-0d0b578767ac",
+          "title": "Add room error state",
+          "items": []
+        }
+      ],
+      "x": 133.95868651137852,
+      "y": -696.5029513879252
+    },
+    {
+      "id": "task-d25ebb86-dd89-4c19-8dc2-f21f04c55ee3",
+      "title": "Weekly Schedule",
+      "items": [
+        {
+          "id": "task-a5623b6b-0957-4e86-9c33-d5eea9c2b849",
+          "title": "Build custom weekly calendar grid",
+          "items": []
+        },
+        {
+          "id": "task-a10defca-3959-42d4-be37-907b5534dda9",
+          "title": "Display days horizontally",
+          "items": []
+        },
+        {
+          "id": "task-7f2ab87b-8bc0-4581-b5ce-a99b66370f14",
+          "title": "Display time vertically in 30-minute slots",
+          "items": []
+        },
+        {
+          "id": "task-850c89e2-8de9-47d0-bb0c-2bce36f4d538",
+          "title": "Display office working hours",
+          "items": []
+        },
+        {
+          "id": "task-8ae9397b-fda5-483b-86ef-ca9049dd5d36",
+          "title": "Implement previous and next week navigation",
+          "items": []
+        },
+        {
+          "id": "task-8e6d9421-7a9a-44a4-8ea5-187d461c7023",
+          "title": "Highlight the current day",
+          "items": []
+        },
+        {
+          "id": "task-0b1bc787-c862-42cb-ac99-0ca9a4045af2",
+          "title": "Display current-time indicator",
+          "items": []
+        },
+        {
+          "id": "task-ce35b28d-9143-4eb4-b8ee-dcdaf5058f12",
+          "title": "Display booking title and author",
+          "items": []
+        },
+        {
+          "id": "task-2954961d-676d-4590-ad0d-1c1b9731f67a",
+          "title": "Visually distinguish own bookings",
+          "items": []
+        },
+        {
+          "id": "task-06b110cb-2fa7-4168-80c0-b46216b291f2",
+          "title": "Add calendar loading state",
+          "items": []
+        },
+        {
+          "id": "task-9dcbb1b6-6830-4ca7-bf06-10ae0138f063",
+          "title": "Add empty schedule state",
+          "items": []
+        },
+        {
+          "id": "task-cb5b0f87-9dfb-47c1-b406-37af79326c38",
+          "title": "Add calendar error state",
+          "items": []
+        }
+      ],
+      "x": -900,
+      "y": -100
+    },
+    {
+      "id": "task-1345dfea-084c-44c7-b97f-ff8d8e07d553",
+      "title": "Time Zone Support",
+      "items": [
+        {
+          "id": "task-47d22b3c-a440-433f-8c58-36c1368bab38",
+          "title": "Store booking timestamps in UTC",
+          "items": []
+        },
+        {
+          "id": "task-ec82d0cd-5e20-4fd1-81c9-582d395a7e35",
+          "title": "Detect browser time zone",
+          "items": []
+        },
+        {
+          "id": "task-a21d6261-73b5-4302-a150-90afd1cea06f",
+          "title": "Display schedule in the user's time zone",
+          "items": []
+        },
+        {
+          "id": "task-fc7e4b51-72f9-48cd-b54b-583c4311d79f",
+          "title": "Validate office hours using Europe/Kyiv",
+          "items": []
+        },
+        {
+          "id": "task-d1b084b6-a4cb-4262-9808-723b5a85bcea",
+          "title": "Display office time zone notice when different",
+          "items": []
+        },
+        {
+          "id": "task-44cc1b35-12be-454e-b4e6-f188e56beb24",
+          "title": "Handle daylight-saving time correctly",
+          "items": []
+        },
+        {
+          "id": "task-6bcea823-73d3-4077-8c6e-fd9cdb067b5a",
+          "title": "Handle date changes caused by time-zone conversion",
+          "items": []
+        }
+      ],
+      "x": -554.1708923420689,
+      "y": -221.97132857418845
+    },
+    {
+      "id": "task-89fbf97d-d0f1-4f37-9a54-09023b335e95",
+      "title": "Booking Creation",
+      "items": [
+        {
+          "id": "task-eb54c8f6-58dd-4c02-89f8-7a28cdfc9fed",
+          "title": "Create booking API endpoint",
+          "items": []
+        },
+        {
+          "id": "task-972f8cc3-3fd4-4392-ae4d-1998165ffd48",
+          "title": "Create booking form or dialog",
+          "items": []
+        },
+        {
+          "id": "task-d4137152-c4de-4f2d-a213-a8a43fce59a5",
+          "title": "Allow selection from the calendar grid",
+          "items": []
+        },
+        {
+          "id": "task-ae21ad03-51b6-43f3-8cb1-7a37d4ce607b",
+          "title": "Validate required booking title",
+          "items": []
+        },
+        {
+          "id": "task-c1190312-b930-45b3-b4db-47f32ef50fa1",
+          "title": "Limit booking title to 100 characters",
+          "items": []
+        },
+        {
+          "id": "task-2696d6e3-ce52-4c8c-8f21-dd5efa4f51e5",
+          "title": "Validate 30-minute time increments",
+          "items": []
+        },
+        {
+          "id": "task-7dde0d28-2e98-4413-af06-5f4db6cd121d",
+          "title": "Validate duration between 30 minutes and 4 hours",
+          "items": []
+        },
+        {
+          "id": "task-0645ebb5-568d-4d1e-bf00-9f9e7d433303",
+          "title": "Reject bookings outside office hours",
+          "items": []
+        },
+        {
+          "id": "task-03c0a837-4f61-42ed-86e7-02b25d6f2105",
+          "title": "Reject bookings in the past",
+          "items": []
+        },
+        {
+          "id": "task-8814b472-072d-4e80-8b60-df98eb09d34e",
+          "title": "Reject overlapping bookings",
+          "items": []
+        },
+        {
+          "id": "task-d103f22f-7dec-4555-adb0-e19234cac398",
+          "title": "Allow adjacent bookings",
+          "items": []
+        },
+        {
+          "id": "task-8bb80138-ab91-42bf-9d79-53555d04c669",
+          "title": "Display clear server validation errors",
+          "items": []
+        },
+        {
+          "id": "task-acc5e676-f0a9-4ca9-8fb2-4e09c9a66e6a",
+          "title": "Disable submit button during request",
+          "items": []
+        },
+        {
+          "id": "task-493d38b5-5213-443d-a872-66dc0429e244",
+          "title": "Refresh schedule after successful booking",
+          "items": []
+        }
+      ],
+      "x": 138.9535391797704,
+      "y": -196.62787649213777
+    },
+    {
+      "id": "task-e4747bd0-c6ce-42aa-8643-5e675293cb0f",
+      "title": "Booking Cancellation",
+      "items": [
+        {
+          "id": "task-325a1759-1622-42ec-a63c-25510da6bb09",
+          "title": "Implement booking cancellation endpoint",
+          "items": []
+        },
+        {
+          "id": "task-cb3bf6bb-97d4-4f97-a393-39eef4161edc",
+          "title": "Allow users to cancel their own bookings",
+          "items": []
+        },
+        {
+          "id": "task-7b600614-3628-48d6-9164-a808a7bd754e",
+          "title": "Reject cancellation of another user's booking",
+          "items": []
+        },
+        {
+          "id": "task-054024cf-3ab6-4486-860f-442919f696da",
+          "title": "Add cancellation confirmation dialog",
+          "items": []
+        },
+        {
+          "id": "task-50cecd90-6252-49a0-8cbd-55e2d5453928",
+          "title": "Refresh schedule after cancellation",
+          "items": []
+        }
+      ],
+      "x": 141.35171332440473,
+      "y": 708.360282668583
+    },
+    {
+      "id": "task-3244d698-b68e-4591-91d4-3f390a88d375",
+      "title": "My Bookings",
+      "items": [
+        {
+          "id": "task-128b835a-27b9-4efa-97fb-e9210a26673a",
+          "title": "Implement current user's bookings API",
+          "items": []
+        },
+        {
+          "id": "task-5750e06d-b0b2-4ddb-9e32-2d2c66edde8c",
+          "title": "Create My Bookings page",
+          "items": []
+        },
+        {
+          "id": "task-26b3021e-ff3e-4e45-95a1-20e387c315fb",
+          "title": "Display upcoming bookings nearest first",
+          "items": []
+        },
+        {
+          "id": "task-c40e7bec-b7ea-4335-9189-ba10d3edb488",
+          "title": "Display past bookings newest first",
+          "items": []
+        },
+        {
+          "id": "task-83d4797f-f477-44e5-8037-f009c5b916af",
+          "title": "Add pagination or incremental loading for past bookings",
+          "items": []
+        },
+        {
+          "id": "task-c76d11c3-5850-4f67-a904-4824aa14b36f",
+          "title": "Display date, time, room, and booking title",
+          "items": []
+        },
+        {
+          "id": "task-29565eaf-0c80-4e1e-b2ce-98678fffdb5d",
+          "title": "Display times in the user's time zone",
+          "items": []
+        },
+        {
+          "id": "task-8850b32c-8cd6-4e95-ba5c-b9b74798167e",
+          "title": "Link booking rows to the corresponding calendar week",
+          "items": []
+        },
+        {
+          "id": "task-63f5f837-e2e0-4436-983e-50e0b16d4850",
+          "title": "Allow cancellation of upcoming bookings",
+          "items": []
+        }
+      ],
+      "x": -902.6841076803372,
+      "y": 650.310030098881
+    },
+    {
+      "id": "task-a21d1e4d-5ce2-4346-bfbc-6e61cb37ef34",
+      "title": "Testing",
+      "items": [
+        {
+          "id": "task-c8fef9e9-bbe5-4802-a91e-d7d2431abe49",
+          "title": "Add interval overlap unit tests",
+          "items": [
+            {
+              "id": "task-01864c66-895f-4b6a-a098-d60a3c2a95a0",
+              "title": "Test adjacent intervals",
+              "items": []
+            },
+            {
+              "id": "task-3b49610f-c9af-454d-8df0-4dc311fb212e",
+              "title": "Test partial overlap",
+              "items": []
+            },
+            {
+              "id": "task-6b0d4981-5e0d-46cf-85fc-d79df4e97873",
+              "title": "Test identical intervals",
+              "items": []
+            },
+            {
+              "id": "task-7834b054-a958-4466-8c49-a3254006195f",
+              "title": "Test containing interval",
+              "items": []
+            },
+            {
+              "id": "task-ddf77954-4ace-4695-be81-68d177fc4d02",
+              "title": "Test intervals on adjacent days",
+              "items": []
+            }
+          ]
+        },
+        {
+          "id": "task-241fd293-e1fb-478b-9fde-3b6b71c821e8",
+          "title": "Add authentication validation tests",
+          "items": []
+        },
+        {
+          "id": "task-7d0f65d6-7a47-440f-abf1-8e81381a790b",
+          "title": "Add booking validation tests",
+          "items": []
+        },
+        {
+          "id": "task-4ea5082d-2b33-4b68-8adb-fd1bfecea188",
+          "title": "Ensure tests run with npm test",
+          "items": []
+        }
+      ],
+      "x": -557.6743373123674,
+      "y": 340.74778464084534
+    },
+    {
+      "id": "task-5d377756-bc96-4fe2-95b1-673cc77cf623",
+      "title": "UI and UX",
+      "items": [
+        {
+          "id": "task-05574b5f-dc62-4e1a-9571-fecb29cc6fec",
+          "title": "Define shared colors, spacing, and typography",
+          "items": []
+        },
+        {
+          "id": "task-c8fa1ebd-0894-4b94-81c9-0b30af247180",
+          "title": "Create shared button components",
+          "items": []
+        },
+        {
+          "id": "task-962d4068-77d9-4feb-939c-10df2e5eade2",
+          "title": "Create shared form components",
+          "items": []
+        },
+        {
+          "id": "task-a2bde521-b708-4bdc-8cec-57257d2f35bf",
+          "title": "Create shared dialog component",
+          "items": []
+        },
+        {
+          "id": "task-7ce71611-5a11-4a9e-a896-a7b8aec2c320",
+          "title": "Create shared loading indicators",
+          "items": []
+        },
+        {
+          "id": "task-e738faf5-1c0b-41e7-a823-ad759b2c5ce5",
+          "title": "Create shared error states",
+          "items": []
+        },
+        {
+          "id": "task-7acb4142-56ef-4301-83f6-6a21c02ffb93",
+          "title": "Create shared empty states",
+          "items": []
+        },
+        {
+          "id": "task-f8f2e0c9-b731-4292-8b30-1450ccb58c35",
+          "title": "Ensure layout works across common screen widths",
+          "items": []
+        },
+        {
+          "id": "task-a42b70bb-33e9-401a-81ba-5075bf52f449",
+          "title": "Improve keyboard accessibility",
+          "items": []
+        },
+        {
+          "id": "task-beb022f7-8dbe-4daf-8a3e-f679559e7f29",
+          "title": "Add accessible labels and focus states",
+          "items": []
+        }
+      ],
+      "x": -205.95429774355466,
+      "y": -81.10931279299518
+    },
+    {
+      "id": "task-b704f9f5-bd4b-4bc4-814b-0f887faa3e00",
+      "title": "Competition Bonus Features",
+      "items": [
+        {
+          "id": "task-0008bc36-0e4e-4925-9797-c8b6c47707da",
+          "title": "Add development-mode email verification",
+          "items": []
+        },
+        {
+          "id": "task-efc67dd0-7492-4392-9c58-7fa4c093756a",
+          "title": "Add recurring weekly bookings",
+          "items": []
+        },
+        {
+          "id": "task-5e1e20c2-a529-48ec-8b3d-36800b8a6415",
+          "title": "Allow cancellation of one recurring occurrence",
+          "items": []
+        },
+        {
+          "id": "task-f61e4ee0-85f5-4008-be4d-d8384c724fd3",
+          "title": "Allow cancellation of an entire recurring series",
+          "items": []
+        },
+        {
+          "id": "task-65f4167b-aa8d-44a2-95c1-fc398898d03e",
+          "title": "Protect against concurrent booking races",
+          "items": []
+        },
+        {
+          "id": "task-987493ab-82e4-4d12-bb15-70283f2b093d",
+          "title": "Document race-condition protection",
+          "items": []
+        },
+        {
+          "id": "task-abdd3638-5d9c-489a-ab8d-9173b54378f4",
+          "title": "Add booking-end notifications",
+          "items": []
+        },
+        {
+          "id": "task-c6f602c1-aa1d-4ebf-85dc-100c4e33ba58",
+          "title": "Ensure each notification is sent once",
+          "items": []
+        },
+        {
+          "id": "task-c969ddc0-5e28-4e39-9053-1c8c851eb9ba",
+          "title": "Configure notification timing through environment variables",
+          "items": []
+        },
+        {
+          "id": "task-bd2b6bb5-72d1-4300-a4a0-ef7009403f60",
+          "title": "Add API integration tests",
+          "items": []
+        },
+        {
+          "id": "task-eccb7e05-4ef7-4a9f-9aba-58959c4bc7ab",
+          "title": "Add room capacity filter",
+          "items": []
+        },
+        {
+          "id": "task-95df0949-1fee-4774-a3ba-964266973fcb",
+          "title": "Implement full mobile calendar experience",
+          "items": []
+        }
+      ],
+      "x": -206.63225862650938,
+      "y": 597.2626008558456
+    },
+    {
+      "id": "task-5127337a-21b2-4124-b240-ea01f1453802",
+      "title": "Documentation and Submission",
+      "items": [
+        {
+          "id": "task-496f277f-9066-41b3-adc0-44116bc282db",
+          "title": "Write final project overview",
+          "items": []
+        },
+        {
+          "id": "task-b8c6b77b-21b0-46c4-bd78-759a42471b8c",
+          "title": "Document local setup instructions",
+          "items": []
+        },
+        {
+          "id": "task-f2afa3bb-029a-4c7a-88e5-48fc3ff070d2",
+          "title": "Document Docker startup instructions",
+          "items": []
+        },
+        {
+          "id": "task-990b213c-990d-4ba7-bf22-1593682c5aad",
+          "title": "Document database migration and seed commands",
+          "items": []
+        },
+        {
+          "id": "task-93b78d49-ce31-418a-a518-3ba7fef45298",
+          "title": "Add test user credentials",
+          "items": []
+        },
+        {
+          "id": "task-185f6716-65fe-4339-9bf7-e147a9892997",
+          "title": "List implemented bonus features",
+          "items": []
+        },
+        {
+          "id": "task-ceac253a-578c-4166-bce8-18252bd54fae",
+          "title": "Explain booking overlap logic",
+          "items": []
+        },
+        {
+          "id": "task-b57d5b04-1e0a-4630-af48-9172c9bd6ab8",
+          "title": "Explain UTC storage and time-zone conversion",
+          "items": []
+        },
+        {
+          "id": "task-3e3edc7d-a475-436f-9aae-b73b2b88e23f",
+          "title": "Verify setup on a clean machine",
+          "items": []
+        },
+        {
+          "id": "task-599b558e-445a-4bbb-ad82-352b21e21d32",
+          "title": "Remove dead code and unused dependencies",
+          "items": []
+        },
+        {
+          "id": "task-bd4fc172-2486-4d3a-a01b-ca1385820a71",
+          "title": "Run final lint, build, and test checks",
+          "items": []
+        },
+        {
+          "id": "task-696be5ba-0a7a-48ec-98e6-5fd0363ef2bc",
+          "title": "Review commit and pull request history",
+          "items": []
+        }
+      ],
+      "x": -558.2943975101293,
+      "y": 722.5157252435741
+    }
+  ],
+  "settings": {
+    "alignment": "free"
+  }
+}
