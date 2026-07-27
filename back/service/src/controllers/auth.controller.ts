@@ -111,7 +111,6 @@ export const authController = {
 
       if (!user) {
         res.clearCookie('refreshToken', { ...__COOKIE_OPTION })
-
         res.clearCookie('accessToken', { ...__COOKIE_OPTION })
 
         return res.status(401).json({
