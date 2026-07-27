@@ -9,4 +9,8 @@ RUN npm ci
 
 COPY service ./service
 
-CMD ["npm", "run", "go", "-w", "service"]
+WORKDIR /app/service
+
+RUN npx prisma generate
+
+CMD ["sh", "-c", "npx prisma migrate deploy && npx prisma db seed && npm run go"]

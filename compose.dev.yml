@@ -1,0 +1,6 @@
+name: roomly-dev
+
+include:
+  - path: ./back/docker-compose.infra.yml
+  - path: ./back/docker-compose.dev.yml
+  - path: ./front/docker-compose.dev.yml
