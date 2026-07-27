@@ -1,5 +1,5 @@
 // Configs
-import PRISMA from '@configs/config'
+import __PRISMA from '@configs/config'
 
 // Modules
 import bcrypt from 'bcrypt'
@@ -10,9 +10,13 @@ import { Register, Login } from '@ts/interfaces/auth'
 // Helpers
 import { createTokens } from '@helpers/createTokens'
 
+// Mails
+import { createEmailVerificationCode } from '@mails/createEmailVerificationCode'
+import { hashVerificationCode } from '@mails/emailVerification'
+
 export const authService = {
   register: async (data: Register) => {
-    const existingUser = await PRISMA.user.findUnique({
+    const existingUser = await __PRISMA.user.findUnique({
       where: { email: data.email },
     })
 
@@ -22,14 +26,19 @@ export const authService = {
 
     const passwordHash = await bcrypt.hash(data.password, 11)
 
-    const user = await PRISMA.user.create({
+    const user = await __PRISMA.user.create({
       data: {
         name: data.name,
         email: data.email,
         passwordHash,
       },
-      select: { id: true },
+      select: {
+        id: true,
+        email: true,
+      },
     })
+
+    await createEmailVerificationCode(user.id, user.email)
 
     const { accessToken, refreshToken } = createTokens({
       id: user.id,
@@ -43,7 +52,7 @@ export const authService = {
   },
 
   login: async (data: Login) => {
-    const user = await PRISMA.user.findUnique({
+    const user = await __PRISMA.user.findUnique({
       where: { email: data.email },
     })
 
@@ -63,5 +72,66 @@ export const authService = {
     })
 
     return { accessToken, refreshToken }
+  },
+
+  verifyEmail: async (userId: number, code: string) => {
+    const verification = await __PRISMA.emailVerificationCode.findUnique({
+      where: {
+        userId,
+      },
+    })
+
+    if (!verification) {
+      throw new Error('Verification code not found')
+    }
+
+    if (verification.expiresAt <= new Date()) {
+      throw new Error('Verification code has expired')
+    }
+
+    const codeHash = hashVerificationCode(code)
+
+    if (verification.codeHash !== codeHash) {
+      throw new Error('Invalid verification code')
+    }
+
+    await __PRISMA.$transaction([
+      __PRISMA.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          emailVerifiedAt: new Date(),
+        },
+      }),
+
+      __PRISMA.emailVerificationCode.delete({
+        where: {
+          userId,
+        },
+      }),
+    ])
+  },
+
+  resendVerificationCode: async (userId: number) => {
+    const user = await __PRISMA.user.findUnique({
+      where: {
+        id: userId,
+      },
+      select: {
+        email: true,
+        emailVerifiedAt: true,
+      },
+    })
+
+    if (!user) {
+      throw new Error('User not found')
+    }
+
+    if (user.emailVerifiedAt) {
+      throw new Error('Email is already verified')
+    }
+
+    await createEmailVerificationCode(userId, user.email)
   },
 }

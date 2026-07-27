@@ -1,7 +1,7 @@
 // Modules
 import { z } from 'zod'
 
-export const RegisterSchema = z
+export const registerSchema = z
   .object({
     name: z.string().trim().min(1, 'Name is required'),
     email: z.string().trim().toLowerCase().email('Invalid email format'),
@@ -16,7 +16,11 @@ export const RegisterSchema = z
     path: ['confirmPassword'],
   })
 
-export const LoginSchema = z.object({
+export const loginSchema = z.object({
   email: z.string().trim().toLowerCase().email('Invalid email format'),
   password: z.string().min(1, 'Password is required'),
+})
+
+export const verifyEmailSchema = z.object({
+  code: z.string().regex(/^\d{6}$/, 'Verification code must contain 6 digits'),
 })

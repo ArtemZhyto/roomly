@@ -22,6 +22,19 @@ model User {
 
   createdAt DateTime @default(now()) @db.Timestamptz(3)
   updatedAt DateTime @updatedAt @db.Timestamptz(3)
+
+  emailVerifiedAt  DateTime?
+  verificationCode EmailVerificationCode?
+}
+
+model EmailVerificationCode {
+  id        Int      @id @default(autoincrement())
+  codeHash  String
+  userId    Int      @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Room {

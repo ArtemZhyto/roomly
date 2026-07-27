@@ -106,6 +106,23 @@ export const bookingsService = {
   },
 
   createBooking: async (data: CreateBooking) => {
+    const user = await PRISMA.user.findUnique({
+      where: {
+        id: data.userId,
+      },
+      select: {
+        emailVerifiedAt: true,
+      },
+    })
+
+    if (!user) {
+      throw new Error('User not found')
+    }
+
+    if (!user.emailVerifiedAt) {
+      throw new Error('Email must be verified before booking')
+    }
+
     const startDate = new Date(data.startTime)
     const endDate = new Date(data.endTime)
 

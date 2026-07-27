@@ -2,7 +2,7 @@
 import jwt from 'jsonwebtoken'
 
 // Helpers
-import { RegisterSchema, LoginSchema } from '@helpers/authSchemas'
+import { registerSchema, loginSchema, verifyEmailSchema } from '@helpers/authSchemas'
 
 // Types
 import { Response, Request, NextFunction } from 'express'
@@ -14,7 +14,7 @@ import { AuthRequest, Payload } from '@ts/interfaces/auth'
 export const authMiddleware = {
   register: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      req.body = await RegisterSchema.parseAsync(req.body)
+      req.body = await registerSchema.parseAsync(req.body)
 
       next()
     } catch (err) {
@@ -31,7 +31,7 @@ export const authMiddleware = {
 
   login: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      req.body = await LoginSchema.parseAsync(req.body)
+      req.body = await loginSchema.parseAsync(req.body)
 
       next()
     } catch (err) {
@@ -71,6 +71,23 @@ export const authMiddleware = {
       return res.status(401).json({
         message: 'Unauthorized',
       })
+    }
+  },
+
+  verifyEmail: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      req.body = await verifyEmailSchema.parseAsync(req.body)
+
+      next()
+    } catch (err) {
+      if (err instanceof ZodError) {
+        return res.status(400).json({
+          message: 'Validation failed',
+          errors: err.flatten().fieldErrors,
+        })
+      }
+
+      next(err)
     }
   },
 }
