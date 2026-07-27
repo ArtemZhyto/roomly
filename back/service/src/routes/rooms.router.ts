@@ -7,6 +7,6 @@ import { roomsController } from '@controllers/rooms.controller'
 const router = Router()
 
 router.get('/', roomsController.getRoomsList)
-router.get('/:roomID', (req, res) => roomsController.getRoomData)
+router.get('/:roomId', roomsController.getRoomData)
 
 export default router

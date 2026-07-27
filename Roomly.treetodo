@@ -239,12 +239,14 @@
         {
           "id": "task-c7a2f2f4-4eac-4099-9747-55823f87b8e9",
           "title": "Implement room list API",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-d4a3eae9-13da-4e8e-a747-e1611f8a0f35",
           "title": "Implement room details API",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-805ad81b-3bbe-4718-bea6-15e7877fcb99",
