@@ -716,7 +716,8 @@
         {
           "id": "task-0008bc36-0e4e-4925-9797-c8b6c47707da",
           "title": "Add development-mode email verification",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-efc67dd0-7492-4392-9c58-7fa4c093756a",
@@ -776,8 +777,8 @@
           "items": []
         }
       ],
-      "x": -218.19099910438126,
-      "y": 639.6446492747092
+      "x": -208.55871537282135,
+      "y": 645.7742843766109
     },
     {
       "id": "task-5127337a-21b2-4124-b240-ea01f1453802",

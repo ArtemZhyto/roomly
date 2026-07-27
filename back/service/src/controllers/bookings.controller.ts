@@ -78,6 +78,18 @@ export const bookingsController = {
         })
       }
 
+      if (err.message === 'Email must be verified before booking') {
+        return res.status(403).json({
+          message: err.message,
+        })
+      }
+
+      if (err.message === 'User not found') {
+        return res.status(404).json({
+          message: err.message,
+        })
+      }
+
       next(err)
     }
   },

@@ -56,11 +56,13 @@ const main = async (): Promise<void> => {
       update: {
         name: 'Olena Koval',
         passwordHash,
+        emailVerifiedAt: new Date(),
       },
       create: {
         name: 'Olena Koval',
         email: 'olena.koval@roomly.dev',
         passwordHash,
+        emailVerifiedAt: new Date(),
       },
     })
 
@@ -71,11 +73,13 @@ const main = async (): Promise<void> => {
       update: {
         name: 'Maksym Bondar',
         passwordHash,
+        emailVerifiedAt: new Date(),
       },
       create: {
         name: 'Maksym Bondar',
         email: 'maksym.bondar@roomly.dev',
         passwordHash,
+        emailVerifiedAt: new Date(),
       },
     })
 
@@ -86,11 +90,13 @@ const main = async (): Promise<void> => {
       update: {
         name: 'Sofia Melnyk',
         passwordHash,
+        emailVerifiedAt: new Date(),
       },
       create: {
         name: 'Sofia Melnyk',
         email: 'sofia.melnyk@roomly.dev',
         passwordHash,
+        emailVerifiedAt: new Date(),
       },
     })
 

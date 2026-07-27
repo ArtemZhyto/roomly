@@ -160,6 +160,7 @@ export const authController = {
           id: true,
           name: true,
           email: true,
+          emailVerifiedAt: true,
         },
       })
 
@@ -171,6 +172,58 @@ export const authController = {
 
       return res.status(200).json(foundUser)
     } catch (err: unknown) {
+      next(err)
+    }
+  },
+
+  verifyEmail: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { user } = req as AuthRequest
+      const { code } = req.body
+
+      await authService.verifyEmail(user.id, code)
+
+      return res.status(200).json({
+        message: 'Email verified successfully',
+      })
+    } catch (err: unknown) {
+      if (
+        err instanceof Error &&
+        (err.message === 'Verification code not found' ||
+          err.message === 'Verification code has expired' ||
+          err.message === 'Invalid verification code')
+      ) {
+        return res.status(400).json({
+          message: err.message,
+        })
+      }
+
+      next(err)
+    }
+  },
+
+  resendVerification: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { user } = req as AuthRequest
+
+      await authService.resendVerificationCode(user.id)
+
+      return res.status(200).json({
+        message: 'Verification code sent successfully',
+      })
+    } catch (err: unknown) {
+      if (err instanceof Error && err.message === 'Email is already verified') {
+        return res.status(409).json({
+          message: err.message,
+        })
+      }
+
+      if (err instanceof Error && err.message === 'User not found') {
+        return res.status(404).json({
+          message: err.message,
+        })
+      }
+
       next(err)
     }
   },
