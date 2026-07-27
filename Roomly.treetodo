@@ -157,12 +157,14 @@
           "id": "task-11b2945f-67df-41b1-ac04-caa1e9db017f",
           "title": "Implement user login",
           "items": [],
-          "completed": true
+          "completed": true,
+          "linksTo": "task-2ed10e3d-bb0a-450a-a50a-78cbeca17e8f"
         },
         {
           "id": "task-fa5b50a7-3439-4b38-87f3-06be5b8cbfd8",
           "title": "Implement persistent session handling",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-4b767a7f-bfb7-43e4-9673-f7c28fd37fed",
@@ -173,7 +175,8 @@
         {
           "id": "task-87568a3a-f30d-4eab-8822-40e14222c90e",
           "title": "Protect authenticated API routes",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-476f88f6-6828-4754-a5f9-f740a04fc5d2",
@@ -189,16 +192,45 @@
           "id": "task-4823e07c-047a-4285-9864-e312567b9220",
           "title": "Display field-level validation errors",
           "items": [],
-          "completed": true
+          "completed": false
         },
         {
           "id": "task-424c4a81-5950-492d-984a-3fded45ef38f",
           "title": "Disable authentication form during requests",
-          "items": []
+          "items": [],
+          "completed": false
         }
       ],
       "x": -212.76274816415363,
       "y": -698.9524898190996
+    },
+    {
+      "id": "task-2ed10e3d-bb0a-450a-a50a-78cbeca17e8f",
+      "title": "Implement user login",
+      "items": [
+        {
+          "id": "item-6326c974-3321-483f-8560-c289e2511766",
+          "title": "Normalize email address",
+          "completed": true
+        },
+        {
+          "id": "item-6739c3a8-2f5f-4403-b5ae-b02c55b95668",
+          "title": "Validate name, email, and password",
+          "completed": true
+        },
+        {
+          "id": "item-796783c1-a958-4a9f-90f9-78d72457f3ba",
+          "title": "Enforce case-insensitive email uniqueness",
+          "completed": true
+        },
+        {
+          "id": "item-9b5d37f2-fa55-4016-931f-b99e9aec180c",
+          "title": "Hash passwords securely",
+          "completed": true
+        }
+      ],
+      "x": 218.70979435889043,
+      "y": -1274.0641561129148
     },
     {
       "id": "task-e42c38b9-91d3-46a3-83f7-1e314dbbcf79",
@@ -240,8 +272,8 @@
           "items": []
         }
       ],
-      "x": 133.95868651137852,
-      "y": -696.5029513879252
+      "x": 136.706889474629,
+      "y": -693.7547484246747
     },
     {
       "id": "task-d25ebb86-dd89-4c19-8dc2-f21f04c55ee3",

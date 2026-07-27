@@ -1,3 +1,6 @@
+// Types
+import { Request } from 'express'
+
 export interface Register {
   name: string
   email: string
@@ -13,4 +16,8 @@ export interface Login {
 export interface Payload {
   id: number
   email: string
+}
+
+export interface AuthRequest extends Request {
+  user: Payload
 }
