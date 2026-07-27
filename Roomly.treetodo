@@ -63,32 +63,38 @@
         {
           "id": "task-3bc20532-0be8-426d-81c0-aea6c03e18a7",
           "title": "Design Prisma schema",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-2b82eaf1-6b77-4a2c-a3e3-8008b024534a",
           "title": "Create User model",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-1c9a41f6-02da-4d14-97d6-b5de6b6a254f",
           "title": "Create Rooms model",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-b9064850-ed0f-4827-bb14-c89c85beee97",
           "title": "Create Bookings model",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-84f8aada-5961-44de-9b72-e528fa8b1128",
           "title": "Add database indexes and constraints",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-9b8acd12-e3ea-4a97-87ca-277d51f5f20b",
           "title": "Create initial database migration",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-290863f0-eccb-4b07-a4a8-48f112a50a5e",
@@ -109,7 +115,8 @@
               "title": "Seed demo bookings",
               "items": []
             }
-          ]
+          ],
+          "completed": true
         }
       ],
       "x": -556.3322834721988,
@@ -307,7 +314,8 @@
         {
           "id": "task-47d22b3c-a440-433f-8c58-36c1368bab38",
           "title": "Store booking timestamps in UTC",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-ec82d0cd-5e20-4fd1-81c9-582d395a7e35",

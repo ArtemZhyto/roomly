@@ -12,3 +12,45 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model User {
+  id           Int       @id @default(autoincrement())
+  name         String
+  email        String    @unique
+  passwordHash String
+  bookings     Booking[]
+
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @db.Timestamptz(3)
+}
+
+model Room {
+  id       Int       @id @default(autoincrement())
+  name     String    @unique
+  floor    Int
+  capacity Int
+  bookings Booking[]
+
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @db.Timestamptz(3)
+}
+
+model Booking {
+  id    Int    @id @default(autoincrement())
+  title String
+
+  startTime DateTime @db.Timestamptz(3)
+  endTime   DateTime @db.Timestamptz(3)
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  roomId Int
+  room   Room @relation(fields: [roomId], references: [id], onDelete: Restrict)
+
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @db.Timestamptz(3)
+
+  @@index([roomId, startTime, endTime])
+  @@index([userId, startTime])
+}
