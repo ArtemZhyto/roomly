@@ -12,8 +12,12 @@
     "go": "npm run build && npm start"
   },
   "dependencies": {
+    "@prisma/client": "^7.9.0",
+    "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
+    "date-fns": "^4.4.0",
+    "date-fns-tz": "^3.2.0",
     "dotenv": "^17.2.1",
     "express": "^4.18.2",
     "helmet": "^8.1.0",
@@ -27,6 +31,8 @@
   },
   "devDependencies": {
     "@jest/globals": "^30.3.0",
+    "@prisma/adapter-pg": "^7.9.0",
+    "@types/bcrypt": "^6.0.0",
     "@types/cookie-parser": "^1.4.10",
     "@types/express": "^5.0.3",
     "@types/jest": "^30.0.0",
@@ -37,7 +43,7 @@
     "prisma": "^7.2.0",
     "ts-jest": "^29.4.9",
     "tsc-alias": "^1.8.16",
-    "typescript": "^5.5.4",
-    "tsx": "^4.21.0"
+    "tsx": "^4.21.0",
+    "typescript": "^5.5.4"
   }
 }
