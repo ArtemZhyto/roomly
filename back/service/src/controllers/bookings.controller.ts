@@ -12,7 +12,22 @@ export const bookingsController = {
     try {
       const { user } = req as AuthRequest
 
-      const bookings = await bookingsService.getUserBookings(user.id)
+      const page = Number(req.query.pastPage ?? 1)
+      const limit = Number(req.query.pastLimit ?? 10)
+
+      if (!Number.isInteger(page) || page < 1) {
+        return res.status(400).json({
+          message: 'Invalid past page',
+        })
+      }
+
+      if (!Number.isInteger(limit) || limit < 1 || limit > 50) {
+        return res.status(400).json({
+          message: 'Invalid past limit',
+        })
+      }
+
+      const bookings = await bookingsService.getUserBookings(user.id, page, limit)
 
       return res.status(200).json(bookings)
     } catch (err: unknown) {

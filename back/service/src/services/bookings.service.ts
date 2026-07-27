@@ -32,10 +32,11 @@ const formattedOpenHour = String(OFFICE_OPEN_HOUR).padStart(2, '0')
 const formattedCloseHour = String(OFFICE_CLOSE_HOUR).padStart(2, '0')
 
 export const bookingsService = {
-  getUserBookings: async (userId: number) => {
+  getUserBookings: async (userId: number, pastPage: number, pastLimit: number) => {
     const now = new Date()
+    const skip = (pastPage - 1) * pastLimit
 
-    const [upcoming, past] = await Promise.all([
+    const [upcoming, pastItems, pastTotal] = await Promise.all([
       PRISMA.booking.findMany({
         where: {
           userId,
@@ -78,12 +79,29 @@ export const bookingsService = {
         orderBy: {
           startTime: 'desc',
         },
+        skip,
+        take: pastLimit,
+      }),
+
+      PRISMA.booking.count({
+        where: {
+          userId,
+          endTime: {
+            lte: now,
+          },
+        },
       }),
     ])
 
     return {
       upcoming,
-      past,
+      past: {
+        items: pastItems,
+        page: pastPage,
+        limit: pastLimit,
+        total: pastTotal,
+        totalPages: Math.ceil(pastTotal / pastLimit),
+      },
     }
   },
 
