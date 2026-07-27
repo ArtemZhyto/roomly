@@ -18,7 +18,7 @@ const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL,
 })
 
-const PRISMA = new PrismaClient({
+const __PRISMA = new PrismaClient({
   adapter: adapter,
 })
 
@@ -48,7 +48,7 @@ const createFutureDate = (daysFromNow: number, hour: number, minute = 0): Date =
 const main = async (): Promise<void> => {
   const passwordHash = await bcrypt.hash(TEST_PASSWORD, 12)
 
-  await PRISMA.$transaction(async (tx) => {
+  await __PRISMA.$transaction(async (tx) => {
     const olena = await tx.user.upsert({
       where: {
         email: 'olena.koval@roomly.dev',
@@ -255,5 +255,5 @@ main()
     process.exitCode = 1
   })
   .finally(async () => {
-    await PRISMA.$disconnect()
+    await __PRISMA.$disconnect()
   })
