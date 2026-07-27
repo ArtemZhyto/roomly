@@ -1,5 +1,5 @@
 // Configs
-import { __PORT, __CORS_OPTIONS, __HELMET_OPTIONS } from '@configs/config'
+import { __PORT, __CORS_OPTIONS, __HELMET_OPTIONS, __IS_PROD } from '@configs/config'
 
 // Modules
 import express, { NextFunction, Request, Response } from 'express'
@@ -27,9 +27,15 @@ app.use(express.urlencoded({ extended: true, limit: '10kb' }))
 
 app.use('/', router)
 
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+app.use((err: Error, req: Request, res: Response, _next: NextFunction) => {
   console.error(err.stack)
-  res.status(500).json({ message: 'Internal Server Error', error: err.message })
+
+  res.status(500).json({
+    message: 'Internal Server Error',
+    ...(__IS_PROD && {
+      error: err.message,
+    }),
+  })
 })
 
 app.listen(__PORT, () => {

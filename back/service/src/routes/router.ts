@@ -1,7 +1,7 @@
 // Modules
 import { Request, Response, Router } from 'express'
 
-// Controllers
+// Routers
 import authRouter from './auth.router'
 import roomsRouter from './rooms.router'
 import bookingsRouter from './bookings.router'
@@ -12,7 +12,7 @@ router.use('/auth', authRouter)
 router.use('/rooms', roomsRouter)
 router.use('/bookings', bookingsRouter)
 
-router.use('*', (req: Request, res: Response) => {
+router.use((req: Request, res: Response) => {
   res.status(404).json({ message: 'Route not found' })
 })
 

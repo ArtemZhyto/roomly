@@ -150,12 +150,14 @@
               "title": "Hash passwords securely",
               "items": []
             }
-          ]
+          ],
+          "completed": true
         },
         {
           "id": "task-11b2945f-67df-41b1-ac04-caa1e9db017f",
           "title": "Implement user login",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-fa5b50a7-3439-4b38-87f3-06be5b8cbfd8",
@@ -165,7 +167,8 @@
         {
           "id": "task-4b767a7f-bfb7-43e4-9673-f7c28fd37fed",
           "title": "Implement logout",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-87568a3a-f30d-4eab-8822-40e14222c90e",
@@ -185,7 +188,8 @@
         {
           "id": "task-4823e07c-047a-4285-9864-e312567b9220",
           "title": "Display field-level validation errors",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-424c4a81-5950-492d-984a-3fded45ef38f",

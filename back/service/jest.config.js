@@ -1,5 +1,5 @@
 module.exports = {
-  displayName: 'project-service',
+  displayName: 'roomly-service',
   preset: 'ts-jest',
   testEnvironment: 'node',
   testMatch: ['<rootDir>/tests/**/*.test.ts'],
