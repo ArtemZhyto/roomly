@@ -1,0 +1,333 @@
+.panel {
+  position: relative;
+
+  display: flex;
+  min-height: 100%;
+  overflow: hidden;
+  padding: clamp(32px, 5vw, 72px);
+
+  color: var(--color-text-inverse);
+  background:
+    radial-gradient(circle at 15% 15%, rgb(6 182 212 / 28%), transparent 32%),
+    linear-gradient(145deg, var(--color-dark), rgb(22 31 48));
+}
+
+.glow {
+  position: absolute;
+  right: -120px;
+  bottom: -140px;
+
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+
+  background: rgb(6 182 212 / 16%);
+  filter: blur(20px);
+
+  pointer-events: none;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  width: 100%;
+  max-width: 680px;
+  margin: auto;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 52px;
+}
+
+.header {
+  max-width: 580px;
+}
+
+.logo {
+  margin: 0 0 28px;
+
+  color: var(--color-primary-light);
+
+  font-family: var(--font-prosto);
+  font-size: 22px;
+}
+
+.title {
+  max-width: 560px;
+  margin: 0;
+
+  color: var(--color-text-inverse);
+
+  font-family: var(--font-prosto);
+  font-size: clamp(34px, 4.5vw, 58px);
+  font-weight: 400;
+  line-height: 1.12;
+}
+
+.description {
+  max-width: 520px;
+  margin: 22px 0 0;
+
+  color: rgb(255 255 255 / 72%);
+
+  font-size: clamp(17px, 2vw, 20px);
+  line-height: 1.55;
+}
+
+.previewArea {
+  position: relative;
+
+  display: grid;
+  gap: 18px;
+}
+
+.schedulePreview {
+  overflow: hidden;
+
+  border: 1px solid rgb(255 255 255 / 12%);
+  border-radius: 22px;
+
+  background: rgb(255 255 255 / 8%);
+  box-shadow: 0 24px 70px rgb(0 0 0 / 22%);
+  backdrop-filter: blur(18px);
+
+  cursor: default;
+  user-select: none;
+}
+
+.scheduleHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 24px;
+
+  border-bottom: 1px solid rgb(255 255 255 / 10%);
+}
+
+.scheduleLabel {
+  margin: 0 0 3px;
+
+  color: rgb(255 255 255 / 55%);
+
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.scheduleTitle {
+  margin: 0;
+
+  color: var(--color-text-inverse);
+
+  font-size: 19px;
+  font-weight: 600;
+}
+
+.scheduleBadge {
+  flex-shrink: 0;
+  padding: 7px 11px;
+  border-radius: 999px;
+
+  color: var(--color-primary-active);
+  background: var(--color-primary-light);
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.scheduleList {
+  display: flex;
+  flex-direction: column;
+}
+
+.scheduleItem {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  min-height: 72px;
+  padding: 12px 24px;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid rgb(255 255 255 / 8%);
+  }
+}
+
+.scheduleTime {
+  color: rgb(255 255 255 / 56%);
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.scheduleDetails {
+  min-width: 0;
+}
+
+.scheduleName,
+.scheduleRoom {
+  overflow: hidden;
+  margin: 0;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.scheduleName {
+  color: var(--color-text-inverse);
+
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.scheduleRoom {
+  margin-top: 3px;
+
+  color: rgb(255 255 255 / 52%);
+
+  font-size: 13px;
+}
+
+.scheduleStatus {
+  padding: 5px 9px;
+  border-radius: 999px;
+
+  color: var(--color-primary-light);
+  background: rgb(6 182 212 / 16%);
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.bookingPreview {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+
+  width: calc(100% - 44px);
+  margin: -2px 22px 0;
+  padding: 16px 18px;
+  border: 1px solid rgb(255 255 255 / 14%);
+  border-radius: 18px;
+
+  background: rgb(255 255 255 / 12%);
+  box-shadow: 0 18px 48px rgb(0 0 0 / 18%);
+  backdrop-filter: blur(18px);
+
+  user-select: none;
+  pointer-events: none;
+}
+
+.bookingIcon {
+  display: grid;
+  place-items: center;
+
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+
+  color: var(--color-primary-active);
+  background: var(--color-primary-light);
+
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.bookingContent {
+  min-width: 0;
+}
+
+.bookingLabel,
+.bookingTitle,
+.bookingDetails {
+  margin: 0;
+}
+
+.bookingLabel {
+  color: rgb(255 255 255 / 56%);
+
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.bookingTitle {
+  margin-top: 2px;
+
+  color: var(--color-text-inverse);
+
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.bookingDetails {
+  margin-top: 2px;
+
+  color: rgb(255 255 255 / 58%);
+
+  font-size: 13px;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  color: rgb(255 255 255 / 54%);
+
+  font-size: 14px;
+}
+
+.footerDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+
+  background: var(--color-primary);
+  box-shadow: 0 0 0 5px rgb(6 182 212 / 12%);
+}
+
+@media (max-width: 1024px) {
+  .panel {
+    min-height: auto;
+    padding: 34px 28px;
+  }
+
+  .content {
+    max-width: none;
+    gap: 34px;
+  }
+
+  .previewArea {
+    display: none;
+  }
+
+  .title {
+    max-width: 700px;
+
+    font-size: clamp(30px, 6vw, 46px);
+  }
+}
+
+@media (max-width: 640px) {
+  .panel {
+    padding: 26px 20px;
+  }
+
+  .logo {
+    margin-bottom: 18px;
+  }
+
+  .description {
+    margin-top: 14px;
+  }
+
+  .footer {
+    display: none;
+  }
+}

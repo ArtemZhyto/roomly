@@ -666,7 +666,8 @@
         {
           "id": "task-c8fa1ebd-0894-4b94-81c9-0b30af247180",
           "title": "Create shared button components",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-962d4068-77d9-4feb-939c-10df2e5eade2",
