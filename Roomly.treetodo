@@ -661,7 +661,7 @@
           "id": "task-05574b5f-dc62-4e1a-9571-fecb29cc6fec",
           "title": "Define shared colors, spacing, and typography",
           "items": [],
-          "completed": false
+          "completed": true
         },
         {
           "id": "task-c8fa1ebd-0894-4b94-81c9-0b30af247180",
@@ -672,7 +672,7 @@
           "id": "task-962d4068-77d9-4feb-939c-10df2e5eade2",
           "title": "Create shared form components",
           "items": [],
-          "completed": false
+          "completed": true
         },
         {
           "id": "task-a2bde521-b708-4bdc-8cec-57257d2f35bf",
@@ -682,7 +682,8 @@
         {
           "id": "task-7ce71611-5a11-4a9e-a896-a7b8aec2c320",
           "title": "Create shared loading indicators",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-e738faf5-1c0b-41e7-a823-ad759b2c5ce5",
@@ -697,7 +698,8 @@
         {
           "id": "task-f8f2e0c9-b731-4292-8b30-1450ccb58c35",
           "title": "Ensure layout works across common screen widths",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-a42b70bb-33e9-401a-81ba-5075bf52f449",
@@ -707,7 +709,8 @@
         {
           "id": "task-beb022f7-8dbe-4daf-8a3e-f679559e7f29",
           "title": "Add accessible labels and focus states",
-          "items": []
+          "items": [],
+          "completed": true
         }
       ],
       "x": -214.62335310195857,

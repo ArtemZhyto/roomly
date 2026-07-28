@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { type ChangeEvent, type FormEvent, useState } from 'react'
 
 // Components
-import FieldError from '@components/ui/FieldError/FieldError'
+import FieldError from '@components-ui/FieldError/FieldError'
 
 interface RegisterValues {
   name: string
