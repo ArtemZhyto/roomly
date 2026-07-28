@@ -186,24 +186,26 @@
         {
           "id": "task-476f88f6-6828-4754-a5f9-f740a04fc5d2",
           "title": "Create registration page",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-3a477426-b838-411b-832a-254b1d3c664e",
           "title": "Create login page",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-4823e07c-047a-4285-9864-e312567b9220",
           "title": "Display field-level validation errors",
           "items": [],
-          "completed": false
+          "completed": true
         },
         {
           "id": "task-424c4a81-5950-492d-984a-3fded45ef38f",
           "title": "Disable authentication form during requests",
           "items": [],
-          "completed": false
+          "completed": true
         },
         {
           "id": "item-24e72b0c-b7be-49a8-9330-b899890316ec",
@@ -658,7 +660,8 @@
         {
           "id": "task-05574b5f-dc62-4e1a-9571-fecb29cc6fec",
           "title": "Define shared colors, spacing, and typography",
-          "items": []
+          "items": [],
+          "completed": false
         },
         {
           "id": "task-c8fa1ebd-0894-4b94-81c9-0b30af247180",
@@ -668,7 +671,8 @@
         {
           "id": "task-962d4068-77d9-4feb-939c-10df2e5eade2",
           "title": "Create shared form components",
-          "items": []
+          "items": [],
+          "completed": false
         },
         {
           "id": "task-a2bde521-b708-4bdc-8cec-57257d2f35bf",

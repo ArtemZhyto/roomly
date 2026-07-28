@@ -1,5 +1,4 @@
 // Modules
-import axios from 'axios'
 import { NextRequest, NextResponse } from 'next/server'
 
 const PUBLIC_ROUTES = ['/login', '/register']
@@ -14,39 +13,33 @@ const redirectTo = (req: NextRequest, path: string): NextResponse => {
   return NextResponse.redirect(new URL(path, req.url))
 }
 
-export const proxy = async (req: NextRequest): Promise<NextResponse> => {
+export async function middleware(req: NextRequest): Promise<NextResponse> {
   const { pathname } = req.nextUrl
 
-  const isPublicRoute = PUBLIC_ROUTES.some((route) => pathname.startsWith(route))
+  const isPublicRoute = PUBLIC_ROUTES.some(
+    (route) => pathname === route || pathname.startsWith(`${route}/`),
+  )
 
   const accessToken = req.cookies.get('accessToken')?.value
   const refreshToken = req.cookies.get('refreshToken')?.value
 
   if (accessToken) {
-    if (isPublicRoute) {
-      return redirectTo(req, '/')
-    }
-
-    return NextResponse.next()
+    return isPublicRoute ? redirectTo(req, '/') : NextResponse.next()
   }
 
   if (!refreshToken) {
-    if (isPublicRoute) {
-      return NextResponse.next()
-    }
-
-    return redirectTo(req, '/login')
+    return isPublicRoute ? NextResponse.next() : redirectTo(req, '/login')
   }
 
   try {
-    const refreshResponse = await axios.post(`${API_URL}/auth/refresh`, undefined, {
+    const refreshResponse = await fetch(`${API_URL}/auth/refresh`, {
+      method: 'POST',
       headers: {
         cookie: req.headers.get('cookie') ?? '',
       },
-      validateStatus: () => true,
     })
 
-    if (refreshResponse.status !== 200) {
+    if (!refreshResponse.ok) {
       const response = isPublicRoute ? NextResponse.next() : redirectTo(req, '/login')
 
       response.cookies.delete('accessToken')
@@ -55,16 +48,12 @@ export const proxy = async (req: NextRequest): Promise<NextResponse> => {
       return response
     }
 
-    const response = isPublicRoute ? redirectTo(req, '/') : NextResponse.redirect(req.nextUrl)
+    const response = isPublicRoute ? redirectTo(req, '/') : NextResponse.next()
 
-    const setCookieHeader = refreshResponse.headers['set-cookie']
+    const setCookie = refreshResponse.headers.get('set-cookie')
 
-    if (Array.isArray(setCookieHeader)) {
-      for (const cookie of setCookieHeader) {
-        response.headers.append('set-cookie', cookie)
-      }
-    } else if (setCookieHeader) {
-      response.headers.append('set-cookie', setCookieHeader)
+    if (setCookie) {
+      response.headers.append('set-cookie', setCookie)
     }
 
     return response

@@ -1,20 +1,49 @@
-const baseUrl =
-  process.env.MODE === 'prod' ? `https://${process.env.NEXT_PUBLIC_SITE}` : 'http://localhost:3030'
-
 const title = 'Roomly'
-const description =
-  'A full-stack meeting room booking platform with an intuitive calendar interface'
+const description = 'A modern meeting room booking platform with an intuitive calendar interface'
+const author = {
+  name: 'Artem Zhytovoz',
+}
+
+const getBaseUrl = (): string => {
+  if (process.env.MODE !== 'prod') {
+    return 'http://localhost:3030'
+  }
+
+  const siteDomain = process.env.NEXT_PUBLIC_SITE
+
+  if (!siteDomain) {
+    throw new Error('NEXT_PUBLIC_SITE is not configured')
+  }
+
+  return `https://${siteDomain}`
+}
+
+const baseUrl = getBaseUrl()
 
 export const siteConfig = {
+  name: title,
+
   title: {
     default: title,
     template: `%s | ${title}`,
   },
-  description: description,
+
+  description,
+
   metadataBase: new URL(baseUrl),
+
+  authors: [author],
+  creator: author.name,
+  publisher: title,
+
+  applicationName: title,
+
   openGraph: {
-    title: title,
-    description: description,
+    title,
+    description,
+    url: baseUrl,
+    siteName: title,
+
     images: [
       {
         url: '/icon-512.png',
@@ -23,21 +52,35 @@ export const siteConfig = {
         alt: `${title} logo`,
       },
     ],
-    url: new URL(baseUrl),
-    siteName: title,
-    locale: 'uk-UA',
+
+    locale: 'uk_UA',
     type: 'website',
   },
+
   twitter: {
-    title: title,
-    description: description,
+    title,
+    description,
     card: 'summary_large_image',
     images: ['/icon-512.png'],
-    site: title,
-    creator: 'Artem Zhytovoz',
+
+    /*
+     * Add these only when Roomly has real X/Twitter accounts:
+     *
+     * site: '@roomly',
+     * creator: '@artemzhytovoz',
+     */
   },
+
   robots: {
-    index: true,
-    follow: true,
+    index: false,
+    follow: false,
+    nocache: true,
+
+    googleBot: {
+      index: false,
+      follow: false,
+      noimageindex: true,
+      nosnippet: true,
+    },
   },
 }
