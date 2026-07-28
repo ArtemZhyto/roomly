@@ -1,0 +1,15 @@
+.layout {
+  min-height: 100svh;
+  padding: clamp(32px, 6vw, 80px) clamp(20px, 5vw, 64px);
+
+  background: var(--color-background);
+}
+
+.container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+  width: 100%;
+	min-height: 100svh;
+}

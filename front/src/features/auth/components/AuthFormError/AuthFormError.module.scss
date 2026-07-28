@@ -1,0 +1,31 @@
+.error {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  padding: 14px 16px;
+  border: 1px solid rgb(239 68 68 / 20%);
+  border-radius: var(--radius-input);
+
+  color: var(--color-error-dark);
+  background: var(--color-error-light);
+
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.icon {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+
+  color: var(--color-text-inverse);
+  background: var(--color-error);
+
+  font-size: 12px;
+  font-weight: 700;
+}

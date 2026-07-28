@@ -1,0 +1,31 @@
+.error {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+
+  color: var(--color-error);
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+
+  user-select: none;
+}
+
+.icon {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+
+  color: var(--color-text-inverse);
+  background: var(--color-error);
+
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+}
