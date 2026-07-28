@@ -1,3 +1,7 @@
 export * from './AuthBrandPanel'
 export * from './LoginForm'
 export * from './RegisterForm'
+export * from './ForgotPasswordForm'
+export * from './CheckEmailContent'
+export * from './ResetPasswordForm'
+export * from './VerifyEmailContent'
