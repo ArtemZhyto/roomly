@@ -6,7 +6,7 @@ import { Afacad, Prosto_One } from 'next/font/google'
 
 // Types
 import type { Metadata } from 'next'
-import type { LayoutT } from '@shared-types/layouts'
+import type { LayoutT } from '@shared-types/layout'
 
 // Metadata
 import { siteConfig } from '@config/metadata'
