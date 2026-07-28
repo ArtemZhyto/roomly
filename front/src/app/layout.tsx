@@ -1,13 +1,12 @@
 // Styles
 import './global.css'
-import './variables.scss'
 
-// Font
-import { Prosto_One, Afacad } from 'next/font/google'
+// Fonts
+import { Afacad, Prosto_One } from 'next/font/google'
 
 // Types
 import type { Metadata } from 'next'
-import { LayoutT } from '@shared-types/layouts'
+import type { LayoutT } from '@shared-types/layouts'
 
 // Metadata
 import { siteConfig } from '@config/metadata'
@@ -18,24 +17,20 @@ const prosto = Prosto_One({
   subsets: ['latin', 'cyrillic', 'latin-ext'],
   weight: '400',
   display: 'swap',
-  variable: '--font-prosto',
+  variable: '--font-prosto-one-source',
 })
 
 const afacad = Afacad({
   subsets: ['latin', 'latin-ext'],
-  weight: '400',
+  weight: ['400', '500', '600', '700'],
   display: 'swap',
-  variable: '--font-afacad',
+  variable: '--font-afacad-source',
 })
 
-const RootLayout = async ({ children }: LayoutT) => {
+const RootLayout = ({ children }: LayoutT) => {
   return (
-    <html lang='uk-UA'>
-      <body
-        className={`${prosto.className} ${afacad.className} ${prosto.variable} ${afacad.variable}`}
-      >
-        {children}
-      </body>
+    <html lang='uk' className={`${prosto.variable} ${afacad.variable}`}>
+      <body>{children}</body>
     </html>
   )
 }

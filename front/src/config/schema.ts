@@ -1,27 +1,55 @@
-// Modules
+// Config
 import { siteConfig } from './metadata'
 
 export const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
-  name: siteConfig.title.default,
+
+  name: siteConfig.name,
   description: siteConfig.description,
-  url: siteConfig.metadataBase.toString(),
+  url: siteConfig.metadataBase.origin,
+
+  applicationCategory: 'BusinessApplication',
+  applicationSubCategory: 'Meeting Room Booking Software',
+
+  operatingSystem: 'Any',
+  browserRequirements: 'Requires JavaScript and a modern web browser',
+
+  isAccessibleForFree: true,
+
+  inLanguage: ['en', 'uk'],
+
   logo: {
     '@type': 'ImageObject',
-    url: `${siteConfig.metadataBase.origin}/icon-512.png`,
+    url: new URL('/icon-512.png', siteConfig.metadataBase).toString(),
     width: 512,
     height: 512,
   },
-  applicationCategory: 'BusinessApplication',
-  operatingSystem: 'Windows, macOS, Android, iOS',
+
+  image: new URL('/icon-512.png', siteConfig.metadataBase).toString(),
+
   author: {
     '@type': 'Person',
-    name: siteConfig.twitter.creator,
+    name: 'Artem Zhytovoz',
   },
-  inLanguage: 'uk-UA',
-  address: {
-    '@type': 'PostalAddress',
-    addressCountry: 'UA',
+
+  publisher: {
+    '@type': 'Organization',
+    name: siteConfig.name,
+    logo: {
+      '@type': 'ImageObject',
+      url: new URL('/icon-512.png', siteConfig.metadataBase).toString(),
+      width: 512,
+      height: 512,
+    },
   },
-}
+
+  featureList: [
+    'Meeting room availability calendar',
+    'One-time room bookings',
+    'Recurring room bookings',
+    'Room capacity filtering',
+    'Booking notifications',
+    'Personal booking management',
+  ],
+} as const
