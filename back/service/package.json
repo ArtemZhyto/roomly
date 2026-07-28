@@ -8,10 +8,10 @@
     "dev": "nodemon",
     "build": "tsc -p tsconfig.json && tsc-alias",
     "start": "tsx src/server.ts",
-    "test": "jest --verbose --passWithNoTests ./tests",
-    "go": "npm run build && npm start"
+    "test": "jest --verbose --passWithNoTests ./tests"
   },
   "dependencies": {
+    "@prisma/adapter-pg": "^7.9.0",
     "@prisma/client": "^7.9.0",
     "bcrypt": "^6.0.0",
     "cookie": "^0.7.2",
@@ -33,7 +33,6 @@
   },
   "devDependencies": {
     "@jest/globals": "^30.3.0",
-    "@prisma/adapter-pg": "^7.9.0",
     "@types/bcrypt": "^6.0.0",
     "@types/cookie": "^0.6.0",
     "@types/cookie-parser": "^1.4.10",

@@ -1,5 +1,5 @@
 const baseUrl =
-  process.env.MODE === 'prod' ? `https://${process.env.NEXT_PUBLIC_SITE}` : 'http://localhost:3000'
+  process.env.MODE === 'prod' ? `https://${process.env.NEXT_PUBLIC_SITE}` : 'http://localhost:3030'
 
 const title = 'Roomly'
 const description =

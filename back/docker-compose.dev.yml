@@ -11,6 +11,8 @@ services:
     env_file:
       - .env
       - .env.prod
+    environment:
+      FRONTEND_URL: http://localhost:3030
     ports:
       - '${SERVICE_PORT}:${SERVICE_PORT}'
     networks:

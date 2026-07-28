@@ -50,9 +50,9 @@ jobs:
             npx prisma generate
           fi
 
-      # - name: Build service
-      #   working-directory: back/service
-      #   run: npm run build
+      - name: Build service
+        working-directory: back/service
+        run: npm run build
 
       - name: Test service
         working-directory: back/service
