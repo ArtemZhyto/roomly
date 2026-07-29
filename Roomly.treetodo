@@ -555,7 +555,8 @@
         {
           "id": "task-5750e06d-b0b2-4ddb-9e32-2d2c66edde8c",
           "title": "Create My Bookings page",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-26b3021e-ff3e-4e45-95a1-20e387c315fb",
@@ -694,7 +695,8 @@
         {
           "id": "task-7acb4142-56ef-4301-83f6-6a21c02ffb93",
           "title": "Create shared empty states",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-f8f2e0c9-b731-4292-8b30-1450ccb58c35",
@@ -714,8 +716,8 @@
           "completed": true
         }
       ],
-      "x": -214.62335310195857,
-      "y": -44.50663461306753
+      "x": -217.9076056482744,
+      "y": -50.2540765691202
     },
     {
       "id": "task-b704f9f5-bd4b-4bc4-814b-0f887faa3e00",

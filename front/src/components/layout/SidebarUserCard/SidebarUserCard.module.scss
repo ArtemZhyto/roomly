@@ -1,0 +1,49 @@
+.card {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 12px;
+
+  padding: 10px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+
+  background: var(--color-background);
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+}
+
+.content {
+  min-width: 0;
+  flex: 1;
+}
+
+.name {
+  overflow: hidden;
+
+  margin: 0;
+
+  color: var(--color-text-primary);
+
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.email {
+  overflow: hidden;
+
+  margin: 2px 0 0;
+
+  color: var(--color-text-muted);
+
+  font-size: 12px;
+  line-height: 18px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

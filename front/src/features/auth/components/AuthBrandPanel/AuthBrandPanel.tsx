@@ -1,6 +1,7 @@
 // Components
 import BookingPreview from './BookingPreview'
 import SchedulePreview from './SchedulePreview'
+import RoomlyLogo from '@components/shared/RoomlyLogo'
 
 // Styles
 import styles from './AuthBrandPanel.module.scss'
@@ -12,7 +13,7 @@ const AuthBrandPanel = () => {
 
       <div className={styles.content}>
         <header className={styles.header}>
-          <p className={styles.logo}>Roomly</p>
+          <RoomlyLogo href={undefined} light />
 
           <h2 className={styles.title}>Meetings start with the right room.</h2>
 

@@ -1,0 +1,39 @@
+.logo {
+  color: var(--color-text-primary);
+
+  transition:
+    opacity var(--transition-fast),
+    color var(--transition-fast);
+
+  &:hover {
+    color: var(--color-primary);
+  }
+
+  &:focus-visible {
+    border-radius: var(--radius-control);
+
+    outline: none;
+    box-shadow: 0 0 0 3px var(--color-primary-subtle);
+  }
+
+  &:active {
+    opacity: 0.78;
+  }
+}
+
+.light {
+  color: var(--color-text-inverse);
+
+  &:hover {
+    color: var(--color-text-inverse);
+    opacity: 0.9;
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 3px rgb(255 255 255 / 22%);
+  }
+}
+
+.wordmark {
+  letter-spacing: -0.035em;
+}

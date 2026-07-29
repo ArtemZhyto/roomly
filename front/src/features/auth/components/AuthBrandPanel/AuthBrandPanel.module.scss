@@ -273,6 +273,41 @@
   font-size: 13px;
 }
 
+.avatarGroup {
+  display: flex;
+  padding-left: 10px;
+}
+
+.avatar {
+  display: grid;
+  place-items: center;
+
+  width: 30px;
+  height: 30px;
+  margin-left: -8px;
+  border: 2px solid rgb(31 41 55);
+  border-radius: 50%;
+
+  color: var(--color-text-inverse);
+  background: var(--color-secondary);
+
+  font-size: 10px;
+  font-weight: 700;
+
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &:nth-child(2) {
+    background: var(--color-primary);
+  }
+
+  &:nth-child(3) {
+    color: var(--color-text-primary);
+    background: var(--color-surface);
+  }
+}
+
 .footer {
   display: flex;
   align-items: center;

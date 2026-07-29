@@ -1,0 +1,18 @@
+.container {
+  border-color: var(--color-border);
+
+  background: linear-gradient(145deg, var(--color-surface), var(--color-primary-subtle));
+
+  box-shadow: 0 12px 35px rgb(15 23 42 / 5%);
+}
+
+.iconWrapper {
+  color: var(--color-primary);
+  background: var(--color-primary-subtle);
+
+  box-shadow: inset 0 0 0 1px var(--color-primary-light);
+}
+
+.description {
+  color: var(--color-text-secondary);
+}
