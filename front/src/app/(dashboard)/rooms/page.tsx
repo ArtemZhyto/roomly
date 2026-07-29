@@ -1,38 +1,72 @@
+// Modules
+import Link from 'next/link'
+import { DoorOpen, RefreshCw, TriangleAlert } from 'lucide-react'
+
 // Components
 import PageHeader from '@components/layout/PageHeader'
 import TimezoneBadge from '@components-shared/TimezoneBadge'
+import EmptyState from '@components-ui/EmptyState'
 
-// Styles
-import styles from './rooms-page.module.scss'
+// Features
+import { mockRooms, RoomCard } from '@features/rooms'
+
+type RoomsPageState = 'success' | 'empty' | 'error'
 
 const RoomsPage = () => {
+  const pageState = 'success' as RoomsPageState
+
+  const emptyState = (
+    <EmptyState
+      icon={DoorOpen}
+      title='No meeting rooms yet'
+      description='Meeting rooms will appear here once they are added to the workspace.'
+    />
+  )
+
+  const errorAction = (
+    <Link
+      href='/rooms'
+      className='inline-flex min-h-11 items-center justify-center gap-2 rounded-control bg-primary px-4 text-sm font-semibold text-text-inverse no-underline transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-primary-subtle'
+    >
+      <RefreshCw className='size-4' strokeWidth={2} aria-hidden='true' />
+      Try again
+    </Link>
+  )
+
+  const errorState = (
+    <EmptyState
+      icon={TriangleAlert}
+      title='Could not load meeting rooms'
+      description='Something went wrong while loading the room catalogue. Please try again.'
+      action={errorAction}
+    />
+  )
+
   return (
     <div className='flex flex-col gap-8'>
       <PageHeader
-        title='Schedule'
-        description='View weekly room availability and choose a free 30-minute time slot.'
+        title='Meeting rooms'
+        description='Choose a room to view its weekly schedule and find an available time.'
         aside={<TimezoneBadge />}
       />
 
-      <section
-        className={`${styles.placeholder} flex min-h-70 flex-col items-center justify-center rounded-card border border-dashed px-6 py-12 text-center`}
-        aria-labelledby='rooms-placeholder-title'
-      >
-        <div
-          className={`${styles.placeholderIcon} mb-5 grid size-14 place-items-center rounded-full text-2xl`}
-          aria-hidden='true'
-        >
-          ▦
-        </div>
+      {pageState === 'success' && (
+        <section aria-labelledby='rooms-list-title'>
+          <h2 id='rooms-list-title' className='sr-only'>
+            Available meeting rooms
+          </h2>
 
-        <h2 id='rooms-placeholder-title' className='m-0 text-xl font-semibold text-text-primary'>
-          Room catalogue is coming next
-        </h2>
+          <div className='grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3'>
+            {mockRooms.map((room) => (
+              <RoomCard key={room.id} room={room} />
+            ))}
+          </div>
+        </section>
+      )}
 
-        <p className='mt-2 max-w-120 text-sm leading-6 text-text-secondary'>
-          This area will contain room cards with their floor, capacity and availability status.
-        </p>
-      </section>
+      {pageState === 'empty' && emptyState}
+
+      {pageState === 'error' && errorState}
     </div>
   )
 }
