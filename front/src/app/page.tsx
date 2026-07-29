@@ -1,5 +1,8 @@
-const Home = () => {
-  return <div>Home</div>
+// Modules
+import { redirect } from 'next/navigation'
+
+const HomePage = () => {
+  redirect('/dashboard')
 }
 
-export default Home
+export default HomePage

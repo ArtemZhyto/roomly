@@ -1,0 +1,21 @@
+.header {
+  position: relative;
+
+  &::before {
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 0;
+
+    width: 4px;
+    border-radius: 999px;
+
+    background: var(--color-primary);
+
+    content: '';
+  }
+}
+
+.description {
+  color: var(--color-text-secondary);
+}

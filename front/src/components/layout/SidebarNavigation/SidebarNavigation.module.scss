@@ -1,0 +1,61 @@
+.link {
+  position: relative;
+
+  color: var(--color-text-secondary);
+  background: transparent;
+
+  transition:
+    color var(--transition-fast),
+    background-color var(--transition-fast);
+
+  &::before {
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    left: 0;
+
+    width: 3px;
+    border-radius: 0 999px 999px 0;
+
+    background: var(--color-primary);
+
+    content: '';
+
+    opacity: 0;
+    transform: scaleY(0.45);
+
+    transition:
+      opacity var(--transition-fast),
+      transform var(--transition-fast);
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: var(--color-text-primary);
+    background: var(--color-primary-subtle);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: inset 0 0 0 2px var(--color-primary-light);
+  }
+}
+
+.active {
+  color: var(--color-text-primary);
+  background: var(--color-primary-subtle);
+
+  &::before {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+.icon {
+  color: currentColor;
+}
+
+.badge {
+  color: var(--color-text-inverse);
+  background: var(--color-secondary);
+}

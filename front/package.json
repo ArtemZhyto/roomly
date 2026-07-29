@@ -21,6 +21,7 @@
     "axios": "^1.13.6",
     "critters": "^0.0.25",
     "framer-motion": "^12.40.0",
+    "lucide-react": "^1.27.0",
     "next": "^15.2.4",
     "next-intl": "^4.8.3",
     "postcss": "^8.5.3",

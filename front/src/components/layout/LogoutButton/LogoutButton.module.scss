@@ -1,0 +1,57 @@
+.button {
+  border-color: transparent;
+
+  color: var(--color-text-secondary);
+  background: transparent;
+
+  transition:
+    color var(--transition-fast),
+    border-color var(--transition-fast),
+    background-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast);
+
+  &:hover,
+  &:focus-visible {
+    border-color: var(--color-error);
+
+    color: var(--color-error-dark);
+    background: var(--color-error-light);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--color-error-light);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.55;
+  }
+}
+
+.icon {
+  transition: transform var(--transition-fast);
+
+  .button:hover &,
+  .button:focus-visible & {
+    transform: translateX(2px);
+  }
+}
+
+.spinner {
+  border-color: rgb(239 68 68 / 24%);
+  border-top-color: var(--color-error);
+
+  animation: logout-button-spin 700ms linear infinite;
+}
+
+@keyframes logout-button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

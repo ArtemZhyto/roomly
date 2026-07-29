@@ -1,0 +1,27 @@
+.shell {
+  display: flex;
+
+  min-height: 100dvh;
+
+  color: var(--color-text-primary);
+  background: var(--color-background);
+}
+
+.workspace {
+  min-width: 0;
+  flex: 1;
+}
+
+.main {
+  min-height: 100dvh;
+}
+
+@media (max-width: 960px) {
+  .shell {
+    display: block;
+  }
+
+  .main {
+    min-height: calc(100dvh - 64px);
+  }
+}

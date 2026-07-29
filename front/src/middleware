@@ -24,7 +24,7 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
   const refreshToken = req.cookies.get('refreshToken')?.value
 
   if (accessToken) {
-    return isPublicRoute ? redirectTo(req, '/') : NextResponse.next()
+    return isPublicRoute ? redirectTo(req, '/dashboard') : NextResponse.next()
   }
 
   if (!refreshToken) {
@@ -48,7 +48,7 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
       return response
     }
 
-    const response = isPublicRoute ? redirectTo(req, '/') : NextResponse.next()
+    const response = isPublicRoute ? redirectTo(req, '/dashboard') : NextResponse.next()
 
     const setCookie = refreshResponse.headers.get('set-cookie')
 
@@ -63,5 +63,12 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
 }
 
 export const config = {
-  matcher: ['/', '/login', '/register', '/rooms/:path*', '/bookings/:path*', '/schedule/:path*'],
+  matcher: [
+    '/login',
+    '/register',
+    '/rooms/:path*',
+    '/my-bookings/:path*',
+    '/schedule/:path*',
+    '/dashboard/:path*',
+  ],
 }
