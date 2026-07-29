@@ -1,0 +1,179 @@
+.toolbar {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+
+  padding: 18px 20px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.room {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 14px;
+}
+
+.roomIcon {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  flex: 0 0 auto;
+  place-items: center;
+
+  border-radius: 14px;
+
+  color: var(--color-primary-active);
+  background: var(--color-primary-subtle);
+}
+
+.roomContent {
+  min-width: 0;
+}
+
+.roomName {
+  overflow: hidden;
+
+  margin: 0;
+
+  color: var(--color-text-primary);
+
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.roomDetails {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+
+  margin-top: 5px;
+}
+
+.roomDetail {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+
+  color: var(--color-text-secondary);
+
+  font-size: 13px;
+  line-height: 1.4;
+
+  svg {
+    flex: 0 0 auto;
+  }
+}
+
+.navigation {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 8px;
+}
+
+.iconButton,
+.todayButton {
+  display: inline-grid;
+  min-height: 40px;
+  place-items: center;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+
+  cursor: pointer;
+
+  transition:
+    color var(--transition-fast) ease,
+    border-color var(--transition-fast) ease,
+    background-color var(--transition-fast) ease;
+}
+
+.iconButton {
+  width: 40px;
+  padding: 0;
+}
+
+.todayButton {
+  padding: 0 14px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  &:disabled {
+    color: var(--color-text-muted);
+    background: var(--color-surface-secondary);
+
+    cursor: default;
+  }
+}
+
+.iconButton:hover,
+.todayButton:not(:disabled):hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary-active);
+  background: var(--color-primary-subtle);
+}
+
+.weekRange {
+  min-width: 190px;
+
+  color: var(--color-text-primary);
+
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+}
+
+@media (max-width: 820px) {
+  .toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .navigation {
+    justify-content: space-between;
+  }
+
+  .weekRange {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .toolbar {
+    padding: 16px;
+  }
+
+  .roomDetails {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .navigation {
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr) 40px;
+  }
+
+  .todayButton {
+    grid-column: 1 / -1;
+  }
+
+  .weekRange {
+    font-size: 14px;
+  }
+}

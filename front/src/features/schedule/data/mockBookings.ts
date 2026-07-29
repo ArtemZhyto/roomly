@@ -1,0 +1,78 @@
+// Types
+import type { ScheduleBooking } from '../types'
+
+export const mockBookings: ScheduleBooking[] = [
+  {
+    id: 1,
+    roomId: 1,
+    title: 'Product sync',
+    authorName: 'Olena Koval',
+    startAt: '2026-07-27T09:30:00+03:00',
+    endAt: '2026-07-27T10:30:00+03:00',
+    ownership: 'other',
+  },
+  {
+    id: 2,
+    roomId: 1,
+    title: 'Frontend planning',
+    authorName: 'Artem',
+    startAt: '2026-07-27T11:00:00+03:00',
+    endAt: '2026-07-27T12:30:00+03:00',
+    ownership: 'own',
+  },
+  {
+    id: 3,
+    roomId: 1,
+    title: 'Design review',
+    authorName: 'Sofia Melnyk',
+    startAt: '2026-07-28T13:00:00+03:00',
+    endAt: '2026-07-28T14:00:00+03:00',
+    ownership: 'other',
+  },
+  {
+    id: 4,
+    roomId: 1,
+    title: 'Engineering stand-up',
+    authorName: 'Maksym Bondar',
+    startAt: '2026-07-29T10:00:00+03:00',
+    endAt: '2026-07-29T10:30:00+03:00',
+    ownership: 'other',
+  },
+  {
+    id: 5,
+    roomId: 1,
+    title: 'Roomly architecture',
+    authorName: 'Artem',
+    startAt: '2026-07-29T15:00:00+03:00',
+    endAt: '2026-07-29T17:00:00+03:00',
+    ownership: 'own',
+  },
+  {
+    id: 6,
+    roomId: 1,
+    title: 'Weekly retrospective',
+    authorName: 'Olena Koval',
+    startAt: '2026-07-31T16:00:00+03:00',
+    endAt: '2026-07-31T17:00:00+03:00',
+    ownership: 'other',
+  },
+
+  {
+    id: 7,
+    roomId: 2,
+    title: 'Marketing review',
+    authorName: 'Sofia Melnyk',
+    startAt: '2026-07-29T12:00:00+03:00',
+    endAt: '2026-07-29T13:30:00+03:00',
+    ownership: 'other',
+  },
+  {
+    id: 8,
+    roomId: 2,
+    title: 'Sprint planning',
+    authorName: 'Artem',
+    startAt: '2026-07-30T09:00:00+03:00',
+    endAt: '2026-07-30T11:00:00+03:00',
+    ownership: 'own',
+  },
+]

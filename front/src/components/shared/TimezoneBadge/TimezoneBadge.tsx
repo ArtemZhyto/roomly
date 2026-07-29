@@ -1,16 +1,52 @@
+'use client'
+
 // Modules
-import { Clock3 } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Clock3, Globe2 } from 'lucide-react'
+
+// Styles
+import styles from './TimezoneBadge.module.scss'
 
 interface TimezoneBadgeProps {
-  timezone?: string
+  officeTimezone?: string
 }
 
-const TimezoneBadge = ({ timezone = 'Europe/Kyiv' }: TimezoneBadgeProps) => {
-  return (
-    <div className='inline-flex min-h-10 items-center gap-2 rounded-control border border-border bg-surface px-3.5 text-sm font-medium text-text-secondary'>
-      <Clock3 className='size-4 text-primary' strokeWidth={2} aria-hidden='true' />
+const TimezoneBadge = ({ officeTimezone = 'Europe/Kyiv' }: TimezoneBadgeProps) => {
+  const [userTimezone, setUserTimezone] = useState<string | null>(null)
 
-      <span>Office time: {timezone}</span>
+  useEffect(() => {
+    const detectedTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+
+    setUserTimezone(detectedTimezone || 'UTC')
+  }, [])
+
+  const isReady = userTimezone !== null
+
+  const hasTimezoneDifference = isReady && userTimezone !== officeTimezone
+
+  const className = [
+    styles.badge,
+    isReady ? styles.badgeReady : '',
+    hasTimezoneDifference ? styles.badgeExpanded : '',
+  ]
+    .filter(Boolean)
+    .join(' ')
+
+  return (
+    <div className={className} aria-busy={!isReady}>
+      <div className={styles.row}>
+        <Clock3 className='size-4 shrink-0 text-primary' strokeWidth={2} aria-hidden='true' />
+
+        <span>Office time: {officeTimezone}</span>
+      </div>
+
+      {hasTimezoneDifference && (
+        <div className={styles.row}>
+          <Globe2 className='size-4 shrink-0 text-secondary' strokeWidth={2} aria-hidden='true' />
+
+          <span>Your timezone: {userTimezone}</span>
+        </div>
+      )}
     </div>
   )
 }
