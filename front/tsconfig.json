@@ -25,6 +25,7 @@
       "@components-ui/*": ["./src/components/ui/*"],
       "@features/*": ["./src/features/*"],
       "@config/*": ["./src/config/*"],
+      "@providers/*": ["./src/providers/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@services/*": ["./src/services/*"],
       "@store/*": ["./src/store/*"],
@@ -33,6 +34,13 @@
     },
     "types": ["node", "jest"]
   },
-  "include": ["./next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/page.tsx", "src/middleware"],
+  "include": [
+    "./next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/app/page.tsx",
+    "src/middleware"
+  ],
   "exclude": ["node_modules", ".next"]
 }

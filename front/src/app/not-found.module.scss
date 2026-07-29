@@ -68,43 +68,6 @@
   line-height: 1.6;
 }
 
-.action {
-  display: inline-flex;
-  min-height: 44px;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-
-  margin-top: 26px;
-  padding: 0 17px;
-  border-radius: var(--radius-control);
-
-  color: #ffffff;
-  background: var(--color-primary-active);
-
-  font-size: 14px;
-  font-weight: 600;
-  text-decoration: none;
-
-  transition:
-    background-color 160ms ease,
-    transform 160ms ease;
-
-  &:hover {
-    background: var(--color-primary);
-    transform: translateY(-1px);
-  }
-
-  &:active {
-    transform: translateY(0);
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 3px;
-  }
-}
-
 @media (max-width: 480px) {
   .page {
     padding: 16px;

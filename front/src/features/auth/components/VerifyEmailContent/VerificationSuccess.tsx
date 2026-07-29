@@ -1,5 +1,5 @@
-// Modules
-import Link from 'next/link'
+// Components
+import { AuthActionLink } from '../AuthSubmitButton'
 
 // Types
 import type { VerificationSuccessProps } from '../../types/verification.types'
@@ -33,12 +33,7 @@ const VerificationSuccess = ({ email }: VerificationSuccessProps) => {
         </p>
       </header>
 
-      <Link
-        href='/login'
-        className='inline-flex min-h-13 w-full items-center justify-center rounded-[10px] bg-primary px-5 text-base font-semibold text-white no-underline shadow-button transition-[background-color,box-shadow,transform] duration-150 hover:bg-primary-hover hover:shadow-[0_6px_18px_rgb(6_182_212/25%)] active:scale-[0.99]'
-      >
-        Continue to sign in
-      </Link>
+      <AuthActionLink href='/login' label='Continue to sign in' />
     </div>
   )
 }
