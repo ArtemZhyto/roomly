@@ -194,6 +194,8 @@ html {
 
   color: var(--color-text-primary);
   background: var(--color-background);
+
+  verflow-anchor: none;
 }
 
 body {
@@ -204,6 +206,8 @@ body {
   background: var(--color-background);
 
   font-family: var(--font-afacad);
+
+  verflow-anchor: none;
 
   transition:
     color 180ms ease,

@@ -241,8 +241,8 @@
           "completed": true
         }
       ],
-      "x": 218.70979435889043,
-      "y": -1274.0641561129148
+      "x": 125.17021751573296,
+      "y": -1124.400833163863
     },
     {
       "id": "task-e42c38b9-91d3-46a3-83f7-1e314dbbcf79",
@@ -360,7 +360,8 @@
         {
           "id": "task-06b110cb-2fa7-4168-80c0-b46216b291f2",
           "title": "Add calendar loading state",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-9dcbb1b6-6830-4ca7-bf06-10ae0138f063",
@@ -440,7 +441,7 @@
           "id": "task-972f8cc3-3fd4-4392-ae4d-1998165ffd48",
           "title": "Create booking form or dialog",
           "items": [],
-          "completed": false
+          "completed": true
         },
         {
           "id": "task-d4137152-c4de-4f2d-a213-a8a43fce59a5",
@@ -508,7 +509,8 @@
         {
           "id": "task-acc5e676-f0a9-4ca9-8fb2-4e09c9a66e6a",
           "title": "Disable submit button during request",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-493d38b5-5213-443d-a872-66dc0429e244",
@@ -697,7 +699,8 @@
         {
           "id": "task-a2bde521-b708-4bdc-8cec-57257d2f35bf",
           "title": "Create shared dialog component",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-7ce71611-5a11-4a9e-a896-a7b8aec2c320",
@@ -725,7 +728,8 @@
         {
           "id": "task-a42b70bb-33e9-401a-81ba-5075bf52f449",
           "title": "Improve keyboard accessibility",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-beb022f7-8dbe-4daf-8a3e-f679559e7f29",
