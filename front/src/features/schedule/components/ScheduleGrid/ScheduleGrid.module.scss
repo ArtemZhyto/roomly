@@ -1,0 +1,299 @@
+.wrapper {
+  overflow: hidden;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.scrollArea {
+  overflow-x: auto;
+}
+
+.calendar {
+  --time-column-width: 78px;
+  --day-column-width: minmax(150px, 1fr);
+  --slot-height: 38px;
+
+  display: grid;
+  min-width: 1120px;
+  grid-template-columns:
+    var(--time-column-width)
+    repeat(7, var(--day-column-width));
+  grid-template-rows: 74px auto;
+}
+
+.headerCorner,
+.dayHeader {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+
+  border-bottom: 1px solid var(--color-border);
+
+  background: var(--color-surface);
+}
+
+.headerCorner {
+  left: 0;
+  z-index: 6;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-right: 1px solid var(--color-border);
+
+  color: var(--color-text-muted);
+
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.dayHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  border-right: 1px solid var(--color-border);
+}
+
+.dayHeaderToday {
+  color: var(--color-primary-active);
+  background: var(--color-primary-subtle);
+}
+
+.dayName {
+  color: var(--color-text-secondary);
+
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.dayNumber {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+
+  border-radius: 50%;
+
+  color: var(--color-text-primary);
+
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.dayHeaderToday .dayNumber {
+  color: var(--color-text-inverse);
+  background: var(--color-primary);
+}
+
+.timeColumn,
+.dayColumn {
+  position: relative;
+  min-height: calc(20 * var(--slot-height));
+}
+
+.timeColumn {
+  position: sticky;
+  left: 0;
+  z-index: 3;
+
+  border-right: 1px solid var(--color-border);
+
+  background: var(--color-surface);
+}
+
+.timeSlot,
+.gridSlot {
+  height: var(--slot-height);
+  border-top: 1px solid var(--color-border);
+}
+
+.timeSlot {
+  position: relative;
+
+  color: var(--color-text-muted);
+
+  font-size: 12px;
+  line-height: 1;
+
+  span {
+    position: absolute;
+    top: 13px;
+    right: 21.5px;
+
+    padding-inline: 3px;
+
+    background: var(--color-surface);
+  }
+}
+
+.dayColumn {
+  border-right: 1px solid var(--color-border);
+}
+
+.dayColumnToday {
+  background: color-mix(in srgb, var(--color-primary-subtle) 36%, transparent);
+}
+
+.gridSlot:nth-child(even),
+.timeSlot:nth-child(even) {
+  border-top-style: dashed;
+}
+
+.booking {
+  position: absolute;
+  z-index: 2;
+  right: 5px;
+  left: 5px;
+
+  display: flex;
+  min-height: 22px;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  padding: 7px 8px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+
+  font-size: 12px;
+  line-height: 1.25;
+
+  cursor: default;
+}
+
+.bookingOwn {
+  border-color: var(--color-primary);
+  color: var(--color-primary-active);
+  background: var(--color-primary-subtle);
+}
+
+.bookingOther {
+  border-color: var(--color-secondary);
+  color: var(--color-secondary-active);
+  background: var(--color-secondary-subtle);
+}
+
+.bookingTitle {
+  overflow: hidden;
+
+  font-size: 12px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bookingAuthor,
+.bookingTime {
+  overflow: hidden;
+
+  margin-top: 2px;
+
+  opacity: 0.82;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bookingCompact {
+  justify-content: center;
+
+  padding-block: 3px;
+
+  .bookingTitle {
+    line-height: 1.1;
+  }
+}
+
+.currentTimeLine {
+  position: absolute;
+  z-index: 3;
+  right: 0;
+  left: 0;
+
+  height: 1px;
+
+  background: var(--color-error);
+
+  pointer-events: none;
+}
+
+.currentTimeDot {
+  position: absolute;
+  top: 50%;
+  left: -5px;
+
+  width: 8px;
+  height: 8px;
+
+  border: 2px solid var(--color-surface);
+  border-radius: 50%;
+
+  background: var(--color-error);
+  box-shadow: 0 0 0 1px var(--color-error);
+
+  transform: translateY(-50%);
+}
+
+.currentTimeStatus {
+  display: flex;
+  min-height: 42px;
+  align-items: center;
+  gap: 8px;
+
+  padding: 0 16px;
+  border-bottom: 1px solid var(--color-border);
+
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.currentTimeStatusDot {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 auto;
+
+  border-radius: 50%;
+
+  background: var(--color-error);
+  box-shadow: 0 0 0 3px var(--color-error-light);
+}
+
+.currentTimeStatusNote {
+  margin-left: auto;
+
+  color: var(--color-text-muted);
+
+  font-weight: 500;
+}
+
+@media (max-width: 720px) {
+  .calendar {
+    --time-column-width: 68px;
+    --day-column-width: 140px;
+    --slot-height: 36px;
+
+    min-width: max-content;
+  }
+
+  .dayHeader {
+    gap: 5px;
+  }
+
+  .booking {
+    padding: 6px;
+  }
+}

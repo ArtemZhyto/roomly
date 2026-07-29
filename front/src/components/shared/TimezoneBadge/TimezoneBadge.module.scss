@@ -1,0 +1,47 @@
+.badge {
+  display: flex;
+  min-width: 228px;
+  min-height: 42px;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+
+  padding: 9px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+
+  visibility: hidden;
+
+  color: var(--color-text-secondary);
+  background: var(--color-surface);
+
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.badgeReady {
+  visibility: visible;
+}
+
+.badgeExpanded {
+  min-height: 66px;
+}
+
+.row {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .badge {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .row {
+    white-space: normal;
+  }
+}

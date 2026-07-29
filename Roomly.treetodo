@@ -268,27 +268,32 @@
         {
           "id": "task-805ad81b-3bbe-4718-bea6-15e7877fcb99",
           "title": "Create room catalog interface",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-0e776c7f-d0c3-4650-9098-cc2acacf47f1",
           "title": "Display room name, floor, and capacity",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-9432d277-c65e-4807-ab36-12c1b61ce578",
           "title": "Add room loading state",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-e60f148d-67ca-4d19-b91c-378bb392ab70",
           "title": "Add room empty state",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-58d4b5a4-6c3d-4925-a32a-0d0b578767ac",
           "title": "Add room error state",
-          "items": []
+          "items": [],
+          "completed": true
         }
       ],
       "x": 136.706889474629,
@@ -301,47 +306,56 @@
         {
           "id": "task-a5623b6b-0957-4e86-9c33-d5eea9c2b849",
           "title": "Build custom weekly calendar grid",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-a10defca-3959-42d4-be37-907b5534dda9",
           "title": "Display days horizontally",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-7f2ab87b-8bc0-4581-b5ce-a99b66370f14",
           "title": "Display time vertically in 30-minute slots",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-850c89e2-8de9-47d0-bb0c-2bce36f4d538",
           "title": "Display office working hours",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-8ae9397b-fda5-483b-86ef-ca9049dd5d36",
           "title": "Implement previous and next week navigation",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-8e6d9421-7a9a-44a4-8ea5-187d461c7023",
           "title": "Highlight the current day",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-0b1bc787-c862-42cb-ac99-0ca9a4045af2",
           "title": "Display current-time indicator",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-ce35b28d-9143-4eb4-b8ee-dcdaf5058f12",
           "title": "Display booking title and author",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-2954961d-676d-4590-ad0d-1c1b9731f67a",
           "title": "Visually distinguish own bookings",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-06b110cb-2fa7-4168-80c0-b46216b291f2",
@@ -351,7 +365,8 @@
         {
           "id": "task-9dcbb1b6-6830-4ca7-bf06-10ae0138f063",
           "title": "Add empty schedule state",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-cb5b0f87-9dfb-47c1-b406-37af79326c38",
@@ -375,12 +390,14 @@
         {
           "id": "task-ec82d0cd-5e20-4fd1-81c9-582d395a7e35",
           "title": "Detect browser time zone",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-a21d6261-73b5-4302-a150-90afd1cea06f",
           "title": "Display schedule in the user's time zone",
-          "items": []
+          "items": [],
+          "completed": false
         },
         {
           "id": "task-fc7e4b51-72f9-48cd-b54b-583c4311d79f",
@@ -391,7 +408,8 @@
         {
           "id": "task-d1b084b6-a4cb-4262-9808-723b5a85bcea",
           "title": "Display office time zone notice when different",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-44cc1b35-12be-454e-b4e6-f188e56beb24",

@@ -68,6 +68,11 @@ const MobileNavigationDrawer = ({
     .filter(Boolean)
     .join(' ')
 
+  const handleLogout = () => {
+    onClose()
+    onLogout()
+  }
+
   return (
     <>
       <button
@@ -87,11 +92,15 @@ const MobileNavigationDrawer = ({
       >
         <div className='flex h-full flex-col'>
           <div className={`${styles.navigation} flex-1 px-4 py-5`}>
-            <SidebarNavigation />
+            <SidebarNavigation onNavigate={onClose} />
           </div>
 
           <div className={`${styles.footer} p-4`}>
-            <SidebarUserCard user={user} isLogoutLoading={isLogoutLoading} onLogout={onLogout} />
+            <SidebarUserCard
+              user={user}
+              isLogoutLoading={isLogoutLoading}
+              onLogout={handleLogout}
+            />
           </div>
         </div>
       </aside>

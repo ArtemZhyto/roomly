@@ -10,7 +10,11 @@ import navigationItems from './navigationItems'
 // Styles
 import styles from './SidebarNavigation.module.scss'
 
-const SidebarNavigation = () => {
+interface SidebarNavigationProps {
+  onNavigate?: () => void
+}
+
+const SidebarNavigation = ({ onNavigate }: SidebarNavigationProps) => {
   const pathname = usePathname()
 
   const isActiveRoute = (href: string) => {
@@ -38,6 +42,7 @@ const SidebarNavigation = () => {
                 href={item.href}
                 className={linkClassName}
                 aria-current={isActive ? 'page' : undefined}
+                onClick={onNavigate}
               >
                 <Icon
                   className={`${styles.icon} size-5 shrink-0`}
