@@ -1,0 +1,95 @@
+.field {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.labelRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.label {
+  color: var(--color-text-primary);
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.counter {
+  color: var(--color-text-muted);
+
+  font-size: 12px;
+}
+
+.controlWrapper {
+  position: relative;
+}
+
+.controlIcon {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 14px;
+
+  color: var(--color-text-muted);
+
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+.control {
+  width: 100%;
+  min-height: 46px;
+
+  padding: 10px 13px;
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--radius-input);
+
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+
+  font-size: 15px;
+
+  transition:
+    border-color var(--transition-fast) ease,
+    box-shadow var(--transition-fast) ease,
+    background-color var(--transition-fast) ease;
+
+  &::placeholder {
+    color: var(--color-input-placeholder);
+  }
+
+  &:hover:not(:disabled) {
+    border-color: var(--color-input-border-hover);
+  }
+
+  &:focus {
+    border-color: var(--color-border-focus);
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
+
+  &:disabled {
+    color: var(--color-text-disabled);
+    background: var(--color-surface-secondary);
+
+    cursor: not-allowed;
+  }
+}
+
+.controlWithIcon {
+  padding-left: 42px;
+}
+
+.controlInvalid {
+  border-color: var(--color-error);
+
+  &:focus {
+    border-color: var(--color-error);
+    box-shadow: 0 0 0 3px rgb(239 68 68 / 16%);
+  }
+}

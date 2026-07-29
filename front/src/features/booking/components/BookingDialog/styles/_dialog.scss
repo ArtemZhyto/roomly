@@ -1,0 +1,109 @@
+.overlay {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+
+  display: grid;
+  place-items: center;
+
+  overflow-y: auto;
+
+  padding: 24px;
+
+  background: rgb(15 23 42 / 0%);
+  backdrop-filter: blur(0);
+
+  pointer-events: none;
+  opacity: 0;
+}
+
+.overlayOpen {
+  pointer-events: auto;
+
+  animation: overlay-open 180ms ease forwards;
+
+  .dialog {
+    animation: dialog-open 180ms var(--ease-roomly) forwards;
+  }
+}
+
+.overlayClosing {
+  pointer-events: none;
+
+  animation: overlay-close 180ms ease forwards;
+
+  .dialog {
+    animation: dialog-close 180ms var(--ease-roomly) forwards;
+  }
+}
+
+.dialog {
+  display: flex;
+  width: min(100%, 580px);
+  max-height: calc(100svh - 48px);
+  flex-direction: column;
+
+  overflow: hidden;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-modal);
+
+  background: var(--color-surface);
+  box-shadow: var(--shadow-modal);
+
+  opacity: 0;
+  transform: translateY(12px) scale(0.98);
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.content {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  padding: 24px;
+
+  scrollbar-gutter: stable;
+}
+
+@media (max-width: 640px) {
+  .overlay {
+    align-items: end;
+
+    padding: 0;
+  }
+
+  .dialog {
+    width: 100%;
+    max-height: calc(100svh - 24px);
+
+    border-right: 0;
+    border-bottom: 0;
+    border-left: 0;
+    border-radius: var(--radius-modal) var(--radius-modal) 0 0;
+  }
+
+  .content {
+    padding: 20px 18px 24px;
+  }
+
+  .overlayOpen .dialog {
+    animation-name: mobile-dialog-open;
+  }
+
+  .overlayClosing .dialog {
+    animation-name: mobile-dialog-close;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlayOpen,
+  .overlayClosing,
+  .overlayOpen .dialog,
+  .overlayClosing .dialog {
+    animation-duration: 1ms;
+  }
+}

@@ -1,0 +1,75 @@
+@keyframes overlay-open {
+  from {
+    opacity: 0;
+    background: rgb(15 23 42 / 0%);
+    backdrop-filter: blur(0);
+  }
+
+  to {
+    opacity: 1;
+    background: rgb(15 23 42 / 58%);
+    backdrop-filter: blur(4px);
+  }
+}
+
+@keyframes overlay-close {
+  from {
+    opacity: 1;
+    background: rgb(15 23 42 / 58%);
+    backdrop-filter: blur(4px);
+  }
+
+  to {
+    opacity: 0;
+    background: rgb(15 23 42 / 0%);
+    backdrop-filter: blur(0);
+  }
+}
+
+@keyframes dialog-open {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes dialog-close {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+}
+
+@keyframes mobile-dialog-open {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes mobile-dialog-close {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+}
