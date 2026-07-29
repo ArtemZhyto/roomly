@@ -1,6 +1,8 @@
 @import 'tailwindcss';
 
 :root {
+  color-scheme: light;
+
   /* Fonts */
   --font-prosto: var(--font-prosto-source), sans-serif;
   --font-afacad: var(--font-afacad-source), sans-serif;
@@ -41,6 +43,7 @@
   --color-border-hover: #cbd5e1;
   --color-border-dark: #374151;
   --color-border-focus: #06b6d4;
+  --color-border-strong: #cbd5e1;
 
   /* Semantic colors */
   --color-success: #22c55e;
@@ -88,38 +91,98 @@
   --spacing-content: 80rem;
   --spacing-header: 4.5rem;
 
-  /* Transitions */
-  --ease-roomly: cubic-bezier(0.2, 0, 0, 1);
-}
-
-:root {
-  color-scheme: light;
-
   --sidebar-width: 260px;
   --header-height: 72px;
   --content-max-width: 1280px;
 
+  /* Transitions */
   --transition-fast: 150ms;
   --transition-normal: 220ms;
   --transition-slow: 300ms;
 
+  --ease-roomly: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Focus */
   --focus-ring: 0 0 0 3px rgb(6 182 212 / 20%);
 }
 
 :root[data-theme='dark'] {
+  color-scheme: dark;
+
+  /* Brand colors */
+  --color-primary: #22d3ee;
+  --color-primary-hover: #06b6d4;
+  --color-primary-active: #67e8f9;
+  --color-primary-light: #164e63;
+  --color-primary-subtle: #153646;
+
+  --color-secondary: #818cf8;
+  --color-secondary-hover: #6366f1;
+  --color-secondary-active: #a5b4fc;
+  --color-secondary-light: #312e81;
+  --color-secondary-subtle: #252850;
+
+  --color-dark: #f8fafc;
+  --color-dark-hover: #e2e8f0;
+  --color-dark-light: #cbd5e1;
+
+  /* Backgrounds and surfaces */
   --color-background: #0f172a;
   --color-surface: #111c2f;
+  --color-surface-secondary: #182438;
+  --color-surface-hover: #1b2940;
+  --color-surface-dark: #0b1220;
 
-  --color-border: #263449;
-  --color-border-strong: #3a4a62;
-
+  /* Text */
   --color-text-primary: #f8fafc;
   --color-text-secondary: #cbd5e1;
   --color-text-muted: #94a3b8;
+  --color-text-disabled: #64748b;
+  --color-text-inverse: #0f172a;
 
-  --color-primary: #22d3ee;
-  --color-primary-active: #67e8f9;
-  --color-primary-subtle: #153646;
+  /* Borders */
+  --color-border: #263449;
+  --color-border-hover: #3a4a62;
+  --color-border-dark: #52627a;
+  --color-border-focus: #22d3ee;
+  --color-border-strong: #3a4a62;
+
+  /* Semantic colors */
+  --color-success: #4ade80;
+  --color-success-light: rgb(34 197 94 / 14%);
+  --color-success-dark: #86efac;
+
+  --color-warning: #fbbf24;
+  --color-warning-light: rgb(245 158 11 / 14%);
+  --color-warning-dark: #fcd34d;
+
+  --color-error: #f87171;
+  --color-error-light: rgb(239 68 68 / 14%);
+  --color-error-dark: #fca5a5;
+
+  --color-info: #60a5fa;
+  --color-info-light: rgb(59 130 246 / 14%);
+  --color-info-dark: #93c5fd;
+
+  /* Booking statuses */
+  --color-booking-own: #22d3ee;
+  --color-booking-occupied: #818cf8;
+  --color-booking-available: #111c2f;
+  --color-booking-cancelled: #64748b;
+
+  /* Form controls */
+  --color-input-border: #3a4a62;
+  --color-input-border-hover: #52627a;
+  --color-input-placeholder: #64748b;
+
+  /* Shadows */
+  --shadow-card: 0 4px 18px rgb(0 0 0 / 18%);
+  --shadow-card-hover: 0 8px 24px rgb(0 0 0 / 28%);
+  --shadow-modal: 0 20px 50px rgb(0 0 0 / 42%);
+  --shadow-button: 0 4px 12px rgb(34 211 238 / 18%);
+
+  /* Focus */
+  --focus-ring: 0 0 0 3px rgb(34 211 238 / 22%);
 }
 
 * {
@@ -128,15 +191,18 @@
 
 html {
   min-height: 100%;
-  background: var(--color-background);
+
   color: var(--color-text-primary);
+  background: var(--color-background);
 }
 
 body {
   min-height: 100vh;
   margin: 0;
-  background: var(--color-background);
+
   color: var(--color-text-primary);
+  background: var(--color-background);
+
   font-family: var(--font-afacad);
 
   transition:

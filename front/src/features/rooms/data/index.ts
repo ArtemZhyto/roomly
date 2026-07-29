@@ -1,0 +1,1 @@
+export { mockRooms } from './mockRooms'
