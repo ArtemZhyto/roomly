@@ -4,6 +4,10 @@ import './global.css'
 // Fonts
 import { Afacad, Prosto_One } from 'next/font/google'
 
+// Components
+import ThemeProvider from '@providers/ThemeProvider'
+import ThemeScript from '@components-shared/ThemeScript'
+
 // Types
 import type { Metadata } from 'next'
 import type { LayoutT } from '@shared-types/layout'
@@ -29,8 +33,13 @@ const afacad = Afacad({
 
 const RootLayout = ({ children }: LayoutT) => {
   return (
-    <html lang='uk' className={`${prosto.variable} ${afacad.variable}`}>
-      <body>{children}</body>
+    <html lang='uk' className={`${prosto.variable} ${afacad.variable}`} suppressHydrationWarning>
+      <head>
+        <ThemeScript />
+      </head>
+      <body>
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
     </html>
   )
 }

@@ -1,9 +1,9 @@
 // Modules
-import Link from 'next/link'
 import { ArrowLeft, DoorOpen } from 'lucide-react'
 
 // Components
 import RoomlyLogo from '@components-shared/RoomlyLogo'
+import { AuthActionLink } from '@features/auth/components/AuthSubmitButton'
 
 // Styles
 import styles from './not-found.module.scss'
@@ -26,10 +26,9 @@ const NotFoundPage = () => {
           This room may have been moved, renamed, or booked in another universe.
         </p>
 
-        <Link href='/dashboard' className={styles.action}>
-          <ArrowLeft size={17} aria-hidden='true' />
-          Back to dashboard
-        </Link>
+        <div className='mt-6 w-full'>
+          <AuthActionLink href='/dashboard' label='Back to dashboard' icon={ArrowLeft} />
+        </div>
       </section>
     </main>
   )

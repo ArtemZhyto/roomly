@@ -5,6 +5,7 @@ import { ArrowRight, CalendarRange } from 'lucide-react'
 // Components
 import PageHeader from '@components/layout/PageHeader'
 import EmptyState from '@components-ui/EmptyState'
+import TimezoneBadge from '@components-shared/TimezoneBadge'
 
 const SchedulePage = () => {
   const scheduleAction = (
@@ -17,20 +18,12 @@ const SchedulePage = () => {
     </Link>
   )
 
-  const timezoneBadge = (
-    <div className='inline-flex min-h-10 items-center gap-2 rounded-control border border-border bg-surface px-3.5 text-sm font-medium text-text-secondary'>
-      <span className='size-2 rounded-full bg-primary' aria-hidden='true' />
-
-      <span>Office time: Europe/Kyiv</span>
-    </div>
-  )
-
   return (
     <div className='flex flex-col gap-8'>
       <PageHeader
-        title='Schedule'
-        description='View weekly room availability and choose a free 30-minute time slot.'
-        aside={timezoneBadge}
+        title='Meeting rooms'
+        description='Choose a room to view its weekly schedule and find an available time.'
+        aside={<TimezoneBadge />}
       />
 
       <EmptyState

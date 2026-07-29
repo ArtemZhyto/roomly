@@ -106,6 +106,22 @@
   --focus-ring: 0 0 0 3px rgb(6 182 212 / 20%);
 }
 
+:root[data-theme='dark'] {
+  --color-background: #0f172a;
+  --color-surface: #111c2f;
+
+  --color-border: #263449;
+  --color-border-strong: #3a4a62;
+
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #cbd5e1;
+  --color-text-muted: #94a3b8;
+
+  --color-primary: #22d3ee;
+  --color-primary-active: #67e8f9;
+  --color-primary-subtle: #153646;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -122,6 +138,10 @@ body {
   background: var(--color-background);
   color: var(--color-text-primary);
   font-family: var(--font-afacad);
+
+  transition:
+    color 180ms ease,
+    background-color 180ms ease;
 }
 
 button,
@@ -147,4 +167,10 @@ a {
 :where(a, button):focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    transition: none;
+  }
 }

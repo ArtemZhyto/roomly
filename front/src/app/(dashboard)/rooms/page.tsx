@@ -1,26 +1,17 @@
 // Components
 import PageHeader from '@components/layout/PageHeader'
+import TimezoneBadge from '@components-shared/TimezoneBadge'
 
 // Styles
 import styles from './rooms-page.module.scss'
 
 const RoomsPage = () => {
-  const timezoneBadge = (
-    <div
-      className={`${styles.timezoneBadge} inline-flex min-h-10 items-center gap-2 rounded-control border px-3.5 text-sm font-medium`}
-    >
-      <span className='size-2 rounded-full bg-primary' aria-hidden='true' />
-
-      <span>Office time: Europe/Kyiv</span>
-    </div>
-  )
-
   return (
     <div className='flex flex-col gap-8'>
       <PageHeader
-        title='Meeting rooms'
-        description='Choose a room to view its weekly schedule and find an available time.'
-        aside={timezoneBadge}
+        title='Schedule'
+        description='View weekly room availability and choose a free 30-minute time slot.'
+        aside={<TimezoneBadge />}
       />
 
       <section

@@ -32,7 +32,7 @@ const AuthSubmitButton = ({
         />
       )}
 
-      <span className='cursor-default select-none'>{isLoading ? loadingLabel : label}</span>
+      <span className='select-none'>{isLoading ? loadingLabel : label}</span>
     </button>
   )
 }
