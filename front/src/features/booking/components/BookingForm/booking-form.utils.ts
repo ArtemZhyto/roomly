@@ -1,5 +1,5 @@
 // Types
-import type { BookingFormErrors, BookingFormValues } from '../../types'
+import type { BookingFormErrors, BookingFormValues } from './booking-form.types'
 
 // Constants
 import {

@@ -2,7 +2,7 @@
 import { AlertCircle } from 'lucide-react'
 
 // Types
-import type { BookingFormStatus } from '../../types'
+import type { BookingFormStatus } from './booking-form.types'
 
 // Styles
 import styles from './BookingForm.module.scss'

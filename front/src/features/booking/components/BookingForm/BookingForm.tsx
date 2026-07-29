@@ -4,7 +4,7 @@
 import type { Room } from '@features/rooms'
 
 // Types
-import type { BookingFormStatus, BookingFormValues } from '../../types'
+import type { BookingFormStatus, BookingFormValues } from './booking-form.types'
 
 // Components
 import BookingFormActions from './BookingFormActions'
