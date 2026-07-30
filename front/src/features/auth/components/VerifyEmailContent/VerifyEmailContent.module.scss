@@ -99,6 +99,40 @@
   }
 }
 
+.codeInput {
+  width: 100%;
+  min-height: 58px;
+  border: 1px solid var(--border-primary);
+  border-radius: 10px;
+  background: var(--surface-primary);
+  color: var(--text-primary);
+  padding: 0 18px;
+  font-family: var(--font-afacad);
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: 0.35em;
+  text-align: center;
+  outline: none;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background-color 160ms ease;
+
+  &::placeholder {
+    color: var(--text-muted);
+    opacity: 0.55;
+  }
+
+  &:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 18%, transparent);
+  }
+
+  &[aria-invalid='true'] {
+    border-color: var(--error);
+  }
+}
+
 @keyframes verify-email-spin {
   to {
     transform: rotate(360deg);

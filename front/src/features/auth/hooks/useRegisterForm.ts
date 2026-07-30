@@ -2,15 +2,20 @@
 
 // Modules
 import { type ChangeEvent, type FormEvent, useState } from 'react'
+import { useRouter } from 'next/navigation'
+
+// API
+import { register } from '../api'
+import { useAuth } from '@providers/AuthProvider'
 
 // Lib
+import { normalizeApiError } from '@lib/api'
 import {
   validateConfirmedPassword,
   validateEmail,
   validateName,
   validatePassword,
 } from '../lib/authValidation'
-// import normalizeEmail from '../lib/normalizeEmail'
 
 // Types
 import type { RegisterErrors, RegisterValues } from '../types/register.types'
@@ -23,9 +28,15 @@ const initialValues: RegisterValues = {
   acceptedTerms: false,
 }
 
+const DEFAULT_REGISTER_ERROR = 'We couldn’t create your account. Please try again.'
+
 const useRegisterForm = () => {
+  const router = useRouter()
+  const { refreshUser } = useAuth()
+
   const [values, setValues] = useState<RegisterValues>(initialValues)
   const [errors, setErrors] = useState<RegisterErrors>({})
+
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -82,10 +93,15 @@ const useRegisterForm = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
+    if (isSubmitting) {
+      return
+    }
+
     const validationErrors = validate()
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors)
+
       return
     }
 
@@ -93,11 +109,49 @@ const useRegisterForm = () => {
     setErrors({})
 
     try {
-      // TODO: Send payload to the registration API.
-      await new Promise((resolve) => setTimeout(resolve, 600))
-    } catch {
+      const email = values.email.trim().toLowerCase()
+
+      await register({
+        name: values.name.trim(),
+        email,
+        password: values.password,
+        confirmPassword: values.confirmPassword,
+      })
+
+      const currentUser = await refreshUser()
+
+      if (!currentUser) {
+        setErrors({
+          form: 'Account was created, but the session could not be restored.',
+        })
+
+        return
+      }
+
+      router.replace(`/verify-email?email=${encodeURIComponent(email)}`)
+      router.refresh()
+    } catch (error) {
+      const apiError = normalizeApiError(error)
+
+      const nameError = apiError.fieldErrors.name?.[0]
+
+      const emailError = apiError.fieldErrors.email?.[0]
+
+      const passwordError = apiError.fieldErrors.password?.[0]
+
+      const confirmPasswordError = apiError.fieldErrors.confirmPassword?.[0]
+
+      const hasFieldErrors = Boolean(
+        nameError || emailError || passwordError || confirmPasswordError,
+      )
+
       setErrors({
-        form: 'We couldn’t create your account. Please try again.',
+        name: nameError,
+        email:
+          emailError ?? (apiError.status === 409 ? 'This email is already in use.' : undefined),
+        password: passwordError,
+        confirmPassword: confirmPasswordError,
+        form: hasFieldErrors ? undefined : apiError.message || DEFAULT_REGISTER_ERROR,
       })
     } finally {
       setIsSubmitting(false)

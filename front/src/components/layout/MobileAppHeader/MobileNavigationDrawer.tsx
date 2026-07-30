@@ -96,11 +96,7 @@ const MobileNavigationDrawer = ({
           </div>
 
           <div className={`${styles.footer} p-4`}>
-            <SidebarUserCard
-              user={user}
-              isLogoutLoading={isLogoutLoading}
-              onLogout={handleLogout}
-            />
+            <SidebarUserCard user={user} />
           </div>
         </div>
       </aside>

@@ -7,6 +7,7 @@ import { Afacad, Prosto_One } from 'next/font/google'
 // Components
 import ThemeProvider from '@providers/ThemeProvider'
 import ThemeScript from '@components-shared/ThemeScript'
+import AuthProvider from '@providers/AuthProvider'
 
 // Types
 import type { Metadata } from 'next'
@@ -38,7 +39,9 @@ const RootLayout = ({ children }: LayoutT) => {
         <ThemeScript />
       </head>
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

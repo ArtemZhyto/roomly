@@ -100,18 +100,6 @@ const LoginFields = ({
 
         {errors.password && <FieldError id='login-password-error' message={errors.password} />}
       </div>
-
-      <label className='flex cursor-pointer items-center gap-2.5 text-[15px] text-text-secondary'>
-        <input
-          type='checkbox'
-          name='remember'
-          checked={values.remember}
-          onChange={onChange}
-          className='size-4.25 shrink-0 cursor-pointer accent-primary'
-        />
-
-        <span>Keep me signed in</span>
-      </label>
     </>
   )
 }

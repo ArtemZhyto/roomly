@@ -25,6 +25,7 @@
       "@components-ui/*": ["./src/components/ui/*"],
       "@features/*": ["./src/features/*"],
       "@config/*": ["./src/config/*"],
+      "@lib/*": ["./src/lib/*"],
       "@providers/*": ["./src/providers/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@services/*": ["./src/services/*"],
@@ -40,7 +41,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/app/page.tsx",
-    "src/middleware"
+    "src/middleware.ts"
   ],
   "exclude": ["node_modules", ".next"]
 }

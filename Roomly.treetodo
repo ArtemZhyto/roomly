@@ -210,7 +210,7 @@
         {
           "id": "item-24e72b0c-b7be-49a8-9330-b899890316ec",
           "title": "Restore authenticated user on application startup",
-          "completed": false
+          "completed": true
         }
       ],
       "x": -212.76274816415363,

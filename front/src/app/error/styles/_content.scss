@@ -1,0 +1,45 @@
+.icon {
+  display: grid;
+  width: 64px;
+  height: 64px;
+  place-items: center;
+
+  border-radius: 20px;
+
+  color: var(--color-danger);
+  background: color-mix(in srgb, var(--color-danger) 10%, transparent);
+}
+
+.code {
+  margin-top: 24px;
+
+  color: var(--color-danger);
+
+  font-size: 13px;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.title {
+  max-width: 460px;
+
+  margin: 10px 0 0;
+
+  color: var(--color-text-primary);
+
+  font-size: clamp(26px, 5vw, 36px);
+  font-weight: 780;
+  line-height: 1.15;
+}
+
+.description {
+  max-width: 430px;
+
+  margin: 16px 0 0;
+
+  color: var(--color-text-secondary);
+
+  font-size: 15px;
+  line-height: 1.65;
+}

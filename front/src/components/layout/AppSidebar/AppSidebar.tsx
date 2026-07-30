@@ -28,7 +28,7 @@ const AppSidebar = ({ user, isLogoutLoading = false, onLogout }: AppSidebarProps
         </div>
 
         <div className={`${styles.footer} p-4`}>
-          <SidebarUserCard user={user} isLogoutLoading={isLogoutLoading} onLogout={handleLogout} />
+          <SidebarUserCard user={user} />
         </div>
       </div>
     </aside>

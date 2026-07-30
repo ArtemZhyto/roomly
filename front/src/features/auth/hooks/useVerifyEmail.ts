@@ -1,78 +1,104 @@
 'use client'
 
 // Modules
-import { useEffect, useState } from 'react'
+import { type ChangeEvent, type FormEvent, useState } from 'react'
+
+// API
+import { resendVerification, verifyEmail } from '../api'
+
+// Providers
+import { useAuth } from '@providers/AuthProvider'
+
+// Lib
+import { normalizeApiError } from '@lib/api'
 
 // Types
 import type { VerificationStatus } from '../types/verification.types'
 
-const useVerifyEmail = (token?: string, email?: string) => {
-  const [status, setStatus] = useState<VerificationStatus>('loading')
+const CODE_PATTERN = /^\d{6}$/
+
+const useVerifyEmail = () => {
+  const { refreshUser } = useAuth()
+
+  const [code, setCode] = useState('')
+  const [status, setStatus] = useState<VerificationStatus>('idle')
 
   const [error, setError] = useState<string>()
+
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [isResending, setIsResending] = useState(false)
   const [isResent, setIsResent] = useState(false)
 
-  useEffect(() => {
-    let isMounted = true
+  const handleCodeChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const nextCode = event.target.value.replace(/\D/g, '').slice(0, 6)
 
-    const verifyEmail = async () => {
-      setStatus('loading')
-      setError(undefined)
+    setCode(nextCode)
+    setError(undefined)
+    setIsResent(false)
+  }
 
-      if (!token) {
-        setStatus('error')
-        setError('This verification link is missing or invalid.')
-        return
-      }
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
 
-      try {
-        // TODO: Verify email through the auth API.
-        await new Promise((resolve) => setTimeout(resolve, 700))
-
-        if (isMounted) {
-          setStatus('success')
-        }
-      } catch {
-        if (isMounted) {
-          setStatus('error')
-          setError('We couldn’t verify your email. The link may have expired.')
-        }
-      }
+    if (isSubmitting) {
+      return
     }
 
-    void verifyEmail()
+    if (!CODE_PATTERN.test(code)) {
+      setError('Enter the 6-digit verification code.')
 
-    return () => {
-      isMounted = false
+      return
     }
-  }, [token])
+
+    setIsSubmitting(true)
+    setError(undefined)
+
+    try {
+      await verifyEmail({ code })
+
+      await refreshUser()
+
+      setStatus('success')
+    } catch (requestError) {
+      const apiError = normalizeApiError(requestError)
+
+      setError(apiError.message || 'We couldn’t verify your email. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   const resendVerificationEmail = async () => {
-    if (!email || isResending) {
+    if (isResending) {
       return
     }
 
     setIsResending(true)
     setIsResent(false)
+    setError(undefined)
 
     try {
-      // TODO: Resend verification email through the auth API.
-      await new Promise((resolve) => setTimeout(resolve, 600))
+      await resendVerification()
 
       setIsResent(true)
-    } catch {
-      setError('We couldn’t resend the verification email. Please try again.')
+    } catch (requestError) {
+      const apiError = normalizeApiError(requestError)
+
+      setError(apiError.message || 'We couldn’t send a new verification code.')
     } finally {
       setIsResending(false)
     }
   }
 
   return {
+    code,
     status,
     error,
+    isSubmitting,
     isResending,
     isResent,
+    handleCodeChange,
+    handleSubmit,
     resendVerificationEmail,
   }
 }

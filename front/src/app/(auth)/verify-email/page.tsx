@@ -11,15 +11,14 @@ export const metadata: Metadata = {
 
 interface VerifyEmailPageProps {
   searchParams: Promise<{
-    token?: string
     email?: string
   }>
 }
 
 const VerifyEmailPage = async ({ searchParams }: VerifyEmailPageProps) => {
-  const { token, email } = await searchParams
+  const { email } = await searchParams
 
-  return <VerifyEmailContent token={token} email={email} />
+  return <VerifyEmailContent email={email} />
 }
 
 export default VerifyEmailPage
