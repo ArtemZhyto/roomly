@@ -16,8 +16,9 @@ import styles from './MobileAppHeader.module.scss'
 
 const DESKTOP_MEDIA_QUERY = '(min-width: 961px)'
 
-const MobileAppHeader = ({ user, isLogoutLoading = false, onLogout }: MobileAppHeaderProps) => {
+const MobileAppHeader = ({ user }: MobileAppHeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+
   const [disableAnimation, setDisableAnimation] = useState(false)
 
   const closeMenu = useCallback(() => {
@@ -37,11 +38,6 @@ const MobileAppHeader = ({ user, isLogoutLoading = false, onLogout }: MobileAppH
 
   const toggleMenu = () => {
     setIsMenuOpen((currentValue) => !currentValue)
-  }
-
-  const handleLogout = () => {
-    closeMenu()
-    onLogout?.()
   }
 
   useEffect(() => {
@@ -74,9 +70,7 @@ const MobileAppHeader = ({ user, isLogoutLoading = false, onLogout }: MobileAppH
         isOpen={isMenuOpen}
         disableAnimation={disableAnimation}
         user={user}
-        isLogoutLoading={isLogoutLoading}
         onClose={closeMenu}
-        onLogout={handleLogout}
       />
     </>
   )

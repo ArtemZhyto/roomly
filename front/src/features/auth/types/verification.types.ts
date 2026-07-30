@@ -24,3 +24,13 @@ export interface ResendVerificationProps {
   isResent: boolean
   onResend: () => void
 }
+
+export interface CheckEmailActionsProps {
+  email?: string
+  isResending: boolean
+  onResend: () => void
+}
+
+export interface CheckEmailContentProps {
+  email?: string
+}

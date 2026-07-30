@@ -5,7 +5,4 @@ export interface SidebarUserCardProps {
   user: AuthUser
 }
 
-export interface SidebarUserCardUser {
-  name: string
-  email: string
-}
+export type SidebarUserCardUser = AuthUser

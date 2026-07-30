@@ -11,11 +11,7 @@ import type { AppSidebarProps } from './appSidebar.types'
 // Styles
 import styles from './AppSidebar.module.scss'
 
-const AppSidebar = ({ user, isLogoutLoading = false, onLogout }: AppSidebarProps) => {
-  const handleLogout = () => {
-    onLogout?.()
-  }
-
+const AppSidebar = ({ user }: AppSidebarProps) => {
   return (
     <aside className={`${styles.sidebar} shrink-0`} aria-label='Application sidebar'>
       <div className='flex h-full flex-col'>

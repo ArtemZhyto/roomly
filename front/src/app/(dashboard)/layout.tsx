@@ -10,8 +10,10 @@ import styles from './dashboard-layout.module.scss'
 
 //! TEMP
 const dashboardUser = {
+  id: 1,
   name: 'Alex Morgan',
   email: 'alex@roomly.ua',
+  emailVerifiedAt: new Date().toISOString(),
 }
 
 const DashboardLayout = ({ children }: LayoutT) => {
