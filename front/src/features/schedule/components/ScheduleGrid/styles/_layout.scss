@@ -1,0 +1,54 @@
+.wrapper {
+  overflow: hidden;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.scrollArea {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+
+.calendar {
+  --time-column-width: 78px;
+  --day-column-width: minmax(150px, 1fr);
+  --slot-height: 38px;
+
+  display: grid;
+  min-width: 1120px;
+
+  grid-template-columns:
+    var(--time-column-width)
+    repeat(7, var(--day-column-width));
+
+  grid-template-rows: 74px auto;
+}
+
+.timeColumn,
+.dayColumn {
+  position: relative;
+
+  min-height: calc(20 * var(--slot-height));
+}
+
+.timeColumn {
+  position: sticky;
+  left: 0;
+  z-index: 3;
+
+  border-right: 1px solid var(--color-border);
+
+  background: var(--color-surface);
+}
+
+.dayColumn {
+  border-right: 1px solid var(--color-border);
+}
+
+.dayColumnToday {
+  background: color-mix(in srgb, var(--color-primary-subtle) 36%, transparent);
+}

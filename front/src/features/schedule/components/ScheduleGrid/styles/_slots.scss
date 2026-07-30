@@ -1,0 +1,85 @@
+.timeSlot,
+.gridSlot {
+  height: var(--slot-height);
+
+  border-top: 1px solid var(--color-border);
+}
+
+.timeSlot {
+  position: relative;
+
+  color: var(--color-text-muted);
+
+  font-size: 12px;
+  line-height: 1;
+
+  span {
+    position: absolute;
+    top: 13px;
+    right: 21.5px;
+
+    padding-inline: 3px;
+
+    background: var(--color-surface);
+  }
+}
+
+.gridSlot {
+  position: relative;
+
+  display: block;
+  width: 100%;
+  min-width: 0;
+
+  padding: 0;
+
+  border-right: 0;
+  border-bottom: 0;
+  border-left: 0;
+
+  color: inherit;
+  background: transparent;
+
+  appearance: none;
+}
+
+.gridSlotAvailable {
+  cursor: pointer;
+
+  transition:
+    background-color 160ms ease,
+    box-shadow 160ms ease;
+
+  &:hover {
+    z-index: 1;
+
+    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-primary) 42%, transparent);
+  }
+
+  &:focus-visible {
+    z-index: 2;
+
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+  }
+}
+
+.gridSlotOccupied,
+.gridSlotPast {
+  cursor: default;
+}
+
+.gridSlotPast {
+  background: color-mix(in srgb, var(--color-surface-muted) 36%, transparent);
+}
+
+.gridSlot:disabled {
+  opacity: 1;
+}
+
+.gridSlot:nth-child(even),
+.timeSlot:nth-child(even) {
+  border-top-style: dashed;
+}

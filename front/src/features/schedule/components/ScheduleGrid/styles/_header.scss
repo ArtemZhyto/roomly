@@ -1,0 +1,70 @@
+.headerCorner,
+.dayHeader {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+
+  border-bottom: 1px solid var(--color-border);
+
+  background: var(--color-surface);
+}
+
+.headerCorner {
+  left: 0;
+  z-index: 6;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-right: 1px solid var(--color-border);
+
+  color: var(--color-text-muted);
+
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.dayHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  border-right: 1px solid var(--color-border);
+}
+
+.dayHeaderToday {
+  color: var(--color-primary-active);
+  background: var(--color-primary-subtle);
+}
+
+.dayName {
+  color: var(--color-text-secondary);
+
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.dayNumber {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+
+  border-radius: 50%;
+
+  color: var(--color-text-primary);
+
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.dayHeaderToday .dayNumber {
+  color: var(--color-text-inverse);
+  background: var(--color-primary);
+}
