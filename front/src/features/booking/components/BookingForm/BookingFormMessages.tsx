@@ -9,30 +9,27 @@ import styles from './BookingForm.module.scss'
 
 interface BookingFormMessagesProps {
   status: BookingFormStatus
+  serverError?: string
 }
 
-const BookingFormMessages = ({ status }: BookingFormMessagesProps) => {
-  if (status === 'conflict') {
-    return (
-      <div className={styles.formMessage} role='alert'>
-        <AlertCircle size={18} strokeWidth={2} aria-hidden='true' />
-
-        <span>This time slot has already been booked. Choose another time.</span>
-      </div>
-    )
+const BookingFormMessages = ({ status, serverError }: BookingFormMessagesProps) => {
+  if (status !== 'conflict' && status !== 'error') {
+    return null
   }
 
-  if (status === 'error') {
-    return (
-      <div className={styles.formMessage} role='alert'>
-        <AlertCircle size={18} strokeWidth={2} aria-hidden='true' />
+  const message =
+    serverError ??
+    (status === 'conflict'
+      ? 'This time slot has already been booked. Choose another time.'
+      : 'The booking could not be created. Please try again.')
 
-        <span>The booking could not be created. Please try again.</span>
-      </div>
-    )
-  }
+  return (
+    <div className={styles.formMessage} role='alert'>
+      <AlertCircle size={18} strokeWidth={2} aria-hidden='true' />
 
-  return null
+      <span>{message}</span>
+    </div>
+  )
 }
 
 export default BookingFormMessages

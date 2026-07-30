@@ -506,7 +506,8 @@
         {
           "id": "task-8bb80138-ab91-42bf-9d79-53555d04c669",
           "title": "Display clear server validation errors",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-acc5e676-f0a9-4ca9-8fb2-4e09c9a66e6a",
@@ -517,7 +518,8 @@
         {
           "id": "task-493d38b5-5213-443d-a872-66dc0429e244",
           "title": "Refresh schedule after successful booking",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "item-375e2b24-c4fc-4de8-8cfc-912f892368dc",

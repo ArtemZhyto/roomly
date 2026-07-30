@@ -128,7 +128,7 @@ const useRegisterForm = () => {
         return
       }
 
-      router.replace(`/verify-email?email=${encodeURIComponent(email)}`)
+      router.replace(`/verify-email`)
       router.refresh()
     } catch (error) {
       const apiError = normalizeApiError(error)

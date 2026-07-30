@@ -4,7 +4,7 @@
 import { useMemo, useState, type FormEvent } from 'react'
 
 // Features
-import type { Room, RoomResponse } from '@features/rooms'
+import type { Room } from '@features/rooms'
 
 // Types
 import type { BookingFormErrors, BookingFormValues, UpdateBookingField } from './booking-form.types'
@@ -16,8 +16,7 @@ import { DEFAULT_END_TIME, DEFAULT_START_TIME } from './booking-form.constants'
 import { formatDuration, getDurationMinutes, validateBookingForm } from './booking-form.utils'
 
 interface UseBookingFormOptions {
-  rooms: RoomResponse[]
-  initialRoom?: Room
+  room: Room
   initialDate?: string
   initialStartTime?: string
   initialEndTime?: string
@@ -33,8 +32,7 @@ interface UseBookingFormResult {
 }
 
 const useBookingForm = ({
-  rooms,
-  initialRoom,
+  room,
   initialDate = '',
   initialStartTime = DEFAULT_START_TIME,
   initialEndTime = DEFAULT_END_TIME,
@@ -42,7 +40,7 @@ const useBookingForm = ({
 }: UseBookingFormOptions): UseBookingFormResult => {
   const [values, setValues] = useState<BookingFormValues>({
     title: '',
-    roomId: initialRoom?.id ?? rooms[0]?.id ?? 0,
+    roomId: room.id,
     date: initialDate,
     startTime: initialStartTime,
     endTime: initialEndTime,
@@ -85,6 +83,7 @@ const useBookingForm = ({
 
     onSubmit?.({
       ...values,
+      roomId: room.id,
       title: values.title.trim(),
     })
   }
