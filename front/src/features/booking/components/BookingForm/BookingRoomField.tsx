@@ -16,12 +16,14 @@ const BookingRoomField = ({ room }: BookingRoomFieldProps) => {
     <div className={styles.field}>
       <span className={styles.label}>Meeting room</span>
 
-      <div className={`${styles.control} ${styles.controlWithIcon}`}>
+      <div className={styles.controlWrapper}>
         <DoorOpen className={styles.controlIcon} size={17} strokeWidth={2} aria-hidden='true' />
 
-        <span>
-          {room.name} · Floor {room.floor} · {room.capacity} people
-        </span>
+        <div className={`${styles.control} ${styles.controlWithIcon} ${styles.readonlyControl}`}>
+          <span>
+            {room.name} · Floor {room.floor} · {room.capacity} people
+          </span>
+        </div>
       </div>
     </div>
   )

@@ -1,7 +1,7 @@
 'use client'
 
 // Modules
-import { useMemo } from 'react'
+import { useMemo, type CSSProperties } from 'react'
 
 // Components
 import ScheduleDayColumn from './ScheduleDayColumn'
@@ -9,12 +9,13 @@ import ScheduleDayHeader from './ScheduleDayHeader'
 import ScheduleTimeColumn from './ScheduleTimeColumn'
 
 // Constants
-import { OFFICE_END_HOUR, OFFICE_START_HOUR } from '../../constants'
-import { MINUTES_IN_HOUR } from './schedule-grid.constants'
+import { HOURS_IN_DAY, MINUTES_IN_HOUR } from './schedule-grid.constants'
 
 // Utils
-import { getScheduleSlots, getWeekDays } from '../../utils'
-import { formatScheduleTime, getMinutesFromOfficeStart } from './schedule-grid.utils'
+import { getWeekDays } from '../../utils'
+import { formatScheduleTime, getMinutesFromDayStart, getScheduleSlots } from './schedule-grid.utils'
+
+// Hooks
 import useCurrentTime from './useCurrentTime'
 
 // Types
@@ -30,13 +31,15 @@ const ScheduleGrid = ({ weekStart, bookings, roomId, onSelectSlot }: ScheduleGri
 
   const slots = useMemo<ScheduleGridSlot[]>(() => getScheduleSlots(), [])
 
-  const totalMinutes = (OFFICE_END_HOUR - OFFICE_START_HOUR) * MINUTES_IN_HOUR
+  const totalMinutes = HOURS_IN_DAY * MINUTES_IN_HOUR
 
-  const currentTimeMinutes = getMinutesFromOfficeStart(currentTime)
-
-  const isCurrentTimeVisible = currentTimeMinutes >= 0 && currentTimeMinutes <= totalMinutes
+  const currentTimeMinutes = getMinutesFromDayStart(currentTime)
 
   const currentTimePosition = (currentTimeMinutes / totalMinutes) * 100
+
+  const calendarStyle = {
+    '--slot-count': slots.length,
+  } as CSSProperties
 
   return (
     <section className={styles.wrapper} aria-label='Weekly room schedule'>
@@ -45,13 +48,11 @@ const ScheduleGrid = ({ weekStart, bookings, roomId, onSelectSlot }: ScheduleGri
 
         <span>Current time: {formatScheduleTime(currentTime)}</span>
 
-        {!isCurrentTimeVisible && (
-          <span className={styles.currentTimeStatusNote}>Outside office hours</span>
-        )}
+        <span className={styles.currentTimeStatusNote}>Office hours: 09:00–19:00 Europe/Kyiv</span>
       </div>
 
       <div className={styles.scrollArea}>
-        <div className={styles.calendar}>
+        <div className={styles.calendar} style={calendarStyle}>
           <div className={styles.headerCorner}>Time</div>
 
           {weekDays.map((day) => (
@@ -69,7 +70,7 @@ const ScheduleGrid = ({ weekStart, bookings, roomId, onSelectSlot }: ScheduleGri
               currentTime={currentTime}
               totalMinutes={totalMinutes}
               currentTimePosition={currentTimePosition}
-              isCurrentTimeVisible={isCurrentTimeVisible}
+              isCurrentTimeVisible
               roomId={roomId}
               onSelectSlot={onSelectSlot}
             />

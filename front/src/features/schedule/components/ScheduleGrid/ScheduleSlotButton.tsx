@@ -9,6 +9,7 @@ import {
   formatDateForInput,
   formatScheduleTime,
   isSlotOccupied,
+  isWithinOfficeHours,
 } from './schedule-grid.utils'
 
 // Styles
@@ -34,14 +35,19 @@ const ScheduleSlotButton = ({
   const slotStart = createSlotStart(day, slot.index)
 
   const slotEnd = createSlotEnd(slotStart)
+
   const occupied = isSlotOccupied(slotStart, slotEnd, bookings)
 
-  const isPast = slotStart.getTime() <= currentTime.getTime()
-  const isAvailable = !occupied && !isPast
+  const isInsideOfficeHours = isWithinOfficeHours(slotStart, slotEnd)
 
-  const date = formatDateForInput(day)
+  const isPast = slotStart.getTime() <= currentTime.getTime()
+
+  const isAvailable = isInsideOfficeHours && !occupied && !isPast
+
+  const date = formatDateForInput(slotStart)
 
   const startTime = formatScheduleTime(slotStart)
+
   const endTime = formatScheduleTime(slotEnd)
 
   const slotLabel = `${date}, ${startTime} – ${endTime}`
@@ -50,6 +56,7 @@ const ScheduleSlotButton = ({
     styles.gridSlot,
     occupied ? styles.gridSlotOccupied : '',
     isPast ? styles.gridSlotPast : '',
+    !isInsideOfficeHours ? styles.gridSlotOutsideOffice : '',
     isAvailable ? styles.gridSlotAvailable : '',
   ]
     .filter(Boolean)
@@ -79,7 +86,9 @@ const ScheduleSlotButton = ({
           ? `Book room on ${slotLabel}`
           : occupied
             ? `Occupied slot: ${slotLabel}`
-            : `Unavailable past slot: ${slotLabel}`
+            : !isInsideOfficeHours
+              ? `Outside office hours: ${slotLabel}`
+              : `Unavailable past slot: ${slotLabel}`
       }
     />
   )
