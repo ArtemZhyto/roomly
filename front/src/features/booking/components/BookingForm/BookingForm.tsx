@@ -1,7 +1,7 @@
 'use client'
 
 // Features
-import type { Room, RoomResponse } from '@features/rooms'
+import type { Room } from '@features/rooms'
 
 // Types
 import type { BookingFormStatus, BookingFormValues } from './booking-form.types'
@@ -21,31 +21,30 @@ import useBookingForm from './useBookingForm'
 import styles from './BookingForm.module.scss'
 
 interface BookingFormProps {
-  rooms: RoomResponse[]
-  initialRoom?: Room
+  room: Room
   initialDate?: string
   initialStartTime?: string
   initialEndTime?: string
   status?: BookingFormStatus
+  serverError?: string
   closeModal?: () => void
   onCancel: () => void
   onSubmit?: (values: BookingFormValues) => void
 }
 
 const BookingForm = ({
-  rooms,
-  initialRoom,
+  room,
   initialDate = '',
   initialStartTime = DEFAULT_START_TIME,
   initialEndTime = DEFAULT_END_TIME,
   status = 'idle',
+  serverError,
   closeModal,
   onCancel,
   onSubmit,
 }: BookingFormProps) => {
   const { values, errors, durationLabel, updateField, handleSubmit } = useBookingForm({
-    rooms,
-    initialRoom,
+    room,
     initialDate,
     initialStartTime,
     initialEndTime,
@@ -56,10 +55,10 @@ const BookingForm = ({
 
   return (
     <form className={styles.form} noValidate onSubmit={handleSubmit}>
-      <BookingFormMessages status={status} />
+      <BookingFormMessages status={status} serverError={serverError} />
 
       <BookingFormFields
-        rooms={rooms}
+        room={room}
         values={values}
         errors={errors}
         durationLabel={durationLabel}

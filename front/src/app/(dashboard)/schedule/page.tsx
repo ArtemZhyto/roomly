@@ -12,11 +12,11 @@ import TimezoneBadge from '@components-shared/TimezoneBadge'
 import EmptyState from '@components-ui/EmptyState'
 
 // Features
-import { getRoomById, getRooms } from '@features/rooms'
+import { getRoomById } from '@features/rooms'
 import { ScheduleLoadingState, WeeklySchedule } from '@features/schedule'
 
 // Types
-import type { Room, RoomResponse } from '@features/rooms'
+import type { Room } from '@features/rooms'
 
 type SchedulePageStatus = 'loading' | 'success' | 'error'
 
@@ -47,7 +47,6 @@ const SchedulePage = () => {
   const searchParams = useSearchParams()
 
   const [selectedRoom, setSelectedRoom] = useState<Room | null>(null)
-  const [rooms, setRooms] = useState<RoomResponse[]>([])
   const [status, setStatus] = useState<SchedulePageStatus>('loading')
 
   const roomParam = searchParams.get('room')
@@ -62,7 +61,6 @@ const SchedulePage = () => {
       setSelectedRoom(null)
 
       if (!Number.isInteger(roomId) || roomId <= 0) {
-        setRooms([])
         setStatus('success')
 
         return
@@ -71,17 +69,15 @@ const SchedulePage = () => {
       setStatus('loading')
 
       try {
-        const [roomData, roomsData] = await Promise.all([getRoomById(roomId), getRooms()])
+        const roomData = await getRoomById(roomId)
 
         setSelectedRoom({
           ...roomData,
           status: 'available',
         })
 
-        setRooms(roomsData)
         setStatus('success')
       } catch {
-        setRooms([])
         setStatus('error')
       }
     }
@@ -134,7 +130,7 @@ const SchedulePage = () => {
       )}
 
       {status === 'success' && selectedRoom && (
-        <WeeklySchedule room={selectedRoom} rooms={rooms} initialDate={initialDate} />
+        <WeeklySchedule room={selectedRoom} initialDate={initialDate} />
       )}
 
       {status === 'success' && !selectedRoom && (

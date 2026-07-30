@@ -1,11 +1,19 @@
 'use client'
 
 // Modules
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+
+// Lib
+import { normalizeApiError } from '@lib/api/api-error'
 
 // Features
 import { getRoomAvailability, type Room } from '@features/rooms'
-import type { BookingFormStatus } from '@features/booking'
+import {
+  createBooking,
+  createBookingDateTime,
+  type BookingFormStatus,
+  type BookingFormValues,
+} from '@features/booking'
 
 // Providers
 import { useAuth } from '@providers/AuthProvider'
@@ -15,8 +23,6 @@ import type { ScheduleBooking, ScheduleSlotSelection } from '../../types'
 
 // Utils
 import { addWeeks, formatWeekRange, getStartOfWeek, isSameDay } from '../../utils'
-
-const MOCK_SUBMIT_DELAY = 900
 
 interface UseWeeklyScheduleOptions {
   room: Room
@@ -34,8 +40,6 @@ const useWeeklySchedule = ({ room, initialDate }: UseWeeklyScheduleOptions) => {
     return getStartOfWeek(initialDate ?? new Date())
   }, [initialDate])
 
-  const submitTimeoutRef = useRef<number | null>(null)
-
   const [weekStart, setWeekStart] = useState(initialWeekStart)
 
   const [roomBookings, setRoomBookings] = useState<ScheduleBooking[]>([])
@@ -45,6 +49,8 @@ const useWeeklySchedule = ({ room, initialDate }: UseWeeklyScheduleOptions) => {
   const [isBookingDialogOpen, setIsBookingDialogOpen] = useState(false)
 
   const [bookingStatus, setBookingStatus] = useState<BookingFormStatus>('idle')
+
+  const [bookingError, setBookingError] = useState<string>()
 
   const [selectedSlot, setSelectedSlot] = useState<ScheduleSlotSelection | null>(null)
 
@@ -100,14 +106,6 @@ const useWeeklySchedule = ({ room, initialDate }: UseWeeklyScheduleOptions) => {
     }
   }, [room.id, user?.id, weekStart])
 
-  useEffect(() => {
-    return () => {
-      if (submitTimeoutRef.current !== null) {
-        window.clearTimeout(submitTimeoutRef.current)
-      }
-    }
-  }, [])
-
   const weekRange = useMemo(() => formatWeekRange(weekStart), [weekStart])
 
   const isCurrentWeek = isSameDay(weekStart, currentWeekStart)
@@ -133,34 +131,63 @@ const useWeeklySchedule = ({ room, initialDate }: UseWeeklyScheduleOptions) => {
   const handleOpenBookingDialog = () => {
     setSelectedSlot(null)
     setBookingStatus('idle')
+    setBookingError(undefined)
     setIsBookingDialogOpen(true)
   }
 
   const handleSelectSlot = (selection: ScheduleSlotSelection) => {
     setSelectedSlot(selection)
     setBookingStatus('idle')
+    setBookingError(undefined)
     setIsBookingDialogOpen(true)
   }
 
   const handleCloseBookingDialog = () => {
-    if (submitTimeoutRef.current !== null) {
-      window.clearTimeout(submitTimeoutRef.current)
-
-      submitTimeoutRef.current = null
-    }
-
     setIsBookingDialogOpen(false)
     setBookingStatus('idle')
+    setBookingError(undefined)
     setSelectedSlot(null)
   }
 
-  const handleBookingSubmit = () => {
+  const handleBookingSubmit = async (values: BookingFormValues) => {
     setBookingStatus('loading')
+    setBookingError(undefined)
 
-    submitTimeoutRef.current = window.setTimeout(() => {
+    try {
+      await createBooking({
+        roomId: room.id,
+        title: values.title.trim(),
+        startTime: createBookingDateTime(values.date, values.startTime),
+        endTime: createBookingDateTime(values.date, values.endTime),
+      })
+
+      const weekEnd = addWeeks(weekStart, 1)
+
+      const bookings = await getRoomAvailability({
+        roomId: room.id,
+        from: weekStart,
+        to: weekEnd,
+      })
+
+      const mappedBookings: ScheduleBooking[] = bookings.map((booking) => ({
+        id: booking.id,
+        roomId: room.id,
+        title: booking.title,
+        authorName: booking.user.name,
+        startAt: booking.startTime,
+        endAt: booking.endTime,
+        ownership: booking.user.id === user?.id ? 'own' : 'other',
+      }))
+
+      setRoomBookings(mappedBookings)
       setBookingStatus('success')
-      submitTimeoutRef.current = null
-    }, MOCK_SUBMIT_DELAY)
+    } catch (error) {
+      const normalizedError = normalizeApiError(error)
+
+      setBookingError(normalizedError.message)
+
+      setBookingStatus(normalizedError.status === 409 ? 'conflict' : 'error')
+    }
   }
 
   return {
@@ -171,6 +198,7 @@ const useWeeklySchedule = ({ room, initialDate }: UseWeeklyScheduleOptions) => {
     scheduleStatus,
     isBookingDialogOpen,
     bookingStatus,
+    bookingError,
     selectedSlot,
     bookingFormKey,
     handlePreviousWeek,

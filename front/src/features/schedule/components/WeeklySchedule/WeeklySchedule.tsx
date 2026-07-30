@@ -1,7 +1,7 @@
 'use client'
 
 // Features
-import type { Room, RoomResponse } from '@features/rooms'
+import type { Room } from '@features/rooms'
 import { BookingDialog, BookingForm } from '@features/booking'
 
 // Components
@@ -16,11 +16,10 @@ import useWeeklySchedule from './useWeeklySchedule'
 
 interface WeeklyScheduleProps {
   room: Room
-  rooms: RoomResponse[]
   initialDate?: Date
 }
 
-const WeeklySchedule = ({ room, rooms, initialDate }: WeeklyScheduleProps) => {
+const WeeklySchedule = ({ room, initialDate }: WeeklyScheduleProps) => {
   const {
     weekStart,
     weekRange,
@@ -29,6 +28,7 @@ const WeeklySchedule = ({ room, rooms, initialDate }: WeeklyScheduleProps) => {
     scheduleStatus,
     isBookingDialogOpen,
     bookingStatus,
+    bookingError,
     selectedSlot,
     bookingFormKey,
     handlePreviousWeek,
@@ -90,12 +90,12 @@ const WeeklySchedule = ({ room, rooms, initialDate }: WeeklyScheduleProps) => {
         ) : (
           <BookingForm
             key={bookingFormKey}
-            rooms={rooms}
-            initialRoom={room}
+            room={room}
             initialDate={selectedSlot?.date}
             initialStartTime={selectedSlot?.startTime}
             initialEndTime={selectedSlot?.endTime}
             status={bookingStatus}
+            serverError={bookingError}
             onCancel={handleCloseBookingDialog}
             onSubmit={handleBookingSubmit}
           />

@@ -34,7 +34,7 @@ const DashboardPage = () => {
             <div>
               <p className='m-0 text-sm text-text-muted'>Available rooms</p>
 
-              <p className='mt-1 text-2xl font-bold text-text-primary'>—</p>
+              <p className='mt-1 text-2xl font-bold text-text-primary'>-</p>
             </div>
           </div>
         </section>
@@ -48,7 +48,7 @@ const DashboardPage = () => {
             <div>
               <p className='m-0 text-sm text-text-muted'>Upcoming bookings</p>
 
-              <p className='mt-1 text-2xl font-bold text-text-primary'>—</p>
+              <p className='mt-1 text-2xl font-bold text-text-primary'>-</p>
             </div>
           </div>
         </section>

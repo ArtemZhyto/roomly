@@ -175,3 +175,13 @@ export const formatDateInputValue = (date: Date): string => {
 
   return `${year}-${month}-${day}`
 }
+
+export const createBookingDateTime = (date: string, time: string): string => {
+  const value = new Date(`${date}T${time}:00`)
+
+  if (Number.isNaN(value.getTime())) {
+    throw new Error('Invalid booking date or time')
+  }
+
+  return value.toISOString()
+}
