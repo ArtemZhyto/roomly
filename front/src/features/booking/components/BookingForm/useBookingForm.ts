@@ -7,24 +7,19 @@ import { useMemo, useState, type FormEvent } from 'react'
 import { mockRooms, type Room } from '@features/rooms'
 
 // Types
-import type { BookingFormErrors, BookingFormValues } from './booking-form.types'
-import type { UpdateBookingField } from './booking-form.types'
+import type { BookingFormErrors, BookingFormValues, UpdateBookingField } from './booking-form.types'
 
 // Constants
-import { DEFAULT_START_TIME } from './booking-form.constants'
+import { DEFAULT_END_TIME, DEFAULT_START_TIME } from './booking-form.constants'
 
 // Utils
-import {
-  formatDuration,
-  getDefaultEndTime,
-  getDurationMinutes,
-  validateBookingForm,
-} from './booking-form.utils'
+import { formatDuration, getDurationMinutes, validateBookingForm } from './booking-form.utils'
 
 interface UseBookingFormOptions {
   initialRoom?: Room
   initialDate?: string
   initialStartTime?: string
+  initialEndTime?: string
   onSubmit?: (values: BookingFormValues) => void
 }
 
@@ -40,15 +35,16 @@ const useBookingForm = ({
   initialRoom,
   initialDate = '',
   initialStartTime = DEFAULT_START_TIME,
+  initialEndTime = DEFAULT_END_TIME,
   onSubmit,
 }: UseBookingFormOptions): UseBookingFormResult => {
-  const [values, setValues] = useState<BookingFormValues>(() => ({
+  const [values, setValues] = useState<BookingFormValues>({
     title: '',
     roomId: initialRoom?.id ?? mockRooms[0]?.id ?? 0,
     date: initialDate,
     startTime: initialStartTime,
-    endTime: getDefaultEndTime(initialStartTime),
-  }))
+    endTime: initialEndTime,
+  })
 
   const [errors, setErrors] = useState<BookingFormErrors>({})
 

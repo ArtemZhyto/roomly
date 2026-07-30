@@ -6,6 +6,9 @@ import type { Room } from '@features/rooms'
 // Types
 import type { BookingFormStatus, BookingFormValues } from './booking-form.types'
 
+// Constants
+import { DEFAULT_END_TIME, DEFAULT_START_TIME } from './booking-form.constants'
+
 // Components
 import BookingFormActions from './BookingFormActions'
 import BookingFormFields from './BookingFormFields'
@@ -21,6 +24,7 @@ interface BookingFormProps {
   initialRoom?: Room
   initialDate?: string
   initialStartTime?: string
+  initialEndTime?: string
   status?: BookingFormStatus
   closeModal?: () => void
   onCancel: () => void
@@ -29,8 +33,9 @@ interface BookingFormProps {
 
 const BookingForm = ({
   initialRoom,
-  initialDate,
-  initialStartTime,
+  initialDate = '',
+  initialStartTime = DEFAULT_START_TIME,
+  initialEndTime = DEFAULT_END_TIME,
   status = 'idle',
   closeModal,
   onCancel,
@@ -40,6 +45,7 @@ const BookingForm = ({
     initialRoom,
     initialDate,
     initialStartTime,
+    initialEndTime,
     onSubmit,
   })
 

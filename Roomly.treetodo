@@ -446,7 +446,8 @@
         {
           "id": "task-d4137152-c4de-4f2d-a213-a8a43fce59a5",
           "title": "Allow selection from the calendar grid",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-ae21ad03-51b6-43f3-8cb1-7a37d4ce607b",

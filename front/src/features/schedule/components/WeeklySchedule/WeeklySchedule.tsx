@@ -12,6 +12,9 @@ import { BookingDialog, BookingForm, type BookingFormStatus } from '@features/bo
 import ScheduleGrid from '../ScheduleGrid'
 import ScheduleToolbar from '../ScheduleToolbar'
 
+// Types
+import type { ScheduleSlotSelection } from '../../types'
+
 // Data
 import { mockBookings } from '../../data'
 
@@ -30,6 +33,8 @@ const WeeklySchedule = ({ room }: WeeklyScheduleProps) => {
   const [isBookingDialogOpen, setIsBookingDialogOpen] = useState(false)
 
   const [bookingStatus, setBookingStatus] = useState<BookingFormStatus>('idle')
+
+  const [selectedSlot, setSelectedSlot] = useState<ScheduleSlotSelection | null>(null)
 
   const weekRange = useMemo(() => formatWeekRange(weekStart), [weekStart])
 
@@ -53,6 +58,13 @@ const WeeklySchedule = ({ room }: WeeklyScheduleProps) => {
   }
 
   const handleOpenBookingDialog = () => {
+    setSelectedSlot(null)
+    setBookingStatus('idle')
+    setIsBookingDialogOpen(true)
+  }
+
+  const handleSelectSlot = (selection: ScheduleSlotSelection) => {
+    setSelectedSlot(selection)
     setBookingStatus('idle')
     setIsBookingDialogOpen(true)
   }
@@ -60,6 +72,7 @@ const WeeklySchedule = ({ room }: WeeklyScheduleProps) => {
   const handleCloseBookingDialog = () => {
     setIsBookingDialogOpen(false)
     setBookingStatus('idle')
+    setSelectedSlot(null)
   }
 
   const handleBookingSubmit = () => {
@@ -69,6 +82,12 @@ const WeeklySchedule = ({ room }: WeeklyScheduleProps) => {
       setBookingStatus('success')
     }, 900)
   }
+
+  const bookingFormKey = selectedSlot
+    ? [selectedSlot.roomId, selectedSlot.date, selectedSlot.startTime, selectedSlot.endTime].join(
+        '-',
+      )
+    : `manual-${room.id}`
 
   return (
     <>
@@ -93,7 +112,12 @@ const WeeklySchedule = ({ room }: WeeklyScheduleProps) => {
           </button>
         </div>
 
-        <ScheduleGrid weekStart={weekStart} bookings={roomBookings} />
+        <ScheduleGrid
+          weekStart={weekStart}
+          bookings={roomBookings}
+          roomId={room.id}
+          onSelectSlot={handleSelectSlot}
+        />
       </div>
 
       <BookingDialog isOpen={isBookingDialogOpen} onClose={handleCloseBookingDialog}>
@@ -120,7 +144,11 @@ const WeeklySchedule = ({ room }: WeeklyScheduleProps) => {
           </div>
         ) : (
           <BookingForm
+            key={bookingFormKey}
             initialRoom={room}
+            initialDate={selectedSlot?.date}
+            initialStartTime={selectedSlot?.startTime}
+            initialEndTime={selectedSlot?.endTime}
             status={bookingStatus}
             onCancel={handleCloseBookingDialog}
             onSubmit={handleBookingSubmit}

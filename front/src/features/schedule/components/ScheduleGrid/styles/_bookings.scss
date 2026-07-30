@@ -1,0 +1,68 @@
+.booking {
+  position: absolute;
+  z-index: 2;
+  right: 5px;
+  left: 5px;
+
+  display: flex;
+  min-height: 22px;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  padding: 7px 8px;
+
+  border: 1px solid transparent;
+  border-radius: 8px;
+
+  font-size: 12px;
+  line-height: 1.25;
+
+  cursor: default;
+  pointer-events: none;
+}
+
+.bookingOwn {
+  border-color: var(--color-primary);
+
+  color: var(--color-primary-active);
+  background: var(--color-primary-subtle);
+}
+
+.bookingOther {
+  border-color: var(--color-secondary);
+
+  color: var(--color-secondary-active);
+  background: var(--color-secondary-subtle);
+}
+
+.bookingTitle {
+  overflow: hidden;
+
+  font-size: 12px;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bookingAuthor,
+.bookingTime {
+  overflow: hidden;
+
+  margin-top: 2px;
+
+  opacity: 0.82;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bookingCompact {
+  justify-content: center;
+
+  padding-block: 3px;
+
+  .bookingTitle {
+    line-height: 1.1;
+  }
+}

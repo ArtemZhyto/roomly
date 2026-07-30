@@ -1,0 +1,23 @@
+@media (max-width: 720px) {
+  .calendar {
+    --time-column-width: 68px;
+    --day-column-width: 140px;
+    --slot-height: 36px;
+
+    min-width: max-content;
+  }
+
+  .dayHeader {
+    gap: 5px;
+  }
+
+  .booking {
+    padding: 6px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gridSlotAvailable {
+    transition: none;
+  }
+}

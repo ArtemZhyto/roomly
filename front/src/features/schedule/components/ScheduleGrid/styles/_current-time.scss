@@ -1,0 +1,65 @@
+.currentTimeLine {
+  position: absolute;
+  z-index: 3;
+  right: 0;
+  left: 0;
+
+  height: 1px;
+
+  background: var(--color-error);
+
+  pointer-events: none;
+}
+
+.currentTimeDot {
+  position: absolute;
+  top: 50%;
+  left: -5px;
+
+  width: 8px;
+  height: 8px;
+
+  border: 2px solid var(--color-surface);
+  border-radius: 50%;
+
+  background: var(--color-error);
+  box-shadow: 0 0 0 1px var(--color-error);
+
+  transform: translateY(-50%);
+}
+
+.currentTimeStatus {
+  display: flex;
+  min-height: 42px;
+  align-items: center;
+  gap: 8px;
+
+  padding: 0 16px;
+
+  border-bottom: 1px solid var(--color-border);
+
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.currentTimeStatusDot {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 auto;
+
+  border-radius: 50%;
+
+  background: var(--color-error);
+  box-shadow: 0 0 0 3px var(--color-error-light);
+}
+
+.currentTimeStatusNote {
+  margin-left: auto;
+
+  color: var(--color-text-muted);
+
+  font-weight: 500;
+}
