@@ -600,22 +600,26 @@
         {
           "id": "task-c76d11c3-5850-4f67-a904-4824aa14b36f",
           "title": "Display date, time, room, and booking title",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-29565eaf-0c80-4e1e-b2ce-98678fffdb5d",
           "title": "Display times in the user's time zone",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-8850b32c-8cd6-4e95-ba5c-b9b74798167e",
           "title": "Link booking rows to the corresponding calendar week",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-63f5f837-e2e0-4436-983e-50e0b16d4850",
           "title": "Allow cancellation of upcoming bookings",
-          "items": []
+          "items": [],
+          "completed": true
         }
       ],
       "x": -901.7208793071812,

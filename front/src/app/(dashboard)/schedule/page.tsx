@@ -14,7 +14,31 @@ import { WeeklySchedule } from '@features/schedule'
 interface SchedulePageProps {
   searchParams: Promise<{
     room?: string | string[]
+    date?: string | string[]
   }>
+}
+
+const parseScheduleDate = (value: string | undefined): Date | undefined => {
+  if (!value) {
+    return undefined
+  }
+
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value)
+
+  if (!match) {
+    return undefined
+  }
+
+  const year = Number(match[1])
+  const month = Number(match[2])
+  const day = Number(match[3])
+
+  const date = new Date(year, month - 1, day)
+
+  const isValidDate =
+    date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day
+
+  return isValidDate ? date : undefined
 }
 
 const SchedulePage = async ({ searchParams }: SchedulePageProps) => {
@@ -22,11 +46,15 @@ const SchedulePage = async ({ searchParams }: SchedulePageProps) => {
 
   const roomParam = Array.isArray(query.room) ? query.room[0] : query.room
 
+  const dateParam = Array.isArray(query.date) ? query.date[0] : query.date
+
   const roomId = Number(roomParam)
 
   const selectedRoom = Number.isInteger(roomId)
     ? mockRooms.find((room) => room.id === roomId)
     : undefined
+
+  const initialDate = parseScheduleDate(dateParam)
 
   const selectRoomAction = (
     <Link
@@ -47,7 +75,7 @@ const SchedulePage = async ({ searchParams }: SchedulePageProps) => {
       />
 
       {selectedRoom ? (
-        <WeeklySchedule room={selectedRoom} />
+        <WeeklySchedule room={selectedRoom} initialDate={initialDate} />
       ) : (
         <EmptyState
           icon={CalendarRange}

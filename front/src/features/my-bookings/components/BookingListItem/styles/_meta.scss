@@ -1,0 +1,22 @@
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+
+  margin-top: 10px;
+
+  color: var(--color-text-secondary);
+}
+
+.metaItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  font-size: 13px;
+  line-height: 1.4;
+
+  svg {
+    flex: 0 0 auto;
+  }
+}

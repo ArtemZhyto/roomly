@@ -20,16 +20,29 @@ const MOCK_SUBMIT_DELAY = 900
 
 interface UseWeeklyScheduleOptions {
   room: Room
+  initialDate?: Date
 }
 
-const useWeeklySchedule = ({ room }: UseWeeklyScheduleOptions) => {
+const useWeeklySchedule = ({ room, initialDate }: UseWeeklyScheduleOptions) => {
   const currentWeekStart = useMemo(() => getStartOfWeek(new Date()), [])
+
+  const initialWeekStart = useMemo(() => {
+    return getStartOfWeek(initialDate ?? new Date())
+  }, [initialDate])
+
   const submitTimeoutRef = useRef<number | null>(null)
 
-  const [weekStart, setWeekStart] = useState(currentWeekStart)
+  const [weekStart, setWeekStart] = useState(initialWeekStart)
+
   const [isBookingDialogOpen, setIsBookingDialogOpen] = useState(false)
+
   const [bookingStatus, setBookingStatus] = useState<BookingFormStatus>('idle')
+
   const [selectedSlot, setSelectedSlot] = useState<ScheduleSlotSelection | null>(null)
+
+  useEffect(() => {
+    setWeekStart(initialWeekStart)
+  }, [initialWeekStart])
 
   useEffect(() => {
     return () => {
@@ -40,6 +53,7 @@ const useWeeklySchedule = ({ room }: UseWeeklyScheduleOptions) => {
   }, [])
 
   const weekRange = useMemo(() => formatWeekRange(weekStart), [weekStart])
+
   const isCurrentWeek = isSameDay(weekStart, currentWeekStart)
 
   const roomBookings = useMemo(

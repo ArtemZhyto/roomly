@@ -15,9 +15,10 @@ import useWeeklySchedule from './useWeeklySchedule'
 
 interface WeeklyScheduleProps {
   room: Room
+  initialDate?: Date
 }
 
-const WeeklySchedule = ({ room }: WeeklyScheduleProps) => {
+const WeeklySchedule = ({ room, initialDate }: WeeklyScheduleProps) => {
   const {
     weekStart,
     weekRange,
@@ -36,6 +37,7 @@ const WeeklySchedule = ({ room }: WeeklyScheduleProps) => {
     handleBookingSubmit,
   } = useWeeklySchedule({
     room,
+    initialDate,
   })
 
   return (
