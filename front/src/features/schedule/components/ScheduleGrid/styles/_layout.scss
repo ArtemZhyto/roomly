@@ -32,7 +32,7 @@
 .dayColumn {
   position: relative;
 
-  min-height: calc(20 * var(--slot-height));
+  min-height: calc(var(--slot-count, 48) * var(--slot-height));
 }
 
 .timeColumn {

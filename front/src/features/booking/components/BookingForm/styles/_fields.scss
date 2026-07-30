@@ -93,3 +93,12 @@
     box-shadow: 0 0 0 3px rgb(239 68 68 / 16%);
   }
 }
+
+.readonlyControl {
+  display: flex;
+  align-items: center;
+
+  line-height: 1.4;
+
+  cursor: default;
+}

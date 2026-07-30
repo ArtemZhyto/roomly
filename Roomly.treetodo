@@ -399,7 +399,7 @@
           "id": "task-a21d6261-73b5-4302-a150-90afd1cea06f",
           "title": "Display schedule in the user's time zone",
           "items": [],
-          "completed": false
+          "completed": true
         },
         {
           "id": "task-fc7e4b51-72f9-48cd-b54b-583c4311d79f",
@@ -422,7 +422,8 @@
         {
           "id": "task-6bcea823-73d3-4077-8c6e-fd9cdb067b5a",
           "title": "Handle date changes caused by time-zone conversion",
-          "items": []
+          "items": [],
+          "completed": true
         }
       ],
       "x": -554.1708923420689,
