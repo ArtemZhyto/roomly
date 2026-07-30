@@ -1,0 +1,39 @@
+@media (max-width: 720px) {
+  .toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .emptyState {
+    min-height: 280px;
+    padding: 24px;
+  }
+}
+
+@media (max-width: 440px) {
+  .section {
+    gap: 20px;
+  }
+
+  .title {
+    font-size: 26px;
+  }
+
+  .description {
+    font-size: 14px;
+  }
+
+  .emptyState {
+    min-height: 250px;
+    padding: 20px;
+  }
+
+  .skeletonCard {
+    min-height: 104px;
+    padding: 16px;
+  }
+
+  .skeletonIcon {
+    display: none;
+  }
+}

@@ -1,0 +1,23 @@
+.status {
+  display: inline-flex;
+  min-height: 24px;
+  flex: 0 0 auto;
+  align-items: center;
+
+  padding-inline: 9px;
+
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.statusUpcoming {
+  color: var(--color-success);
+  background: color-mix(in srgb, var(--color-success) 12%, transparent);
+}
+
+.statusPast {
+  color: var(--color-text-secondary);
+  background: var(--color-surface-muted);
+}

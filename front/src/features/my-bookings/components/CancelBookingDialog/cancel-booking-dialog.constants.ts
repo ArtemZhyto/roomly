@@ -1,0 +1,1 @@
+export const CANCEL_DIALOG_TRANSITION_MS = 180

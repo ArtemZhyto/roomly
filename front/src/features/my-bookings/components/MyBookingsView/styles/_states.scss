@@ -1,0 +1,93 @@
+.emptyState {
+  display: flex;
+  min-height: 320px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  padding: 32px;
+
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-card);
+
+  background: var(--color-surface);
+
+  text-align: center;
+}
+
+.stateIcon,
+.errorIcon {
+  display: grid;
+  width: 52px;
+  height: 52px;
+  place-items: center;
+
+  border-radius: 16px;
+}
+
+.stateIcon {
+  color: var(--color-primary);
+  background: var(--color-primary-subtle);
+}
+
+.errorIcon {
+  color: var(--color-danger);
+  background: color-mix(in srgb, var(--color-danger) 10%, transparent);
+}
+
+.stateTitle {
+  margin: 18px 0 0;
+
+  color: var(--color-text-primary);
+
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.stateDescription {
+  max-width: 420px;
+
+  margin: 8px 0 0;
+
+  color: var(--color-text-secondary);
+
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.retryButton {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  margin-top: 20px;
+  padding-inline: 14px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease;
+
+  &:hover {
+    border-color: var(--color-border-strong);
+    background: var(--color-surface-muted);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
