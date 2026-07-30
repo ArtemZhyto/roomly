@@ -1,4 +1,11 @@
-export { mockRooms } from './data'
 export { default as RoomCard } from './components/RoomCard'
 
-export type { Room, RoomAvailabilityStatus } from './types'
+export { getRooms, getRoomById, getRoomAvailability } from './api'
+
+export type {
+  Room,
+  RoomResponse,
+  RoomAvailabilityStatus,
+  RoomAvailabilityBooking,
+  RoomAvailabilityBookingUser,
+} from './types'

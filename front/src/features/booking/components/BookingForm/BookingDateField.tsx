@@ -1,6 +1,9 @@
 // Modules
 import { CalendarDays } from 'lucide-react'
 
+// Lib
+import { formatDateInputValue } from './booking-form.utils'
+
 // Types
 import type { BookingFormErrors, BookingFormValues, UpdateBookingField } from './booking-form.types'
 
@@ -23,6 +26,8 @@ const BookingDateField = ({ value, error, isLoading, updateField }: BookingDateF
     .filter(Boolean)
     .join(' ')
 
+  const minimumDate = formatDateInputValue(new Date())
+
   return (
     <div className={styles.field}>
       <label htmlFor='booking-date' className={styles.label}>
@@ -35,6 +40,7 @@ const BookingDateField = ({ value, error, isLoading, updateField }: BookingDateF
         <input
           id='booking-date'
           type='date'
+          min={minimumDate}
           value={value}
           className={controlClassName}
           aria-invalid={Boolean(error)}

@@ -1,4 +1,5 @@
 // Types
+import { RoomResponse } from '@features/rooms'
 import type { BookingFormErrors, BookingFormValues, UpdateBookingField } from './booking-form.types'
 
 // Components
@@ -9,6 +10,7 @@ import BookingTimeFields from './BookingTimeFields'
 import BookingTitleField from './BookingTitleField'
 
 interface BookingFormFieldsProps {
+  rooms: RoomResponse[]
   values: BookingFormValues
   errors: BookingFormErrors
   durationLabel: string
@@ -17,6 +19,7 @@ interface BookingFormFieldsProps {
 }
 
 const BookingFormFields = ({
+  rooms,
   values,
   errors,
   durationLabel,
@@ -33,6 +36,7 @@ const BookingFormFields = ({
       />
 
       <BookingRoomField
+        rooms={rooms}
         value={values.roomId}
         error={errors.roomId}
         isLoading={isLoading}

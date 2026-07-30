@@ -1,5 +1,3 @@
-export { mockBookings } from './data'
-
 export {
   DAYS_IN_WEEK,
   OFFICE_END_HOUR,
@@ -26,3 +24,4 @@ export type { ScheduleSlot } from './utils'
 export { default as ScheduleToolbar } from './components/ScheduleToolbar'
 export { default as WeeklySchedule } from './components/WeeklySchedule'
 export { default as ScheduleGrid } from './components/ScheduleGrid'
+export { default as ScheduleLoadingState } from './components/ScheduleLoadingState'

@@ -77,13 +77,38 @@ const isAlignedToSlot = (minutes: number): boolean => {
   return minutes % SLOT_DURATION_MINUTES === 0
 }
 
+const createLocalDateTime = (date: string, time: string): Date | null => {
+  const dateMatch = /^(\d{4})-(\d{2})-(\d{2})$/.exec(date)
+  const timeMatch = /^(\d{2}):(\d{2})$/.exec(time)
+
+  if (!dateMatch || !timeMatch) {
+    return null
+  }
+
+  const year = Number(dateMatch[1])
+  const month = Number(dateMatch[2])
+  const day = Number(dateMatch[3])
+  const hours = Number(timeMatch[1])
+  const minutes = Number(timeMatch[2])
+
+  const result = new Date(year, month - 1, day, hours, minutes, 0, 0)
+
+  const isValid =
+    result.getFullYear() === year &&
+    result.getMonth() === month - 1 &&
+    result.getDate() === day &&
+    result.getHours() === hours &&
+    result.getMinutes() === minutes
+
+  return isValid ? result : null
+}
+
 export const validateBookingForm = (values: BookingFormValues): BookingFormErrors => {
   const errors: BookingFormErrors = {}
 
   const title = values.title.trim()
 
   const startMinutes = getTimeInMinutes(values.startTime)
-
   const endMinutes = getTimeInMinutes(values.endTime)
 
   const durationMinutes = getDurationMinutes(values.startTime, values.endTime)
@@ -124,5 +149,29 @@ export const validateBookingForm = (values: BookingFormValues): BookingFormError
     errors.endTime = 'A booking cannot last longer than 4 hours.'
   }
 
+  const startDateTime = createLocalDateTime(values.date, values.startTime)
+  const endDateTime = createLocalDateTime(values.date, values.endTime)
+
+  if (values.date && values.startTime && !startDateTime) {
+    errors.startTime = 'Enter a valid start date and time.'
+  }
+
+  if (values.date && values.endTime && !endDateTime) {
+    errors.endTime = 'Enter a valid end date and time.'
+  }
+
+  if (startDateTime && startDateTime.getTime() <= Date.now()) {
+    errors.date = 'Booking must start in the future.'
+    errors.startTime = 'Select a time that has not passed yet.'
+  }
+
   return errors
+}
+
+export const formatDateInputValue = (date: Date): string => {
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+
+  return `${year}-${month}-${day}`
 }

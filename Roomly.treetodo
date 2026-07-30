@@ -372,7 +372,8 @@
         {
           "id": "task-cb5b0f87-9dfb-47c1-b406-37af79326c38",
           "title": "Add calendar error state",
-          "items": []
+          "items": [],
+          "completed": true
         }
       ],
       "x": -900,
@@ -524,8 +525,8 @@
           "completed": false
         }
       ],
-      "x": 134.13739731399045,
-      "y": -144.61354434171426
+      "x": 137.91145303791026,
+      "y": -141.7830025487744
     },
     {
       "id": "task-e4747bd0-c6ce-42aa-8643-5e675293cb0f",
