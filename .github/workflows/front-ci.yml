@@ -47,7 +47,7 @@ jobs:
         env:
           MODE: prod
           NEXT_PUBLIC_SITE: roomly.ua
-          NEXT_API_URL: http://localhost:5000
+          NEXT_PUBLIC_API_URL: http://localhost:5000
           API_URL: http://localhost:5000
 
       - name: Run tests

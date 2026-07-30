@@ -1,10 +1,8 @@
-export interface SidebarUserCardUser {
-  name: string
-  email: string
-}
+// Types
+import type { AuthUser } from '@features/auth'
 
 export interface SidebarUserCardProps {
-  user: SidebarUserCardUser
-  isLogoutLoading?: boolean
-  onLogout: () => void
+  user: AuthUser
 }
+
+export type SidebarUserCardUser = AuthUser

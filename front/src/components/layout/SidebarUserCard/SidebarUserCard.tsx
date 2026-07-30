@@ -1,6 +1,6 @@
 // Components
 import UserAvatar from '@components-shared/UserAvatar'
-import ProfileMenu from '../ProfileMenu'
+import { ConnectedProfileMenu } from '@features/auth'
 
 // Types
 import type { SidebarUserCardProps } from './sidebarUserCard.types'
@@ -8,7 +8,7 @@ import type { SidebarUserCardProps } from './sidebarUserCard.types'
 // Styles
 import styles from './SidebarUserCard.module.scss'
 
-const SidebarUserCard = ({ user, isLogoutLoading = false, onLogout }: SidebarUserCardProps) => {
+const SidebarUserCard = ({ user }: SidebarUserCardProps) => {
   return (
     <div className={styles.card}>
       <UserAvatar name={user.name} className={styles.avatar} />
@@ -19,7 +19,7 @@ const SidebarUserCard = ({ user, isLogoutLoading = false, onLogout }: SidebarUse
         <p className={styles.email}>{user.email}</p>
       </div>
 
-      <ProfileMenu isLogoutLoading={isLogoutLoading} onLogout={onLogout} />
+      <ConnectedProfileMenu />
     </div>
   )
 }

@@ -33,7 +33,7 @@ const VerificationSuccess = ({ email }: VerificationSuccessProps) => {
         </p>
       </header>
 
-      <AuthActionLink href='/login' label='Continue to sign in' />
+      <AuthActionLink href='/rooms' label='Continue to Roomly' />
     </div>
   )
 }

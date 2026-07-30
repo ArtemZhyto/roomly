@@ -47,7 +47,9 @@ const LoginForm = () => {
           onPasswordVisibilityToggle={togglePasswordVisibility}
         />
 
-        <AuthSubmitButton label='Sign in' loadingLabel='Signing in...' isLoading={isSubmitting} />
+        <div className='mt-6.25'>
+          <AuthSubmitButton label='Sign in' loadingLabel='Signing in...' isLoading={isSubmitting} />
+        </div>
       </form>
 
       <p className='mt-6 text-center text-base text-text-secondary'>

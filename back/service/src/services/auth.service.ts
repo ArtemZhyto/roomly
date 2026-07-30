@@ -14,6 +14,8 @@ import { createTokens } from '@helpers/createTokens'
 import { createEmailVerificationCode } from '@mails/createEmailVerificationCode'
 import { hashVerificationCode } from '@mails/emailVerification'
 
+const RESEND_COOLDOWN_SECONDS = Number(process.env.EMAIL_VERIFICATION_RESEND_COOLDOWN_SECONDS || 60)
+
 export const authService = {
   register: async (data: Register) => {
     const existingUser = await __PRISMA.user.findUnique({
@@ -121,6 +123,11 @@ export const authService = {
       select: {
         email: true,
         emailVerifiedAt: true,
+        verificationCode: {
+          select: {
+            createdAt: true,
+          },
+        },
       },
     })
 
@@ -130,6 +137,17 @@ export const authService = {
 
     if (user.emailVerifiedAt) {
       throw new Error('Email is already verified')
+    }
+
+    if (user.verificationCode) {
+      const cooldownEndsAt =
+        user.verificationCode.createdAt.getTime() + RESEND_COOLDOWN_SECONDS * 1000
+
+      if (Date.now() < cooldownEndsAt) {
+        const retryAfter = Math.ceil((cooldownEndsAt - Date.now()) / 1000)
+
+        throw new Error(`Please wait ${retryAfter} seconds before requesting another code`)
+      }
     }
 
     await createEmailVerificationCode(userId, user.email)

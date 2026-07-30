@@ -224,6 +224,12 @@ export const authController = {
         })
       }
 
+      if (err instanceof Error && err.message.startsWith('Please wait')) {
+        return res.status(429).json({
+          message: err.message,
+        })
+      }
+
       next(err)
     }
   },

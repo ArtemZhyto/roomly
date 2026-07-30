@@ -17,18 +17,14 @@ interface MobileNavigationDrawerProps {
   isOpen: boolean
   disableAnimation: boolean
   user: SidebarUserCardUser
-  isLogoutLoading: boolean
   onClose: () => void
-  onLogout: () => void
 }
 
 const MobileNavigationDrawer = ({
   isOpen,
   disableAnimation,
   user,
-  isLogoutLoading,
   onClose,
-  onLogout,
 }: MobileNavigationDrawerProps) => {
   useEffect(() => {
     if (!isOpen) {
@@ -68,11 +64,6 @@ const MobileNavigationDrawer = ({
     .filter(Boolean)
     .join(' ')
 
-  const handleLogout = () => {
-    onClose()
-    onLogout()
-  }
-
   return (
     <>
       <button
@@ -96,11 +87,7 @@ const MobileNavigationDrawer = ({
           </div>
 
           <div className={`${styles.footer} p-4`}>
-            <SidebarUserCard
-              user={user}
-              isLogoutLoading={isLogoutLoading}
-              onLogout={handleLogout}
-            />
+            <SidebarUserCard user={user} />
           </div>
         </div>
       </aside>
