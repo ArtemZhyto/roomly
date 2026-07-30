@@ -1,10 +1,13 @@
+// Features
+import type { Room } from '@features/rooms'
+
 // Types
 import type { BookingFormErrors, BookingFormValues, UpdateBookingField } from './booking-form.types'
-import type { Room } from '@features/rooms'
 
 // Components
 import BookingDateField from './BookingDateField'
 import BookingDurationSummary from './BookingDurationSummary'
+import BookingRecurrenceField from './BookingRecurrenceField'
 import BookingRoomField from './BookingRoomField'
 import BookingTimeFields from './BookingTimeFields'
 import BookingTitleField from './BookingTitleField'
@@ -54,6 +57,13 @@ const BookingFormFields = ({
       />
 
       <BookingDurationSummary durationLabel={durationLabel} />
+
+      <BookingRecurrenceField
+        values={values}
+        errors={errors}
+        isLoading={isLoading}
+        updateField={updateField}
+      />
     </>
   )
 }

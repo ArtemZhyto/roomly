@@ -1,8 +1,14 @@
+export interface BookingRecurrenceRequest {
+  frequency: 'weekly'
+  count: number
+}
+
 export interface CreateBookingRequest {
   roomId: number
   title: string
   startTime: string
   endTime: string
+  recurrence?: BookingRecurrenceRequest
 }
 
 export interface CreatedBooking {
@@ -16,3 +22,16 @@ export interface CreatedBooking {
   createdAt: string
   updatedAt: string
 }
+
+export interface CreatedBookingSeries {
+  id: number
+  userId: number
+  totalOccurrences: number
+}
+
+export interface CreatedRecurringBooking {
+  series: CreatedBookingSeries
+  bookings: CreatedBooking[]
+}
+
+export type CreateBookingResponse = CreatedBooking | CreatedRecurringBooking

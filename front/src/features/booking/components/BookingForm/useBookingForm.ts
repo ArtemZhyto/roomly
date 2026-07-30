@@ -10,7 +10,11 @@ import type { Room } from '@features/rooms'
 import type { BookingFormErrors, BookingFormValues, UpdateBookingField } from './booking-form.types'
 
 // Constants
-import { DEFAULT_END_TIME, DEFAULT_START_TIME } from './booking-form.constants'
+import {
+  DEFAULT_END_TIME,
+  DEFAULT_RECURRENCE_COUNT,
+  DEFAULT_START_TIME,
+} from './booking-form.constants'
 
 // Utils
 import { formatDuration, getDurationMinutes, validateBookingForm } from './booking-form.utils'
@@ -44,6 +48,8 @@ const useBookingForm = ({
     date: initialDate,
     startTime: initialStartTime,
     endTime: initialEndTime,
+    repeatWeekly: false,
+    recurrenceCount: DEFAULT_RECURRENCE_COUNT,
   })
 
   const [errors, setErrors] = useState<BookingFormErrors>({})

@@ -11,6 +11,7 @@ import { getRoomAvailability, type Room } from '@features/rooms'
 import {
   createBooking,
   createBookingDateTime,
+  createBookingEndDateTime,
   type BookingFormStatus,
   type BookingFormValues,
 } from '@features/booking'
@@ -43,13 +44,11 @@ const useWeeklySchedule = ({ room, initialDate }: UseWeeklyScheduleOptions) => {
   const [weekStart, setWeekStart] = useState(initialWeekStart)
 
   const [roomBookings, setRoomBookings] = useState<ScheduleBooking[]>([])
-
   const [scheduleStatus, setScheduleStatus] = useState<ScheduleLoadingStatus>('loading')
 
   const [isBookingDialogOpen, setIsBookingDialogOpen] = useState(false)
 
   const [bookingStatus, setBookingStatus] = useState<BookingFormStatus>('idle')
-
   const [bookingError, setBookingError] = useState<string>()
 
   const [selectedSlot, setSelectedSlot] = useState<ScheduleSlotSelection | null>(null)
@@ -158,7 +157,13 @@ const useWeeklySchedule = ({ room, initialDate }: UseWeeklyScheduleOptions) => {
         roomId: room.id,
         title: values.title.trim(),
         startTime: createBookingDateTime(values.date, values.startTime),
-        endTime: createBookingDateTime(values.date, values.endTime),
+        endTime: createBookingEndDateTime(values.date, values.startTime, values.endTime),
+        recurrence: values.repeatWeekly
+          ? {
+              frequency: 'weekly',
+              count: values.recurrenceCount,
+            }
+          : undefined,
       })
 
       const weekEnd = addWeeks(weekStart, 1)

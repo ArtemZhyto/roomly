@@ -2,10 +2,10 @@
 import apiClient from '@lib/api/api-client'
 
 // Types
-import type { CreateBookingRequest, CreatedBooking } from './booking-api.types'
+import type { CreateBookingRequest, CreateBookingResponse } from './booking-api.types'
 
-const createBooking = async (payload: CreateBookingRequest): Promise<CreatedBooking> => {
-  const response = await apiClient.post<CreatedBooking>('/bookings', payload)
+const createBooking = async (payload: CreateBookingRequest): Promise<CreateBookingResponse> => {
+  const response = await apiClient.post<CreateBookingResponse>('/bookings', payload)
 
   return response.data
 }
