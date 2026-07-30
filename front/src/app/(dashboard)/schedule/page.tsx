@@ -1,5 +1,9 @@
+'use client'
+
 // Modules
 import Link from 'next/link'
+import { useEffect, useMemo, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { ArrowRight, CalendarRange } from 'lucide-react'
 
 // Components
@@ -8,17 +12,15 @@ import TimezoneBadge from '@components-shared/TimezoneBadge'
 import EmptyState from '@components-ui/EmptyState'
 
 // Features
-import { mockRooms } from '@features/rooms'
-import { WeeklySchedule } from '@features/schedule'
+import { getRoomById, getRooms } from '@features/rooms'
+import { ScheduleLoadingState, WeeklySchedule } from '@features/schedule'
 
-interface SchedulePageProps {
-  searchParams: Promise<{
-    room?: string | string[]
-    date?: string | string[]
-  }>
-}
+// Types
+import type { Room, RoomResponse } from '@features/rooms'
 
-const parseScheduleDate = (value: string | undefined): Date | undefined => {
+type SchedulePageStatus = 'loading' | 'success' | 'error'
+
+const parseScheduleDate = (value: string | null): Date | undefined => {
   if (!value) {
     return undefined
   }
@@ -41,20 +43,51 @@ const parseScheduleDate = (value: string | undefined): Date | undefined => {
   return isValidDate ? date : undefined
 }
 
-const SchedulePage = async ({ searchParams }: SchedulePageProps) => {
-  const query = await searchParams
+const SchedulePage = () => {
+  const searchParams = useSearchParams()
 
-  const roomParam = Array.isArray(query.room) ? query.room[0] : query.room
+  const [selectedRoom, setSelectedRoom] = useState<Room | null>(null)
+  const [rooms, setRooms] = useState<RoomResponse[]>([])
+  const [status, setStatus] = useState<SchedulePageStatus>('loading')
 
-  const dateParam = Array.isArray(query.date) ? query.date[0] : query.date
+  const roomParam = searchParams.get('room')
+  const dateParam = searchParams.get('date')
 
   const roomId = Number(roomParam)
 
-  const selectedRoom = Number.isInteger(roomId)
-    ? mockRooms.find((room) => room.id === roomId)
-    : undefined
+  const initialDate = useMemo(() => parseScheduleDate(dateParam), [dateParam])
 
-  const initialDate = parseScheduleDate(dateParam)
+  useEffect(() => {
+    const loadScheduleData = async () => {
+      setSelectedRoom(null)
+
+      if (!Number.isInteger(roomId) || roomId <= 0) {
+        setRooms([])
+        setStatus('success')
+
+        return
+      }
+
+      setStatus('loading')
+
+      try {
+        const [roomData, roomsData] = await Promise.all([getRoomById(roomId), getRooms()])
+
+        setSelectedRoom({
+          ...roomData,
+          status: 'available',
+        })
+
+        setRooms(roomsData)
+        setStatus('success')
+      } catch {
+        setRooms([])
+        setStatus('error')
+      }
+    }
+
+    void loadScheduleData()
+  }, [roomId])
 
   const selectRoomAction = (
     <Link
@@ -74,9 +107,37 @@ const SchedulePage = async ({ searchParams }: SchedulePageProps) => {
         aside={<TimezoneBadge />}
       />
 
-      {selectedRoom ? (
-        <WeeklySchedule room={selectedRoom} initialDate={initialDate} />
-      ) : (
+      {status === 'loading' && (
+        <div className='flex flex-col gap-5'>
+          <div className='flex flex-wrap items-center justify-between gap-4'>
+            <div className='flex flex-col gap-2'>
+              <div className='h-6 w-40 animate-pulse rounded-full bg-border' />
+              <div className='h-4 w-56 animate-pulse rounded-full bg-border' />
+            </div>
+
+            <div className='h-10 w-48 animate-pulse rounded-control bg-border' />
+          </div>
+
+          <div className='h-11 w-36 animate-pulse rounded-control bg-border' />
+
+          <ScheduleLoadingState />
+        </div>
+      )}
+
+      {status === 'error' && (
+        <EmptyState
+          icon={CalendarRange}
+          title='Could not load room schedule'
+          description='Something went wrong while loading the selected room.'
+          action={selectRoomAction}
+        />
+      )}
+
+      {status === 'success' && selectedRoom && (
+        <WeeklySchedule room={selectedRoom} rooms={rooms} initialDate={initialDate} />
+      )}
+
+      {status === 'success' && !selectedRoom && (
         <EmptyState
           icon={CalendarRange}
           title='Choose a room to view its schedule'

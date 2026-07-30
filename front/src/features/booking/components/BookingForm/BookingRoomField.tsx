@@ -1,10 +1,8 @@
 // Modules
 import { DoorOpen } from 'lucide-react'
 
-// Features
-import { mockRooms } from '@features/rooms'
-
 // Types
+import type { RoomResponse } from '@features/rooms'
 import type { BookingFormErrors, BookingFormValues, UpdateBookingField } from './booking-form.types'
 
 // Styles
@@ -13,11 +11,18 @@ import styles from './BookingForm.module.scss'
 interface BookingRoomFieldProps {
   value: BookingFormValues['roomId']
   error?: BookingFormErrors['roomId']
+  rooms?: RoomResponse[]
   isLoading: boolean
   updateField: UpdateBookingField
 }
 
-const BookingRoomField = ({ value, error, isLoading, updateField }: BookingRoomFieldProps) => {
+const BookingRoomField = ({
+  value,
+  error,
+  rooms = [],
+  isLoading,
+  updateField,
+}: BookingRoomFieldProps) => {
   const controlClassName = [
     styles.control,
     styles.controlWithIcon,
@@ -41,12 +46,14 @@ const BookingRoomField = ({ value, error, isLoading, updateField }: BookingRoomF
           className={controlClassName}
           aria-invalid={Boolean(error)}
           aria-describedby={error ? 'booking-room-error' : undefined}
-          disabled={isLoading}
+          disabled={isLoading || rooms.length === 0}
           onChange={(event) => {
             updateField('roomId', Number(event.target.value))
           }}
         >
-          {mockRooms.map((room) => (
+          {rooms.length === 0 && <option value={0}>No rooms available</option>}
+
+          {rooms.map((room) => (
             <option key={room.id} value={room.id}>
               {room.name} · Floor {room.floor} · {room.capacity} people
             </option>

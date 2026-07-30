@@ -1,7 +1,7 @@
 'use client'
 
 // Features
-import type { Room } from '@features/rooms'
+import type { Room, RoomResponse } from '@features/rooms'
 
 // Types
 import type { BookingFormStatus, BookingFormValues } from './booking-form.types'
@@ -21,6 +21,7 @@ import useBookingForm from './useBookingForm'
 import styles from './BookingForm.module.scss'
 
 interface BookingFormProps {
+  rooms: RoomResponse[]
   initialRoom?: Room
   initialDate?: string
   initialStartTime?: string
@@ -32,6 +33,7 @@ interface BookingFormProps {
 }
 
 const BookingForm = ({
+  rooms,
   initialRoom,
   initialDate = '',
   initialStartTime = DEFAULT_START_TIME,
@@ -42,6 +44,7 @@ const BookingForm = ({
   onSubmit,
 }: BookingFormProps) => {
   const { values, errors, durationLabel, updateField, handleSubmit } = useBookingForm({
+    rooms,
     initialRoom,
     initialDate,
     initialStartTime,
@@ -56,6 +59,7 @@ const BookingForm = ({
       <BookingFormMessages status={status} />
 
       <BookingFormFields
+        rooms={rooms}
         values={values}
         errors={errors}
         durationLabel={durationLabel}

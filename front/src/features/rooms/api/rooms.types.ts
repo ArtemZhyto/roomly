@@ -1,12 +1,13 @@
 export type RoomAvailabilityStatus = 'available' | 'busy' | 'unavailable'
 
-export interface Room {
+export interface RoomApiResponse {
   id: number
   name: string
   floor: number
   capacity: number
+}
+
+export interface Room extends RoomApiResponse {
   status: RoomAvailabilityStatus
   nextAvailableAt?: string
 }
-
-export type RoomResponse = Omit<Room, 'status' | 'nextAvailableAt'>
