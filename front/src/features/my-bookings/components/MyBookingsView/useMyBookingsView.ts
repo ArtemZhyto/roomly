@@ -6,6 +6,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 // Features
 import { deleteBooking, deleteBookingSeries, getMyBookings } from '@features/booking'
 
+import { useNotifications } from '@features/notifications'
+
 // Types
 import type { BookingCancellationScope, MyBooking, MyBookingPeriod } from '../../types'
 
@@ -59,6 +61,8 @@ const getErrorMessage = (error: unknown): string => {
 }
 
 const useMyBookingsView = (): UseMyBookingsViewResult => {
+  const { notify } = useNotifications()
+
   const [activePeriod, setActivePeriod] = useState<MyBookingPeriod>('upcoming')
 
   const [upcomingBookings, setUpcomingBookings] = useState<MyBooking[]>([])
@@ -114,6 +118,7 @@ const useMyBookingsView = (): UseMyBookingsViewResult => {
       setUpcomingTotalPages(response.upcoming.totalPages)
 
       setPastPage(response.past.page)
+
       setPastTotal(response.past.total)
 
       setPastTotalPages(response.past.totalPages)
@@ -181,15 +186,35 @@ const useMyBookingsView = (): UseMyBookingsViewResult => {
     try {
       if (scope === 'series' && selectedBooking.seriesId !== null) {
         await deleteBookingSeries(selectedBooking.seriesId)
+
+        notify({
+          type: 'success',
+          title: 'Booking series cancelled',
+          message: `"${selectedBooking.title}" ` + 'and its remaining occurrences were cancelled.',
+        })
       } else {
         await deleteBooking(selectedBooking.id)
+
+        notify({
+          type: 'success',
+          title: selectedBooking.seriesId !== null ? 'Occurrence cancelled' : 'Booking cancelled',
+          message: `"${selectedBooking.title}" ` + 'was cancelled successfully.',
+        })
       }
 
       setIsCancellationDialogOpen(false)
 
       await loadInitialBookings()
     } catch (error: unknown) {
-      setErrorMessage(getErrorMessage(error))
+      const message = getErrorMessage(error)
+
+      setErrorMessage(message)
+
+      notify({
+        type: 'error',
+        title: 'Could not cancel booking',
+        message,
+      })
     } finally {
       setIsCancelling(false)
     }

@@ -1,0 +1,154 @@
+.viewport {
+  position: fixed;
+  z-index: 1000;
+  top: 20px;
+  right: 20px;
+
+  display: flex;
+  width: min(390px, calc(100vw - 32px));
+  flex-direction: column;
+  gap: 12px;
+
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+
+  padding: 15px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card-hover);
+
+  pointer-events: auto;
+
+  animation: toast-enter 180ms ease-out;
+}
+
+.icon {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+  place-items: center;
+
+  border-radius: 10px;
+}
+
+.toast-success {
+  border-color: color-mix(in srgb, var(--color-success-dark) 25%, var(--color-border));
+
+  .icon {
+    color: var(--color-success-dark);
+    background: var(--color-success-light);
+  }
+}
+
+.toast-error {
+  border-color: color-mix(in srgb, var(--color-danger) 30%, var(--color-border));
+
+  .icon {
+    color: var(--color-danger);
+    background: color-mix(in srgb, var(--color-danger) 10%, var(--color-surface));
+  }
+}
+
+.toast-warning {
+  border-color: color-mix(in srgb, var(--color-warning-dark) 30%, var(--color-border));
+
+  .icon {
+    color: var(--color-warning-dark);
+    background: var(--color-warning-light);
+  }
+}
+
+.toast-info {
+  border-color: color-mix(in srgb, var(--color-primary) 25%, var(--color-border));
+
+  .icon {
+    color: var(--color-primary-active);
+    background: var(--color-primary-subtle);
+  }
+}
+
+.content {
+  min-width: 0;
+  flex: 1;
+}
+
+.title {
+  display: block;
+
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.message {
+  margin: 4px 0 0;
+
+  color: var(--color-text-secondary);
+
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.closeButton {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  place-items: center;
+
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+
+  color: var(--color-text-secondary);
+  background: transparent;
+
+  cursor: pointer;
+
+  &:hover {
+    color: var(--color-text-primary);
+    background: var(--color-background);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+@keyframes toast-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 600px) {
+  .viewport {
+    top: 12px;
+    right: 12px;
+    left: 12px;
+
+    width: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast {
+    animation: none;
+  }
+}

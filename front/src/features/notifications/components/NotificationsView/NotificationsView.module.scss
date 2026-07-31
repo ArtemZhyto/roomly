@@ -1,0 +1,261 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.toolbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.heading {
+  margin: 0;
+
+  color: var(--color-text-primary);
+
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.count {
+  margin: 5px 0 0;
+
+  color: var(--color-text-secondary);
+
+  font-size: 14px;
+}
+
+.toolbarActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.secondaryButton,
+.clearButton {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  padding: 0 14px;
+  border-radius: var(--radius-control);
+
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.secondaryButton {
+  border: 1px solid var(--color-border);
+
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+
+  &:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+}
+
+.clearButton {
+  border: 1px solid color-mix(in srgb, var(--color-danger) 30%, var(--color-border));
+
+  color: var(--color-danger);
+  background: var(--color-surface);
+
+  &:hover {
+    color: var(--color-text-inverse);
+    background: var(--color-danger);
+  }
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.notification {
+  display: flex;
+  align-items: stretch;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+
+  overflow: hidden;
+
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+
+  &:hover {
+    border-color: var(--color-primary-subtle);
+    box-shadow: var(--shadow-card-hover);
+  }
+}
+
+.unread {
+  border-color: color-mix(in srgb, var(--color-primary) 28%, var(--color-border));
+
+  background: color-mix(in srgb, var(--color-primary-subtle) 40%, var(--color-surface));
+}
+
+.notificationContent {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  align-items: flex-start;
+  gap: 14px;
+
+  padding: 17px;
+
+  border: 0;
+
+  color: inherit;
+  background: transparent;
+
+  text-align: left;
+
+  cursor: pointer;
+}
+
+.notificationIcon {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+  place-items: center;
+
+  border-radius: 12px;
+
+  color: var(--color-primary-active);
+  background: var(--color-primary-subtle);
+}
+
+.notificationIcon-success {
+  color: var(--color-success-dark);
+  background: var(--color-success-light);
+}
+
+.notificationIcon-error {
+  color: var(--color-danger);
+  background: color-mix(in srgb, var(--color-danger) 10%, var(--color-surface));
+}
+
+.notificationIcon-warning {
+  color: var(--color-warning-dark);
+  background: var(--color-warning-light);
+}
+
+.details {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  color: var(--color-text-primary);
+
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.unreadDot {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 auto;
+
+  border-radius: 50%;
+
+  background: var(--color-primary);
+}
+
+.message {
+  margin-top: 5px;
+
+  color: var(--color-text-secondary);
+
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.time {
+  margin-top: 8px;
+
+  color: var(--color-text-muted);
+
+  font-size: 12px;
+}
+
+.removeButton {
+  display: grid;
+  width: 46px;
+  flex: 0 0 auto;
+  place-items: center;
+
+  padding: 0;
+  border: 0;
+  border-left: 1px solid var(--color-border);
+
+  color: var(--color-text-secondary);
+  background: transparent;
+
+  cursor: pointer;
+
+  &:hover {
+    color: var(--color-danger);
+    background: color-mix(in srgb, var(--color-danger) 7%, var(--color-surface));
+  }
+}
+
+@media (max-width: 680px) {
+  .toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .toolbarActions {
+    width: 100%;
+  }
+
+  .secondaryButton,
+  .clearButton {
+    flex: 1;
+  }
+}
+
+@media (max-width: 440px) {
+  .notificationContent {
+    padding: 14px;
+  }
+
+  .notificationIcon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .removeButton {
+    width: 42px;
+  }
+}

@@ -108,7 +108,8 @@ model Notification {
   message String
   readAt  DateTime?
 
-  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  createdAt DateTime  @default(now()) @db.Timestamptz(3)
+  deletedAt DateTime? @db.Timestamptz(3)
 
   @@index([userId, createdAt])
   @@index([nextBookingId])

@@ -1,1 +1,1 @@
-export { default as DashboardView } from './components/DashboadView'
+export { default as DashboardView } from './components/DashboardView'

@@ -16,6 +16,7 @@ if (!Number.isInteger(notifyBeforeMinutes) || notifyBeforeMinutes < 1) {
 export const notificationsService = {
   processDueNotifications: async (): Promise<void> => {
     const now = new Date()
+
     const notificationThreshold = new Date(now.getTime() + notifyBeforeMinutes * 60_000)
 
     const currentBookings = await __PRISMA.booking.findMany({
@@ -47,10 +48,14 @@ export const notificationsService = {
         where: {
           roomId: currentBooking.roomId,
           startTime: currentBooking.endTime,
+          userId: {
+            not: currentBooking.userId,
+          },
         },
         select: {
           id: true,
           title: true,
+          userId: true,
         },
       })
 
@@ -64,7 +69,10 @@ export const notificationsService = {
             userId: currentBooking.userId,
             currentBookingId: currentBooking.id,
             nextBookingId: nextBooking.id,
-            message: `Your booking "${currentBooking.title}" in ${currentBooking.room.name} ends in ${notifyBeforeMinutes} minutes. The room is booked immediately afterwards.`,
+            message:
+              `Your booking "${currentBooking.title}" in ` +
+              `${currentBooking.room.name} ends in ${notifyBeforeMinutes} minutes. ` +
+              'The room is booked immediately afterwards.',
           },
         })
 
@@ -83,6 +91,7 @@ export const notificationsService = {
     return __PRISMA.notification.findMany({
       where: {
         userId,
+        deletedAt: null,
       },
       orderBy: {
         createdAt: 'desc',
@@ -92,9 +101,10 @@ export const notificationsService = {
   },
 
   markNotificationAsRead: async (notificationId: number, userId: number) => {
-    const notification = await __PRISMA.notification.findUnique({
+    const notification = await __PRISMA.notification.findFirst({
       where: {
         id: notificationId,
+        deletedAt: null,
       },
       select: {
         id: true,
@@ -112,7 +122,11 @@ export const notificationsService = {
     }
 
     if (notification.readAt) {
-      return notification
+      return __PRISMA.notification.findUniqueOrThrow({
+        where: {
+          id: notificationId,
+        },
+      })
     }
 
     return __PRISMA.notification.update({
@@ -121,6 +135,67 @@ export const notificationsService = {
       },
       data: {
         readAt: new Date(),
+      },
+    })
+  },
+
+  markAllNotificationsAsRead: async (userId: number) => {
+    const readAt = new Date()
+
+    await __PRISMA.notification.updateMany({
+      where: {
+        userId,
+        readAt: null,
+        deletedAt: null,
+      },
+      data: {
+        readAt,
+      },
+    })
+
+    return {
+      readAt,
+    }
+  },
+
+  deleteNotification: async (notificationId: number, userId: number): Promise<void> => {
+    const notification = await __PRISMA.notification.findFirst({
+      where: {
+        id: notificationId,
+        deletedAt: null,
+      },
+      select: {
+        id: true,
+        userId: true,
+      },
+    })
+
+    if (!notification) {
+      throw new Error('Notification not found')
+    }
+
+    if (notification.userId !== userId) {
+      throw new Error('You can only delete your own notifications')
+    }
+
+    await __PRISMA.notification.update({
+      where: {
+        id: notificationId,
+      },
+      data: {
+        deletedAt: new Date(),
+      },
+    })
+  },
+
+  deleteAllNotifications: async (userId: number): Promise<void> => {
+    await __PRISMA.notification.updateMany({
+      where: {
+        userId,
+        deletedAt: null,
+      },
+      data: {
+        deletedAt: new Date(),
       },
     })
   },

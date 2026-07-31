@@ -4,6 +4,9 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
+// Features
+import { useNotifications } from '@features/notifications'
+
 // Data
 import navigationItems from './navigationItems'
 
@@ -17,7 +20,9 @@ interface SidebarNavigationProps {
 const SidebarNavigation = ({ onNavigate }: SidebarNavigationProps) => {
   const pathname = usePathname()
 
-  const isActiveRoute = (href: string) => {
+  const { unreadCount } = useNotifications()
+
+  const isActiveRoute = (href: string): boolean => {
     return pathname === href || pathname.startsWith(`${href}/`)
   }
 
@@ -26,7 +31,10 @@ const SidebarNavigation = ({ onNavigate }: SidebarNavigationProps) => {
       <ul className='m-0 flex list-none flex-col gap-1 p-0'>
         {navigationItems.map((item) => {
           const isActive = isActiveRoute(item.href)
+
           const Icon = item.icon
+
+          const badge = item.href === '/notifications' ? unreadCount : item.badge
 
           const linkClassName = [
             styles.link,
@@ -52,12 +60,12 @@ const SidebarNavigation = ({ onNavigate }: SidebarNavigationProps) => {
 
                 <span className='min-w-0 flex-1 truncate'>{item.label}</span>
 
-                {item.badge !== undefined && (
+                {badge !== undefined && badge > 0 && (
                   <span
                     className={`${styles.badge} grid min-w-5 place-items-center rounded-full px-1.5 py-0.5 text-xs font-bold`}
-                    aria-label={`${item.badge} unread notifications`}
+                    aria-label={`${badge} unread notifications`}
                   >
-                    {item.badge}
+                    {badge > 99 ? '99+' : badge}
                   </span>
                 )}
               </Link>

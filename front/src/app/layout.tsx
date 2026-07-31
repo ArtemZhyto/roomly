@@ -4,6 +4,9 @@ import './global.css'
 // Fonts
 import { Afacad, Prosto_One } from 'next/font/google'
 
+// Features
+import { NotificationsProvider } from '@features/notifications'
+
 // Components
 import ThemeProvider from '@providers/ThemeProvider'
 import ThemeScript from '@components-shared/ThemeScript'
@@ -40,7 +43,9 @@ const RootLayout = ({ children }: LayoutT) => {
       </head>
       <body>
         <ThemeProvider>
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            <NotificationsProvider>{children}</NotificationsProvider>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
