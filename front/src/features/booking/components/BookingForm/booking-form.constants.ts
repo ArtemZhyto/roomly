@@ -22,4 +22,4 @@ export const MAX_TITLE_LENGTH = 100
 
 export const MIN_RECURRENCE_COUNT = 2
 export const MAX_RECURRENCE_COUNT = 52
-export const DEFAULT_RECURRENCE_COUNT = 2
+export const DEFAULT_RECURRENCE_COUNT = '2'

@@ -1,10 +1,10 @@
 'use client'
 
 // Modules
-import { AlertTriangle, LoaderCircle, X } from 'lucide-react'
+import { AlertTriangle, CalendarX2, LoaderCircle, Repeat2, X } from 'lucide-react'
 
 // Types
-import type { MyBooking } from '../../types'
+import type { BookingCancellationScope, MyBooking } from '../../types'
 
 // Utils
 import { formatBookingDate, formatBookingTimeRange } from '../../utils'
@@ -21,7 +21,7 @@ interface CancelBookingDialogProps {
   isLoading: boolean
   onClose: () => void
   onExited: () => void
-  onConfirm: () => void
+  onConfirm: (scope: BookingCancellationScope) => void
 }
 
 const CancelBookingDialog = ({
@@ -38,6 +38,8 @@ const CancelBookingDialog = ({
     onClose,
     onExited,
   })
+
+  const isRecurring = booking.seriesId !== null
 
   return (
     <div
@@ -79,8 +81,9 @@ const CancelBookingDialog = ({
           </h2>
 
           <p id='cancel-booking-description' className={styles.description}>
-            This action will remove your reservation. You will need to book the room again if you
-            change your mind.
+            {isRecurring
+              ? 'Choose whether to cancel only this occurrence or every booking in the recurring series.'
+              : 'This action will remove your reservation. You will need to book the room again if you change your mind.'}
           </p>
 
           <div className={styles.bookingSummary}>
@@ -97,33 +100,100 @@ const CancelBookingDialog = ({
           </div>
         </div>
 
-        <footer className={styles.actions}>
-          <button
-            type='button'
-            className={styles.secondaryButton}
-            disabled={isLoading}
-            onClick={requestClose}
-          >
-            Keep booking
-          </button>
+        <footer
+          className={[styles.actions, isRecurring ? styles.actionsRecurring : styles.actionsSingle]
+            .filter(Boolean)
+            .join(' ')}
+        >
+          {isRecurring ? (
+            <>
+              <button
+                type='button'
+                className={styles.keepButton}
+                disabled={isLoading}
+                onClick={requestClose}
+              >
+                Keep booking
+              </button>
 
-          <button
-            type='button'
-            className={styles.dangerButton}
-            disabled={isLoading}
-            onClick={onConfirm}
-          >
-            {isLoading && (
-              <LoaderCircle
-                className={styles.spinner}
-                size={17}
-                strokeWidth={2}
-                aria-hidden='true'
-              />
-            )}
+              <div className={styles.cancelActions}>
+                <button
+                  type='button'
+                  className={styles.occurrenceButton}
+                  disabled={isLoading}
+                  onClick={() => {
+                    onConfirm('occurrence')
+                  }}
+                >
+                  <CalendarX2 size={17} strokeWidth={2} aria-hidden='true' />
 
-            {isLoading ? 'Cancelling...' : 'Cancel booking'}
-          </button>
+                  <span>
+                    Cancel this
+                    <small>Only this occurrence</small>
+                  </span>
+                </button>
+
+                <button
+                  type='button'
+                  className={styles.seriesButton}
+                  disabled={isLoading}
+                  onClick={() => {
+                    onConfirm('series')
+                  }}
+                >
+                  {isLoading ? (
+                    <LoaderCircle
+                      className={styles.spinner}
+                      size={17}
+                      strokeWidth={2}
+                      aria-hidden='true'
+                    />
+                  ) : (
+                    <Repeat2 size={17} strokeWidth={2} aria-hidden='true' />
+                  )}
+
+                  <span>
+                    {isLoading ? 'Cancelling...' : 'Cancel series'}
+
+                    {!isLoading && <small>All occurrences</small>}
+                  </span>
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <button
+                type='button'
+                className={styles.dangerButton}
+                disabled={isLoading}
+                onClick={() => {
+                  onConfirm('occurrence')
+                }}
+              >
+                {isLoading ? (
+                  <LoaderCircle
+                    className={styles.spinner}
+                    size={17}
+                    strokeWidth={2}
+                    aria-hidden='true'
+                  />
+                ) : (
+                  <CalendarX2 size={17} strokeWidth={2} aria-hidden='true' />
+                )}
+
+                {isLoading ? 'Cancelling...' : 'Cancel booking'}
+              </button>
+
+              <button
+                type='button'
+                className={styles.keepButton}
+                disabled={isLoading}
+                onClick={requestClose}
+              >
+                Keep booking
+              </button>
+            </>
+          )}
         </footer>
       </section>
     </div>

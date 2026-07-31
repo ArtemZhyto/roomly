@@ -14,43 +14,9 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
 
-  background: var(--color-surface);
-}
-
-.skeletonIcon,
-.skeletonTitle,
-.skeletonMeta {
-  background: var(--color-surface-muted);
+  background: #fff;
 
   animation: skeletonPulse 1.4s ease-in-out infinite;
-}
-
-.skeletonIcon {
-  width: 44px;
-  height: 44px;
-  flex: 0 0 auto;
-
-  border-radius: 12px;
-}
-
-.skeletonContent {
-  display: grid;
-  flex: 1;
-  gap: 14px;
-}
-
-.skeletonTitle {
-  width: min(240px, 70%);
-  height: 18px;
-
-  border-radius: 6px;
-}
-
-.skeletonMeta {
-  width: min(520px, 90%);
-  height: 14px;
-
-  border-radius: 6px;
 }
 
 @keyframes skeletonPulse {
@@ -61,5 +27,11 @@
 
   50% {
     opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeletonCard {
+    animation: none;
   }
 }

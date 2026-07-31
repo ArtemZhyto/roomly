@@ -556,12 +556,14 @@
         {
           "id": "task-054024cf-3ab6-4486-860f-442919f696da",
           "title": "Add cancellation confirmation dialog",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-50cecd90-6252-49a0-8cbd-55e2d5453928",
           "title": "Refresh schedule after cancellation",
-          "items": []
+          "items": [],
+          "completed": true
         }
       ],
       "x": 133.38318769193242,
@@ -623,7 +625,7 @@
           "id": "task-63f5f837-e2e0-4436-983e-50e0b16d4850",
           "title": "Allow cancellation of upcoming bookings",
           "items": [],
-          "completed": false
+          "completed": true
         }
       ],
       "x": -901.7208793071812,
@@ -770,13 +772,13 @@
           "id": "task-5e1e20c2-a529-48ec-8b3d-36800b8a6415",
           "title": "Allow cancellation of one recurring occurrence",
           "items": [],
-          "completed": false
+          "completed": true
         },
         {
           "id": "task-f61e4ee0-85f5-4008-be4d-d8384c724fd3",
           "title": "Allow cancellation of an entire recurring series",
           "items": [],
-          "completed": false
+          "completed": true
         },
         {
           "id": "task-65f4167b-aa8d-44a2-95c1-fc398898d03e",

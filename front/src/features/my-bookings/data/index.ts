@@ -1,1 +1,0 @@
-export { mockMyBookings } from './mockMyBookings'

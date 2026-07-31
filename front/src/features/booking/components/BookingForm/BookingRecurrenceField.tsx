@@ -17,6 +17,23 @@ const BookingRecurrenceField = ({
   isLoading,
   updateField,
 }: BookingRecurrenceFieldProps) => {
+  const normalizeRecurrenceCount = () => {
+    const parsedValue = Number(values.recurrenceCount)
+
+    if (!Number.isFinite(parsedValue)) {
+      updateField('recurrenceCount', String(MIN_RECURRENCE_COUNT))
+
+      return
+    }
+
+    const normalizedValue = Math.min(
+      MAX_RECURRENCE_COUNT,
+      Math.max(MIN_RECURRENCE_COUNT, Math.trunc(parsedValue)),
+    )
+
+    updateField('recurrenceCount', String(normalizedValue))
+  }
+
   return (
     <fieldset
       className='m-0 flex flex-col gap-3 rounded-control border border-border p-4'
@@ -58,19 +75,9 @@ const BookingRecurrenceField = ({
               errors.recurrenceCount ? 'recurrence-count-error' : 'recurrence-count-hint'
             }
             onChange={(event) => {
-              const nextValue = Number(event.target.value)
-
-              if (Number.isNaN(nextValue)) {
-                return
-              }
-
-              const clampedValue = Math.min(
-                MAX_RECURRENCE_COUNT,
-                Math.max(MIN_RECURRENCE_COUNT, nextValue),
-              )
-
-              updateField('recurrenceCount', clampedValue)
+              updateField('recurrenceCount', event.target.value)
             }}
+            onBlur={normalizeRecurrenceCount}
             className='min-h-11 w-full rounded-control border border-border bg-surface px-3 text-sm text-text-primary outline-none transition-colors focus:border-primary focus:ring-3 focus:ring-primary-subtle disabled:cursor-not-allowed disabled:opacity-60'
           />
 

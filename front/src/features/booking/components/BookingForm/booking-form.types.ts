@@ -5,7 +5,7 @@ export interface BookingFormValues {
   startTime: string
   endTime: string
   repeatWeekly: boolean
-  recurrenceCount: number
+  recurrenceCount: string
 }
 
 export interface BookingFormErrors {

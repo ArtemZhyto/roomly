@@ -6,35 +6,36 @@ import BookingTabs from '../BookingTabs'
 import CancelBookingDialog from '../CancelBookingDialog'
 import MyBookingsEmptyState from './MyBookingsEmptyState'
 import MyBookingsErrorState from './MyBookingsErrorState'
-import MyBookingsSkeleton from './MyBookingsSkeleton'
 import MyBookingsLoadMore from './MyBookingsLoadMore'
+import MyBookingsSkeleton from './MyBookingsSkeleton'
 
 // Hooks
 import useMyBookingsView from './useMyBookingsView'
+
 // Styles
 import styles from './MyBookingsView.module.scss'
 
-interface MyBookingsViewProps {
-  status?: 'idle' | 'loading' | 'error'
-}
-
-const MyBookingsView = ({ status = 'idle' }: MyBookingsViewProps) => {
+const MyBookingsView = () => {
   const {
     activePeriod,
     bookings,
     upcomingCount,
     pastCount,
     selectedBooking,
+    status,
+    errorMessage,
     isCancellationDialogOpen,
     isCancelling,
+    hasMoreBookings,
+    isLoadingMore,
     setActivePeriod,
     openBooking,
     requestCancellation,
     closeCancellationDialog,
     finishCancellationDialogClose,
     confirmCancellation,
-    hasMorePastBookings,
-    loadMorePastBookings,
+    loadMoreBookings,
+    retry,
   } = useMyBookingsView()
 
   return (
@@ -61,10 +62,12 @@ const MyBookingsView = ({ status = 'idle' }: MyBookingsViewProps) => {
           {status === 'error' && (
             <MyBookingsErrorState
               onRetry={() => {
-                window.location.reload()
+                void retry()
               }}
             />
           )}
+
+          {status === 'idle' && errorMessage && <p role='alert'>{errorMessage}</p>}
 
           {status === 'idle' && bookings.length === 0 && (
             <MyBookingsEmptyState period={activePeriod} />
@@ -78,10 +81,14 @@ const MyBookingsView = ({ status = 'idle' }: MyBookingsViewProps) => {
             />
           )}
 
-          {status === 'idle' &&
-            activePeriod === 'past' &&
-            bookings.length > 0 &&
-            hasMorePastBookings && <MyBookingsLoadMore onLoadMore={loadMorePastBookings} />}
+          {status === 'idle' && bookings.length > 0 && hasMoreBookings && (
+            <MyBookingsLoadMore
+              isLoading={isLoadingMore}
+              onLoadMore={() => {
+                void loadMoreBookings()
+              }}
+            />
+          )}
         </div>
       </section>
 

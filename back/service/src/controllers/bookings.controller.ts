@@ -12,22 +12,43 @@ export const bookingsController = {
     try {
       const { user } = req as AuthRequest
 
-      const page = Number(req.query.pastPage ?? 1)
-      const limit = Number(req.query.pastLimit ?? 10)
+      const upcomingPage = Number(req.query.upcomingPage ?? 1)
+      const upcomingLimit = Number(req.query.upcomingLimit ?? 10)
 
-      if (!Number.isInteger(page) || page < 1) {
+      const pastPage = Number(req.query.pastPage ?? 1)
+      const pastLimit = Number(req.query.pastLimit ?? 10)
+
+      if (!Number.isInteger(upcomingPage) || upcomingPage < 1) {
+        return res.status(400).json({
+          message: 'Invalid upcoming page',
+        })
+      }
+
+      if (!Number.isInteger(upcomingLimit) || upcomingLimit < 1 || upcomingLimit > 50) {
+        return res.status(400).json({
+          message: 'Invalid upcoming limit',
+        })
+      }
+
+      if (!Number.isInteger(pastPage) || pastPage < 1) {
         return res.status(400).json({
           message: 'Invalid past page',
         })
       }
 
-      if (!Number.isInteger(limit) || limit < 1 || limit > 50) {
+      if (!Number.isInteger(pastLimit) || pastLimit < 1 || pastLimit > 50) {
         return res.status(400).json({
           message: 'Invalid past limit',
         })
       }
 
-      const bookings = await bookingsService.getUserBookings(user.id, page, limit)
+      const bookings = await bookingsService.getUserBookings(
+        user.id,
+        upcomingPage,
+        upcomingLimit,
+        pastPage,
+        pastLimit,
+      )
 
       return res.status(200).json(bookings)
     } catch (err: unknown) {

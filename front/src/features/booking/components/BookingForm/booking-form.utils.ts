@@ -174,11 +174,15 @@ export const validateBookingForm = (values: BookingFormValues): BookingFormError
   }
 
   if (values.repeatWeekly) {
-    if (!Number.isInteger(values.recurrenceCount)) {
+    const recurrenceCount = Number(values.recurrenceCount)
+
+    if (!values.recurrenceCount.trim()) {
+      errors.recurrenceCount = 'Enter the number of occurrences.'
+    } else if (!Number.isInteger(recurrenceCount)) {
       errors.recurrenceCount = 'Occurrences must be a whole number.'
-    } else if (values.recurrenceCount < MIN_RECURRENCE_COUNT) {
+    } else if (recurrenceCount < MIN_RECURRENCE_COUNT) {
       errors.recurrenceCount = `Create at least ${MIN_RECURRENCE_COUNT} occurrences.`
-    } else if (values.recurrenceCount > MAX_RECURRENCE_COUNT) {
+    } else if (recurrenceCount > MAX_RECURRENCE_COUNT) {
       errors.recurrenceCount = `Create no more than ${MAX_RECURRENCE_COUNT} occurrences.`
     }
   }
