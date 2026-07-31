@@ -6,9 +6,6 @@ import { type ReactNode, useCallback, useEffect, useMemo, useState } from 'react
 // API
 import { getCurrentUser } from '@features/auth/api'
 
-// Lib
-import { normalizeApiError } from '@lib/api'
-
 // Context
 import AuthContext from './auth-context'
 
@@ -38,15 +35,9 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
       setStatus('authenticated')
 
       return currentUser
-    } catch (error) {
-      const apiError = normalizeApiError(error)
-
+    } catch {
       setUser(null)
       setStatus('unauthenticated')
-
-      if (apiError.status !== 401) {
-        console.error('Failed to restore authentication session:', error)
-      }
 
       return null
     }
