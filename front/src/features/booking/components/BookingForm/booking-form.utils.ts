@@ -4,10 +4,11 @@ import type { BookingFormErrors, BookingFormValues } from './booking-form.types'
 // Constants
 import {
   MAX_BOOKING_DURATION_MINUTES,
+  MAX_RECURRENCE_COUNT,
   MAX_TITLE_LENGTH,
+  MINUTES_IN_DAY,
   MINUTES_IN_HOUR,
-  OFFICE_END_MINUTES,
-  OFFICE_START_MINUTES,
+  MIN_RECURRENCE_COUNT,
   SLOT_DURATION_MINUTES,
 } from './booking-form.constants'
 
@@ -18,7 +19,14 @@ export const getTimeInMinutes = (value: string): number | null => {
 
   const [hours, minutes] = value.split(':').map(Number)
 
-  if (Number.isNaN(hours) || Number.isNaN(minutes)) {
+  if (
+    Number.isNaN(hours) ||
+    Number.isNaN(minutes) ||
+    hours < 0 ||
+    hours > 23 ||
+    minutes < 0 ||
+    minutes > 59
+  ) {
     return null
   }
 
@@ -26,9 +34,11 @@ export const getTimeInMinutes = (value: string): number | null => {
 }
 
 export const formatTimeFromMinutes = (totalMinutes: number): string => {
-  const hours = Math.floor(totalMinutes / MINUTES_IN_HOUR)
+  const normalizedMinutes = ((totalMinutes % MINUTES_IN_DAY) + MINUTES_IN_DAY) % MINUTES_IN_DAY
 
-  const minutes = totalMinutes % MINUTES_IN_HOUR
+  const hours = Math.floor(normalizedMinutes / MINUTES_IN_HOUR)
+
+  const minutes = normalizedMinutes % MINUTES_IN_HOUR
 
   return [String(hours).padStart(2, '0'), String(minutes).padStart(2, '0')].join(':')
 }
@@ -40,13 +50,7 @@ export const getDefaultEndTime = (startTime: string): string => {
     return '09:30'
   }
 
-  const endMinutes = startMinutes + SLOT_DURATION_MINUTES
-
-  if (endMinutes > OFFICE_END_MINUTES) {
-    return formatTimeFromMinutes(OFFICE_END_MINUTES)
-  }
-
-  return formatTimeFromMinutes(endMinutes)
+  return formatTimeFromMinutes(startMinutes + SLOT_DURATION_MINUTES)
 }
 
 export const getDurationMinutes = (startTime: string, endTime: string): number => {
@@ -58,7 +62,11 @@ export const getDurationMinutes = (startTime: string, endTime: string): number =
     return 0
   }
 
-  return endMinutes - startMinutes
+  if (endMinutes >= startMinutes) {
+    return endMinutes - startMinutes
+  }
+
+  return MINUTES_IN_DAY - startMinutes + endMinutes
 }
 
 export const formatDuration = (durationMinutes: number): string => {
@@ -79,6 +87,7 @@ const isAlignedToSlot = (minutes: number): boolean => {
 
 const createLocalDateTime = (date: string, time: string): Date | null => {
   const dateMatch = /^(\d{4})-(\d{2})-(\d{2})$/.exec(date)
+
   const timeMatch = /^(\d{2}):(\d{2})$/.exec(time)
 
   if (!dateMatch || !timeMatch) {
@@ -109,6 +118,7 @@ export const validateBookingForm = (values: BookingFormValues): BookingFormError
   const title = values.title.trim()
 
   const startMinutes = getTimeInMinutes(values.startTime)
+
   const endMinutes = getTimeInMinutes(values.endTime)
 
   const durationMinutes = getDurationMinutes(values.startTime, values.endTime)
@@ -131,16 +141,12 @@ export const validateBookingForm = (values: BookingFormValues): BookingFormError
     errors.startTime = 'Select a start time.'
   } else if (!isAlignedToSlot(startMinutes)) {
     errors.startTime = 'Start time must use 30-minute intervals.'
-  } else if (startMinutes < OFFICE_START_MINUTES || startMinutes >= OFFICE_END_MINUTES) {
-    errors.startTime = 'Start time must be within office hours, 09:00–19:00.'
   }
 
   if (endMinutes === null) {
     errors.endTime = 'Select an end time.'
   } else if (!isAlignedToSlot(endMinutes)) {
     errors.endTime = 'End time must use 30-minute intervals.'
-  } else if (endMinutes <= OFFICE_START_MINUTES || endMinutes > OFFICE_END_MINUTES) {
-    errors.endTime = 'End time must be within office hours, 09:00–19:00.'
   } else if (startMinutes !== null && durationMinutes <= 0) {
     errors.endTime = 'The end time must be later than the start time.'
   } else if (startMinutes !== null && durationMinutes < SLOT_DURATION_MINUTES) {
@@ -150,6 +156,7 @@ export const validateBookingForm = (values: BookingFormValues): BookingFormError
   }
 
   const startDateTime = createLocalDateTime(values.date, values.startTime)
+
   const endDateTime = createLocalDateTime(values.date, values.endTime)
 
   if (values.date && values.startTime && !startDateTime) {
@@ -162,7 +169,18 @@ export const validateBookingForm = (values: BookingFormValues): BookingFormError
 
   if (startDateTime && startDateTime.getTime() <= Date.now()) {
     errors.date = 'Booking must start in the future.'
+
     errors.startTime = 'Select a time that has not passed yet.'
+  }
+
+  if (values.repeatWeekly) {
+    if (!Number.isInteger(values.recurrenceCount)) {
+      errors.recurrenceCount = 'Occurrences must be a whole number.'
+    } else if (values.recurrenceCount < MIN_RECURRENCE_COUNT) {
+      errors.recurrenceCount = `Create at least ${MIN_RECURRENCE_COUNT} occurrences.`
+    } else if (values.recurrenceCount > MAX_RECURRENCE_COUNT) {
+      errors.recurrenceCount = `Create no more than ${MAX_RECURRENCE_COUNT} occurrences.`
+    }
   }
 
   return errors
@@ -170,18 +188,40 @@ export const validateBookingForm = (values: BookingFormValues): BookingFormError
 
 export const formatDateInputValue = (date: Date): string => {
   const year = date.getFullYear()
+
   const month = String(date.getMonth() + 1).padStart(2, '0')
+
   const day = String(date.getDate()).padStart(2, '0')
 
   return `${year}-${month}-${day}`
 }
 
 export const createBookingDateTime = (date: string, time: string): string => {
-  const value = new Date(`${date}T${time}:00`)
+  const value = createLocalDateTime(date, time)
 
-  if (Number.isNaN(value.getTime())) {
+  if (!value) {
     throw new Error('Invalid booking date or time')
   }
 
   return value.toISOString()
+}
+
+export const createBookingEndDateTime = (
+  date: string,
+  startTime: string,
+  endTime: string,
+): string => {
+  const startDate = createLocalDateTime(date, startTime)
+
+  const endDate = createLocalDateTime(date, endTime)
+
+  if (!startDate || !endDate) {
+    throw new Error('Invalid booking date or time')
+  }
+
+  if (endDate.getTime() <= startDate.getTime()) {
+    endDate.setDate(endDate.getDate() + 1)
+  }
+
+  return endDate.toISOString()
 }
