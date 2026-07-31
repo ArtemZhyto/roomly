@@ -1,7 +1,7 @@
 // Types
 import type { AuthUser } from '@features/auth/api'
 
-export type AuthStatus = 'loading' | 'authenticated' | 'unauthenticated'
+export type AuthStatus = 'loading' | 'authenticated' | 'unauthenticated' | 'error'
 
 export interface AuthContextValue {
   user: AuthUser | null
