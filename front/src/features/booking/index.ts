@@ -10,6 +10,7 @@ export { createBooking, deleteBooking, deleteBookingSeries, getMyBookings } from
 export type {
   BookingRecurrenceRequest,
   BookingRoomSummary,
+  BookingsPage,
   CreateBookingRequest,
   CreateBookingResponse,
   CreatedBooking,
@@ -17,6 +18,5 @@ export type {
   CreatedRecurringBooking,
   GetMyBookingsParams,
   MyBookingsResponse,
-  PastBookingsPage,
   UserBooking,
 } from './api'
