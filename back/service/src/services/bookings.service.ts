@@ -18,11 +18,20 @@ if (!OFFICE_TIME_ZONE) {
 }
 
 export const bookingsService = {
-  getUserBookings: async (userId: number, pastPage: number, pastLimit: number) => {
+  getUserBookings: async (
+    userId: number,
+    upcomingPage: number,
+    upcomingLimit: number,
+    pastPage: number,
+    pastLimit: number,
+  ) => {
     const now = new Date()
-    const skip = (pastPage - 1) * pastLimit
 
-    const [upcoming, pastItems, pastTotal] = await Promise.all([
+    const upcomingSkip = (upcomingPage - 1) * upcomingLimit
+
+    const pastSkip = (pastPage - 1) * pastLimit
+
+    const [upcomingItems, upcomingTotal, pastItems, pastTotal] = await Promise.all([
       __PRISMA.booking.findMany({
         where: {
           userId,
@@ -42,6 +51,17 @@ export const bookingsService = {
         },
         orderBy: {
           startTime: 'asc',
+        },
+        skip: upcomingSkip,
+        take: upcomingLimit,
+      }),
+
+      __PRISMA.booking.count({
+        where: {
+          userId,
+          endTime: {
+            gt: now,
+          },
         },
       }),
 
@@ -65,7 +85,7 @@ export const bookingsService = {
         orderBy: {
           startTime: 'desc',
         },
-        skip,
+        skip: pastSkip,
         take: pastLimit,
       }),
 
@@ -80,7 +100,14 @@ export const bookingsService = {
     ])
 
     return {
-      upcoming,
+      upcoming: {
+        items: upcomingItems,
+        page: upcomingPage,
+        limit: upcomingLimit,
+        total: upcomingTotal,
+        totalPages: Math.ceil(upcomingTotal / upcomingLimit),
+      },
+
       past: {
         items: pastItems,
         page: pastPage,

@@ -1,20 +1,20 @@
 'use client'
 
 // Modules
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
-// Data
-import { mockMyBookings } from '../../data'
+// Features
+import { deleteBooking, deleteBookingSeries, getMyBookings } from '@features/booking'
 
 // Types
-import type { MyBooking, MyBookingPeriod } from '../../types'
+import type { BookingCancellationScope, MyBooking, MyBookingPeriod } from '../../types'
 
 // Utils
-import { sortPastBookings, sortUpcomingBookings } from '../../utils'
+import { mapUserBookings, sortPastBookings, sortUpcomingBookings } from '../../utils'
 
-const MOCK_CANCEL_DELAY = 900
-const INITIAL_PAST_BOOKINGS_COUNT = 3
-const PAST_BOOKINGS_PAGE_SIZE = 3
+const BOOKINGS_PAGE_SIZE = 10
+
+type MyBookingsStatus = 'loading' | 'idle' | 'error'
 
 interface UseMyBookingsViewResult {
   activePeriod: MyBookingPeriod
@@ -22,22 +22,64 @@ interface UseMyBookingsViewResult {
   upcomingCount: number
   pastCount: number
   selectedBooking: MyBooking | null
+  status: MyBookingsStatus
+  errorMessage: string | null
   isCancellationDialogOpen: boolean
   isCancelling: boolean
+  hasMoreBookings: boolean
+  isLoadingMore: boolean
   setActivePeriod: (period: MyBookingPeriod) => void
   openBooking: (booking: MyBooking) => void
   requestCancellation: (booking: MyBooking) => void
   closeCancellationDialog: () => void
   finishCancellationDialogClose: () => void
-  confirmCancellation: () => void
-  hasMorePastBookings: boolean
-  loadMorePastBookings: () => void
+  confirmCancellation: (scope: BookingCancellationScope) => Promise<void>
+  loadMoreBookings: () => Promise<void>
+  retry: () => Promise<void>
+}
+
+const getErrorMessage = (error: unknown): string => {
+  if (typeof error === 'object' && error !== null && 'response' in error) {
+    const response = (
+      error as {
+        response?: {
+          data?: {
+            message?: string
+          }
+        }
+      }
+    ).response
+
+    if (response?.data?.message) {
+      return response.data.message
+    }
+  }
+
+  return 'Something went wrong while loading your bookings.'
 }
 
 const useMyBookingsView = (): UseMyBookingsViewResult => {
   const [activePeriod, setActivePeriod] = useState<MyBookingPeriod>('upcoming')
 
-  const [allBookings, setAllBookings] = useState<MyBooking[]>(mockMyBookings)
+  const [upcomingBookings, setUpcomingBookings] = useState<MyBooking[]>([])
+
+  const [pastBookings, setPastBookings] = useState<MyBooking[]>([])
+
+  const [upcomingPage, setUpcomingPage] = useState(1)
+
+  const [upcomingTotal, setUpcomingTotal] = useState(0)
+
+  const [upcomingTotalPages, setUpcomingTotalPages] = useState(0)
+
+  const [pastPage, setPastPage] = useState(1)
+
+  const [pastTotal, setPastTotal] = useState(0)
+
+  const [pastTotalPages, setPastTotalPages] = useState(0)
+
+  const [status, setStatus] = useState<MyBookingsStatus>('loading')
+
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   const [selectedBooking, setSelectedBooking] = useState<MyBooking | null>(null)
 
@@ -45,41 +87,74 @@ const useMyBookingsView = (): UseMyBookingsViewResult => {
 
   const [isCancelling, setIsCancelling] = useState(false)
 
-  const [visiblePastBookingsCount, setVisiblePastBookingsCount] = useState(
-    INITIAL_PAST_BOOKINGS_COUNT,
-  )
+  const [isLoadingMore, setIsLoadingMore] = useState(false)
 
-  const cancelTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const loadInitialBookings = useCallback(async () => {
+    setStatus('loading')
+    setErrorMessage(null)
 
-  useEffect(() => {
-    return () => {
-      if (cancelTimeoutRef.current) {
-        clearTimeout(cancelTimeoutRef.current)
-      }
+    try {
+      const response = await getMyBookings({
+        upcomingPage: 1,
+        upcomingLimit: BOOKINGS_PAGE_SIZE,
+        pastPage: 1,
+        pastLimit: BOOKINGS_PAGE_SIZE,
+      })
+
+      setUpcomingBookings(
+        sortUpcomingBookings(mapUserBookings(response.upcoming.items, 'upcoming')),
+      )
+
+      setPastBookings(sortPastBookings(mapUserBookings(response.past.items, 'past')))
+
+      setUpcomingPage(response.upcoming.page)
+
+      setUpcomingTotal(response.upcoming.total)
+
+      setUpcomingTotalPages(response.upcoming.totalPages)
+
+      setPastPage(response.past.page)
+      setPastTotal(response.past.total)
+
+      setPastTotalPages(response.past.totalPages)
+
+      setStatus('idle')
+    } catch (error: unknown) {
+      setErrorMessage(getErrorMessage(error))
+
+      setStatus('error')
     }
   }, [])
 
-  const upcomingBookings = useMemo(() => {
-    return sortUpcomingBookings(allBookings.filter((booking) => booking.period === 'upcoming'))
-  }, [allBookings])
+  useEffect(() => {
+    void loadInitialBookings()
+  }, [loadInitialBookings])
 
-  const pastBookings = useMemo(() => {
-    return sortPastBookings(allBookings.filter((booking) => booking.period === 'past'))
-  }, [allBookings])
+  const bookings = useMemo(() => {
+    return activePeriod === 'upcoming' ? upcomingBookings : pastBookings
+  }, [activePeriod, upcomingBookings, pastBookings])
 
-  const visiblePastBookings = pastBookings.slice(0, visiblePastBookingsCount)
-  const hasMorePastBookings = visiblePastBookingsCount < pastBookings.length
-
-  const bookings = activePeriod === 'upcoming' ? upcomingBookings : visiblePastBookings
+  const hasMoreBookings =
+    activePeriod === 'upcoming' ? upcomingPage < upcomingTotalPages : pastPage < pastTotalPages
 
   const openBooking = (booking: MyBooking) => {
-    const bookingDate = booking.startAt.slice(0, 10)
+    const localDate = new Date(booking.startAt)
+
+    const year = localDate.getFullYear()
+
+    const month = String(localDate.getMonth() + 1).padStart(2, '0')
+
+    const day = String(localDate.getDate()).padStart(2, '0')
+
+    const bookingDate = `${year}-${month}-${day}`
 
     window.location.href = `/schedule?room=${booking.roomId}` + `&date=${bookingDate}`
   }
 
   const requestCancellation = (booking: MyBooking) => {
     setSelectedBooking(booking)
+    setErrorMessage(null)
+
     setIsCancellationDialogOpen(true)
   }
 
@@ -95,46 +170,122 @@ const useMyBookingsView = (): UseMyBookingsViewResult => {
     setSelectedBooking(null)
   }
 
-  const confirmCancellation = () => {
+  const confirmCancellation = async (scope: BookingCancellationScope) => {
     if (!selectedBooking || isCancelling) {
       return
     }
 
     setIsCancelling(true)
+    setErrorMessage(null)
 
-    const bookingId = selectedBooking.id
+    try {
+      if (scope === 'series' && selectedBooking.seriesId !== null) {
+        await deleteBookingSeries(selectedBooking.seriesId)
+      } else {
+        await deleteBooking(selectedBooking.id)
+      }
 
-    cancelTimeoutRef.current = setTimeout(() => {
-      setAllBookings((currentBookings) =>
-        currentBookings.filter((booking) => booking.id !== bookingId),
-      )
-
-      setIsCancelling(false)
       setIsCancellationDialogOpen(false)
-      cancelTimeoutRef.current = null
-    }, MOCK_CANCEL_DELAY)
+
+      await loadInitialBookings()
+    } catch (error: unknown) {
+      setErrorMessage(getErrorMessage(error))
+    } finally {
+      setIsCancelling(false)
+    }
   }
 
-  const loadMorePastBookings = () => {
-    setVisiblePastBookingsCount((currentCount) => currentCount + PAST_BOOKINGS_PAGE_SIZE)
+  const loadMoreBookings = async () => {
+    if (isLoadingMore || !hasMoreBookings) {
+      return
+    }
+
+    setIsLoadingMore(true)
+    setErrorMessage(null)
+
+    try {
+      if (activePeriod === 'upcoming') {
+        const nextPage = upcomingPage + 1
+
+        const response = await getMyBookings({
+          upcomingPage: nextPage,
+          upcomingLimit: BOOKINGS_PAGE_SIZE,
+          pastPage: 1,
+          pastLimit: BOOKINGS_PAGE_SIZE,
+        })
+
+        const nextBookings = mapUserBookings(response.upcoming.items, 'upcoming')
+
+        setUpcomingBookings((currentBookings) => {
+          const existingIds = new Set(currentBookings.map((booking) => booking.id))
+
+          return sortUpcomingBookings([
+            ...currentBookings,
+            ...nextBookings.filter((booking) => !existingIds.has(booking.id)),
+          ])
+        })
+
+        setUpcomingPage(response.upcoming.page)
+
+        setUpcomingTotal(response.upcoming.total)
+
+        setUpcomingTotalPages(response.upcoming.totalPages)
+
+        return
+      }
+
+      const nextPage = pastPage + 1
+
+      const response = await getMyBookings({
+        upcomingPage: 1,
+        upcomingLimit: BOOKINGS_PAGE_SIZE,
+        pastPage: nextPage,
+        pastLimit: BOOKINGS_PAGE_SIZE,
+      })
+
+      const nextBookings = mapUserBookings(response.past.items, 'past')
+
+      setPastBookings((currentBookings) => {
+        const existingIds = new Set(currentBookings.map((booking) => booking.id))
+
+        return sortPastBookings([
+          ...currentBookings,
+          ...nextBookings.filter((booking) => !existingIds.has(booking.id)),
+        ])
+      })
+
+      setPastPage(response.past.page)
+
+      setPastTotal(response.past.total)
+
+      setPastTotalPages(response.past.totalPages)
+    } catch (error: unknown) {
+      setErrorMessage(getErrorMessage(error))
+    } finally {
+      setIsLoadingMore(false)
+    }
   }
 
   return {
     activePeriod,
     bookings,
-    upcomingCount: upcomingBookings.length,
-    pastCount: pastBookings.length,
+    upcomingCount: upcomingTotal,
+    pastCount: pastTotal,
     selectedBooking,
+    status,
+    errorMessage,
     isCancellationDialogOpen,
     isCancelling,
-    hasMorePastBookings,
+    hasMoreBookings,
+    isLoadingMore,
     setActivePeriod,
     openBooking,
     requestCancellation,
     closeCancellationDialog,
     finishCancellationDialogClose,
     confirmCancellation,
-    loadMorePastBookings,
+    loadMoreBookings,
+    retry: loadInitialBookings,
   }
 }
 

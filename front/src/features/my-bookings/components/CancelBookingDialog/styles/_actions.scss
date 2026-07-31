@@ -1,41 +1,86 @@
 .actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
+  display: grid;
+  gap: 12px;
 
   margin-top: 24px;
 }
 
-.secondaryButton,
-.dangerButton {
+.actionsSingle {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.actionsRecurring {
+  grid-template-columns: 1fr;
+}
+
+.cancelActions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.keepButton,
+.dangerButton,
+.occurrenceButton,
+.seriesButton {
   display: inline-flex;
-  min-height: 42px;
+  min-height: 46px;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 9px;
 
-  padding-inline: 16px;
+  padding: 11px 16px;
 
   border-radius: var(--radius-control);
 
+  font: inherit;
   font-size: 14px;
   font-weight: 650;
+  line-height: 1.15;
 
   cursor: pointer;
 
   transition:
-    border-color 160ms ease,
-    background-color 160ms ease,
-    color 160ms ease,
-    opacity 160ms ease;
+    transform 150ms ease,
+    border-color 150ms ease,
+    background-color 150ms ease,
+    color 150ms ease,
+    box-shadow 150ms ease,
+    opacity 150ms ease;
+
+  span {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+
+    text-align: left;
+  }
+
+  small {
+    font-size: 11px;
+    font-weight: 500;
+    opacity: 0.72;
+  }
 
   &:disabled {
     cursor: not-allowed;
-    opacity: 0.65;
+    opacity: 0.62;
+    transform: none;
+  }
+
+  &:focus-visible {
+    outline: none;
+
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 20%, transparent);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(1px);
   }
 }
 
-.secondaryButton {
+.keepButton {
   border: 1px solid var(--color-border);
 
   color: var(--color-text-primary);
@@ -43,27 +88,110 @@
 
   &:hover:not(:disabled) {
     border-color: var(--color-border-strong);
-    background: var(--color-surface-muted);
+    background: var(--color-surface-secondary);
   }
 }
 
 .dangerButton {
-  border: 1px solid var(--color-danger);
+  border: 1px solid color-mix(in srgb, var(--color-danger) 34%, var(--color-border));
 
-  color: white;
-  background: var(--color-danger);
+  color: var(--color-danger);
+
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-danger) 7%, var(--color-surface)),
+    color-mix(in srgb, var(--color-danger) 3%, var(--color-surface))
+  );
 
   &:hover:not(:disabled) {
-    background: color-mix(in srgb, var(--color-danger) 88%, black);
+    border-color: var(--color-danger);
+
+    background: color-mix(in srgb, var(--color-danger) 10%, var(--color-surface));
+
+    box-shadow: 0 8px 20px color-mix(in srgb, var(--color-danger) 12%, transparent);
+  }
+}
+
+.occurrenceButton {
+  min-height: 58px;
+
+  border: 1px solid color-mix(in srgb, var(--color-danger) 32%, var(--color-border));
+
+  color: var(--color-danger);
+
+  background: linear-gradient(
+    135deg,
+    var(--color-surface),
+    color-mix(in srgb, var(--color-danger) 6%, var(--color-surface))
+  );
+
+  &:hover:not(:disabled) {
+    border-color: color-mix(in srgb, var(--color-danger) 70%, var(--color-border));
+
+    background: color-mix(in srgb, var(--color-danger) 9%, var(--color-surface));
+
+    transform: translateY(-1px);
+  }
+}
+
+.seriesButton {
+  min-height: 58px;
+
+  border: 1px solid var(--color-danger);
+
+  color: #fff;
+
+  background: linear-gradient(
+    135deg,
+    var(--color-danger),
+    color-mix(in srgb, var(--color-danger) 78%, #000)
+  );
+
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--color-danger) 20%, transparent);
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+
+    box-shadow: 0 13px 28px color-mix(in srgb, var(--color-danger) 28%, transparent);
   }
 }
 
 .spinner {
-  animation: spin 700ms linear infinite;
+  flex: 0 0 auto;
+
+  animation: cancel-dialog-spin 700ms linear infinite;
 }
 
-@keyframes spin {
+@keyframes cancel-dialog-spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 640px) {
+  .actionsSingle,
+  .cancelActions {
+    grid-template-columns: 1fr;
+  }
+
+  .dangerButton {
+    order: 1;
+  }
+
+  .keepButton {
+    order: 2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .keepButton,
+  .dangerButton,
+  .occurrenceButton,
+  .seriesButton {
+    transition: none;
+  }
+
+  .spinner {
+    animation-duration: 1.4s;
   }
 }

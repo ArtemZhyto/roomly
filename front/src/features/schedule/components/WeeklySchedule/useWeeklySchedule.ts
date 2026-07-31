@@ -161,7 +161,7 @@ const useWeeklySchedule = ({ room, initialDate }: UseWeeklyScheduleOptions) => {
         recurrence: values.repeatWeekly
           ? {
               frequency: 'weekly',
-              count: values.recurrenceCount,
+              count: Number(values.recurrenceCount),
             }
           : undefined,
       })
