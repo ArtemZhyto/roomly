@@ -28,7 +28,8 @@ model User {
   emailVerifiedAt  DateTime?
   verificationCode EmailVerificationCode?
 
-  notifications Notification[]
+  notifications       Notification[]
+  passwordResetTokens PasswordResetToken[]
 }
 
 model EmailVerificationCode {
@@ -39,6 +40,22 @@ model EmailVerificationCode {
   createdAt DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model PasswordResetToken {
+  id Int @id @default(autoincrement())
+
+  tokenHash String @unique
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  expiresAt DateTime  @db.Timestamptz(3)
+  usedAt    DateTime? @db.Timestamptz(3)
+  createdAt DateTime  @default(now()) @db.Timestamptz(3)
+
+  @@index([userId])
+  @@index([expiresAt])
 }
 
 model Room {

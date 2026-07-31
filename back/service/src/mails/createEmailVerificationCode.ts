@@ -37,7 +37,5 @@ export const createEmailVerificationCode = async (userId: number, email: string)
     },
   })
 
-  const verificationUrl = `${FRONTEND_URL}/verify-email?code=${verificationCode}`
-
-  console.log(`[Email verification] ${email}: ${verificationUrl}`)
+  console.log(`[Email verification] ${email}: ${verificationCode}`)
 }

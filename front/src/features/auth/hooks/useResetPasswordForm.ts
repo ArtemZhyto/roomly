@@ -4,7 +4,11 @@
 import { type ChangeEvent, type FormEvent, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
+// API
+import { resetPassword } from '../api'
+
 // Lib
+import { normalizeApiError } from '@lib/api'
 import { validateConfirmedPassword, validatePassword } from '../lib/authValidation'
 
 // Types
@@ -27,6 +31,7 @@ const useResetPasswordForm = (token?: string) => {
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false)
 
   const [isSubmitting, setIsSubmitting] = useState(false)
+
   const [isSuccess, setIsSuccess] = useState(false)
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -69,6 +74,7 @@ const useResetPasswordForm = (token?: string) => {
       setErrors({
         form: 'This password reset link is missing or invalid.',
       })
+
       return
     }
 
@@ -83,13 +89,26 @@ const useResetPasswordForm = (token?: string) => {
     setErrors({})
 
     try {
-      // TODO: Send the new password to the auth API.
-      await new Promise((resolve) => setTimeout(resolve, 600))
+      await resetPassword({
+        token,
+        password: values.password,
+        confirmPassword: values.confirmPassword,
+      })
 
       setIsSuccess(true)
-    } catch {
+    } catch (error: unknown) {
+      const normalizedError = normalizeApiError(error)
+
       setErrors({
-        form: 'We couldn’t reset your password. Please request a new reset link.',
+        password: normalizedError.fieldErrors.password?.[0],
+
+        confirmPassword: normalizedError.fieldErrors.confirmPassword?.[0],
+
+        form:
+          normalizedError.fieldErrors.password?.length ||
+          normalizedError.fieldErrors.confirmPassword?.length
+            ? undefined
+            : getResetPasswordErrorMessage(normalizedError.message),
       })
     } finally {
       setIsSubmitting(false)
@@ -120,6 +139,22 @@ const useResetPasswordForm = (token?: string) => {
     togglePasswordVisibility,
     toggleConfirmPasswordVisibility,
     goToSignIn,
+  }
+}
+
+const getResetPasswordErrorMessage = (message: string): string => {
+  switch (message) {
+    case 'Invalid password reset token':
+      return 'This password reset link is invalid.'
+
+    case 'Password reset token has expired':
+      return 'This password reset link has expired. Please request a new one.'
+
+    case 'Password reset token has already been used':
+      return 'This password reset link has already been used. Please request a new one.'
+
+    default:
+      return 'We couldn’t reset your password. Please request a new reset link.'
   }
 }
 

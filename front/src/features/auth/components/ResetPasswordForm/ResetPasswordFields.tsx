@@ -1,5 +1,5 @@
 // Components
-import FieldError from '@components/ui/FieldError'
+import FieldError from '@components-ui/FieldError'
 
 // Lib
 import getAuthInputClassName from '../../lib/getAuthInputClassName'

@@ -722,7 +722,8 @@
         {
           "id": "task-e738faf5-1c0b-41e7-a823-ad759b2c5ce5",
           "title": "Create shared error states",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-7acb4142-56ef-4301-83f6-6a21c02ffb93",
@@ -794,7 +795,8 @@
         {
           "id": "task-abdd3638-5d9c-489a-ab8d-9173b54378f4",
           "title": "Add booking-end notifications",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-c6f602c1-aa1d-4ebf-85dc-100c4e33ba58",

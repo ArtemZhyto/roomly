@@ -2,7 +2,15 @@
 import { apiClient } from '@lib/api'
 
 // Types
-import type { AuthUser, LoginRequest, RegisterRequest, VerifyEmailRequest } from './auth.types'
+import type {
+  AuthUser,
+  ForgotPasswordRequest,
+  ForgotPasswordResponse,
+  LoginRequest,
+  RegisterRequest,
+  ResetPasswordRequest,
+  VerifyEmailRequest,
+} from './auth.types'
 
 export const login = async (payload: LoginRequest): Promise<void> => {
   await apiClient.post('/auth/login', payload)
@@ -10,6 +18,18 @@ export const login = async (payload: LoginRequest): Promise<void> => {
 
 export const register = async (payload: RegisterRequest): Promise<void> => {
   await apiClient.post('/auth/register', payload)
+}
+
+export const forgotPassword = async (
+  payload: ForgotPasswordRequest,
+): Promise<ForgotPasswordResponse> => {
+  const response = await apiClient.post<ForgotPasswordResponse>('/auth/forgot-password', payload)
+
+  return response.data
+}
+
+export const resetPassword = async (payload: ResetPasswordRequest): Promise<void> => {
+  await apiClient.post('/auth/reset-password', payload)
 }
 
 export const getCurrentUser = async (): Promise<AuthUser> => {

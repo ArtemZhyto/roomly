@@ -19,6 +19,7 @@ const VerifyEmailContent = ({ email }: VerifyEmailContentProps) => {
     isSubmitting,
     isResending,
     isResent,
+    cooldown,
     handleCodeChange,
     handleSubmit,
     resendVerificationEmail,
@@ -62,7 +63,10 @@ const VerifyEmailContent = ({ email }: VerifyEmailContentProps) => {
       <ResendVerification
         isResending={isResending}
         isResent={isResent}
-        onResend={() => void resendVerificationEmail()}
+        cooldown={cooldown}
+        onResend={() => {
+          void resendVerificationEmail()
+        }}
       />
     </div>
   )

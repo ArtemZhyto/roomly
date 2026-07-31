@@ -22,15 +22,6 @@ export interface VerificationSuccessProps {
 export interface ResendVerificationProps {
   isResending: boolean
   isResent: boolean
+  cooldown: number
   onResend: () => void
-}
-
-export interface CheckEmailActionsProps {
-  email?: string
-  isResending: boolean
-  onResend: () => void
-}
-
-export interface CheckEmailContentProps {
-  email?: string
 }

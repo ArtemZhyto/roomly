@@ -1,3 +1,6 @@
+// Modules
+import jwt from 'jsonwebtoken'
+
 // Types
 import { Request, Response, NextFunction } from 'express'
 
@@ -10,7 +13,6 @@ import { createTokens } from '@helpers/createTokens'
 // Interfaces
 import { Register, Login, Payload, AuthRequest } from '@ts/interfaces/auth'
 import __PRISMA, { __COOKIE_OPTION } from '@configs/config'
-import jwt from 'jsonwebtoken'
 
 const REFRESH_SECRET = process.env.REFRESH_SECRET
 
@@ -84,6 +86,58 @@ export const authController = {
       return res.sendStatus(200)
     } catch (err: unknown) {
       next(err)
+    }
+  },
+
+  forgotPassword: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { email } = req.body as { email: string }
+
+      await authService.forgotPassword({ email })
+
+      return res.status(200).json({
+        message: 'If an account with that email exists, a password reset link has been generated.',
+        retryAfterSeconds: 60,
+      })
+    } catch (error: unknown) {
+      next(error)
+    }
+  },
+
+  resetPassword: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { token, password } = req.body as {
+        token: string
+        password: string
+        confirmPassword: string
+      }
+
+      await authService.resetPassword({ token, password })
+
+      res.clearCookie('refreshToken', {
+        ...__COOKIE_OPTION,
+      })
+
+      res.clearCookie('accessToken', {
+        ...__COOKIE_OPTION,
+      })
+
+      return res.status(200).json({
+        message: 'Password reset successfully',
+      })
+    } catch (error: unknown) {
+      if (
+        error instanceof Error &&
+        (error.message === 'Invalid password reset token' ||
+          error.message === 'Password reset token has already been used' ||
+          error.message === 'Password reset token has expired')
+      ) {
+        return res.status(400).json({
+          message: error.message,
+        })
+      }
+
+      next(error)
     }
   },
 
