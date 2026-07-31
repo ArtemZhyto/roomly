@@ -67,12 +67,6 @@ export const initializeSocket = (httpServer: HttpServer): Server => {
     const user = socket.data.user as Payload
 
     socket.join(`user:${user.id}`)
-
-    console.log(`Socket connected: ${socket.id}, user: ${user.id}`)
-
-    socket.on('disconnect', () => {
-      console.log(`Socket disconnected: ${socket.id}`)
-    })
   })
 
   return io

@@ -1,6 +1,7 @@
 'use client'
 
 // Components
+import PageHeader from '@components/layout/PageHeader'
 import BookingList from '../BookingList'
 import BookingTabs from '../BookingTabs'
 import CancelBookingDialog from '../CancelBookingDialog'
@@ -38,23 +39,23 @@ const MyBookingsView = () => {
     retry,
   } = useMyBookingsView()
 
+  const bookingTabs = (
+    <BookingTabs
+      activePeriod={activePeriod}
+      upcomingCount={upcomingCount}
+      pastCount={pastCount}
+      onChange={setActivePeriod}
+    />
+  )
+
   return (
     <>
       <section className={styles.section}>
-        <div className={styles.toolbar}>
-          <div>
-            <h1 className={styles.title}>My bookings</h1>
-
-            <p className={styles.description}>View and manage your meeting room reservations.</p>
-          </div>
-
-          <BookingTabs
-            activePeriod={activePeriod}
-            upcomingCount={upcomingCount}
-            pastCount={pastCount}
-            onChange={setActivePeriod}
-          />
-        </div>
+        <PageHeader
+          title='My bookings'
+          description='View and manage your meeting room reservations.'
+          aside={bookingTabs}
+        />
 
         <div className={styles.content} role='tabpanel'>
           {status === 'loading' && <MyBookingsSkeleton />}

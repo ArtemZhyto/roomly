@@ -34,7 +34,7 @@ const originConfig = ['http://localhost:3030', `https://roomly.ua`, `https://www
 
 export const __CORS_OPTIONS = {
   origin: originConfig,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Cookie', 'x-client-user-agent'],
   credentials: true,
 }

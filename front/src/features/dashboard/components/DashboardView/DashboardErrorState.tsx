@@ -1,5 +1,5 @@
 // Modules
-import { AlertCircle, RefreshCw } from 'lucide-react'
+import { TriangleAlert, RefreshCw } from 'lucide-react'
 
 // Components
 import EmptyState from '@components-ui/EmptyState'
@@ -22,7 +22,7 @@ const DashboardErrorState = ({ onRetry }: DashboardErrorStateProps) => {
 
   return (
     <EmptyState
-      icon={AlertCircle}
+      icon={TriangleAlert}
       title='Could not load dashboard'
       description='Something went wrong while loading your rooms and bookings.'
       action={action}

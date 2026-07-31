@@ -4,11 +4,12 @@ import { TriangleAlert, RefreshCw } from 'lucide-react'
 // Components
 import EmptyState from '@components-ui/EmptyState'
 
-interface MyBookingsErrorStateProps {
+interface NotificationsErrorStateProps {
+  message?: string
   onRetry: () => void
 }
 
-const MyBookingsErrorState = ({ onRetry }: MyBookingsErrorStateProps) => {
+const NotificationsErrorState = ({ message, onRetry }: NotificationsErrorStateProps) => {
   const action = (
     <button
       type='button'
@@ -23,11 +24,13 @@ const MyBookingsErrorState = ({ onRetry }: MyBookingsErrorStateProps) => {
   return (
     <EmptyState
       icon={TriangleAlert}
-      title='Could not load bookings'
-      description='Something went wrong while loading your bookings. Please try again.'
+      title='Could not load notifications'
+      description={
+        message || 'Something went wrong while loading your notifications. Please try again.'
+      }
       action={action}
     />
   )
 }
 
-export default MyBookingsErrorState
+export default NotificationsErrorState

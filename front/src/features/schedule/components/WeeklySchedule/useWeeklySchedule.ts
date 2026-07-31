@@ -8,6 +8,7 @@ import { normalizeApiError } from '@lib/api/api-error'
 
 // Features
 import { getRoomAvailability, type Room } from '@features/rooms'
+
 import {
   createBooking,
   createBookingDateTime,
@@ -15,6 +16,8 @@ import {
   type BookingFormStatus,
   type BookingFormValues,
 } from '@features/booking'
+
+import { useNotifications } from '@features/notifications'
 
 // Providers
 import { useAuth } from '@providers/AuthProvider'
@@ -35,6 +38,8 @@ type ScheduleLoadingStatus = 'loading' | 'success' | 'error'
 const useWeeklySchedule = ({ room, initialDate }: UseWeeklyScheduleOptions) => {
   const { user } = useAuth()
 
+  const { notify } = useNotifications()
+
   const currentWeekStart = useMemo(() => getStartOfWeek(new Date()), [])
 
   const initialWeekStart = useMemo(() => {
@@ -44,11 +49,13 @@ const useWeeklySchedule = ({ room, initialDate }: UseWeeklyScheduleOptions) => {
   const [weekStart, setWeekStart] = useState(initialWeekStart)
 
   const [roomBookings, setRoomBookings] = useState<ScheduleBooking[]>([])
+
   const [scheduleStatus, setScheduleStatus] = useState<ScheduleLoadingStatus>('loading')
 
   const [isBookingDialogOpen, setIsBookingDialogOpen] = useState(false)
 
   const [bookingStatus, setBookingStatus] = useState<BookingFormStatus>('idle')
+
   const [bookingError, setBookingError] = useState<string>()
 
   const [selectedSlot, setSelectedSlot] = useState<ScheduleSlotSelection | null>(null)
@@ -87,6 +94,7 @@ const useWeeklySchedule = ({ room, initialDate }: UseWeeklyScheduleOptions) => {
         }))
 
         setRoomBookings(mappedBookings)
+
         setScheduleStatus('success')
       } catch {
         if (isCancelled) {
@@ -94,6 +102,7 @@ const useWeeklySchedule = ({ room, initialDate }: UseWeeklyScheduleOptions) => {
         }
 
         setRoomBookings([])
+
         setScheduleStatus('error')
       }
     }
@@ -129,33 +138,45 @@ const useWeeklySchedule = ({ room, initialDate }: UseWeeklyScheduleOptions) => {
 
   const handleOpenBookingDialog = () => {
     setSelectedSlot(null)
+
     setBookingStatus('idle')
+
     setBookingError(undefined)
+
     setIsBookingDialogOpen(true)
   }
 
   const handleSelectSlot = (selection: ScheduleSlotSelection) => {
     setSelectedSlot(selection)
+
     setBookingStatus('idle')
+
     setBookingError(undefined)
+
     setIsBookingDialogOpen(true)
   }
 
   const handleCloseBookingDialog = () => {
     setIsBookingDialogOpen(false)
+
     setBookingStatus('idle')
+
     setBookingError(undefined)
+
     setSelectedSlot(null)
   }
 
   const handleBookingSubmit = async (values: BookingFormValues) => {
     setBookingStatus('loading')
+
     setBookingError(undefined)
+
+    const trimmedTitle = values.title.trim()
 
     try {
       await createBooking({
         roomId: room.id,
-        title: values.title.trim(),
+        title: trimmedTitle,
         startTime: createBookingDateTime(values.date, values.startTime),
         endTime: createBookingEndDateTime(values.date, values.startTime, values.endTime),
         recurrence: values.repeatWeekly
@@ -164,6 +185,14 @@ const useWeeklySchedule = ({ room, initialDate }: UseWeeklyScheduleOptions) => {
               count: Number(values.recurrenceCount),
             }
           : undefined,
+      })
+
+      notify({
+        type: 'success',
+        title: values.repeatWeekly ? 'Recurring booking created' : 'Booking created',
+        message: values.repeatWeekly
+          ? `"${trimmedTitle}" was scheduled for ${Number(values.recurrenceCount)} weeks.`
+          : `"${trimmedTitle}" was added to your schedule.`,
       })
 
       const weekEnd = addWeeks(weekStart, 1)
@@ -185,6 +214,7 @@ const useWeeklySchedule = ({ room, initialDate }: UseWeeklyScheduleOptions) => {
       }))
 
       setRoomBookings(mappedBookings)
+
       setBookingStatus('success')
     } catch (error) {
       const normalizedError = normalizeApiError(error)
@@ -192,6 +222,13 @@ const useWeeklySchedule = ({ room, initialDate }: UseWeeklyScheduleOptions) => {
       setBookingError(normalizedError.message)
 
       setBookingStatus(normalizedError.status === 409 ? 'conflict' : 'error')
+
+      notify({
+        type: normalizedError.status === 409 ? 'warning' : 'error',
+        title:
+          normalizedError.status === 409 ? 'Time slot is unavailable' : 'Could not create booking',
+        message: normalizedError.message,
+      })
     }
   }
 
