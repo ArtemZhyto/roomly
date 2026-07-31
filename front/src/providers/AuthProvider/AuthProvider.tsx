@@ -1,6 +1,7 @@
 'use client'
 
 // Modules
+import axios from 'axios'
 import { type ReactNode, useCallback, useEffect, useMemo, useState } from 'react'
 
 // API
@@ -19,7 +20,6 @@ interface AuthProviderProps {
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<AuthUser | null>(null)
-
   const [status, setStatus] = useState<AuthStatus>('loading')
 
   const clearUser = useCallback(() => {
@@ -28,6 +28,8 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   }, [])
 
   const refreshUser = useCallback(async (): Promise<AuthUser | null> => {
+    setStatus('loading')
+
     try {
       const currentUser = await getCurrentUser()
 
@@ -35,9 +37,16 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
       setStatus('authenticated')
 
       return currentUser
-    } catch {
+    } catch (error) {
       setUser(null)
-      setStatus('unauthenticated')
+
+      if (axios.isAxiosError(error) && error.response?.status === 401) {
+        setStatus('unauthenticated')
+
+        return null
+      }
+
+      setStatus('error')
 
       return null
     }
