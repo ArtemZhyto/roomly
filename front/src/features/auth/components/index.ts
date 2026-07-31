@@ -1,7 +1,6 @@
 export { default as AuthBrandPanel } from './AuthBrandPanel'
 export { default as AuthFormError } from './AuthFormError'
 export { default as AuthSubmitButton } from './AuthSubmitButton'
-export { default as CheckEmailContent } from './CheckEmailContent'
 export { default as ForgotPasswordForm } from './ForgotPasswordForm'
 export { default as LoginForm } from './LoginForm'
 export { default as RegisterForm } from './RegisterForm'

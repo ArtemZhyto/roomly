@@ -5,14 +5,18 @@ import Link from 'next/link'
 
 // Components
 import AuthSubmitButton from '../AuthSubmitButton'
-import ForgotPasswordField from './ForgotPasswordField'
 import AuthFormError from '../AuthFormError'
+import ForgotPasswordField from './ForgotPasswordField'
 
 // Hooks
 import useForgotPasswordForm from '../../hooks/useForgotPasswordForm'
 
 const ForgotPasswordForm = () => {
-  const { values, errors, isSubmitting, handleChange, handleSubmit } = useForgotPasswordForm()
+  const { values, errors, isSubmitting, isSent, cooldown, handleChange, handleSubmit } =
+    useForgotPasswordForm()
+
+  const submitLabel =
+    cooldown > 0 ? `Resend link in ${cooldown}s` : isSent ? 'Resend reset link' : 'Send reset link'
 
   return (
     <div className='w-full font-afacad'>
@@ -30,13 +34,24 @@ const ForgotPasswordForm = () => {
 
       {errors.form && <AuthFormError message={errors.form} className='mb-5' />}
 
+      {isSent && (
+        <div
+          className='mb-5 rounded-[10px] border border-success/30 bg-success/10 px-4 py-3 text-[15px] text-success'
+          role='status'
+          aria-live='polite'
+        >
+          If an account with this email exists, a password reset link has been generated.
+        </div>
+      )}
+
       <form className='flex flex-col gap-4.5' onSubmit={handleSubmit} noValidate>
         <ForgotPasswordField value={values.email} error={errors.email} onChange={handleChange} />
 
         <AuthSubmitButton
-          label='Send reset link'
+          label={submitLabel}
           loadingLabel='Sending...'
           isLoading={isSubmitting}
+          disabled={cooldown > 0}
         />
       </form>
 

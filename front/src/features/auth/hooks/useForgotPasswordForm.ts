@@ -1,10 +1,13 @@
 'use client'
 
 // Modules
-import { type ChangeEvent, type FormEvent, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { type ChangeEvent, type FormEvent, useEffect, useState } from 'react'
+
+// API
+import { forgotPassword } from '../api'
 
 // Lib
+import { normalizeApiError } from '@lib/api'
 import { validateEmail } from '../lib/authValidation'
 import normalizeEmail from '../lib/normalizeEmail'
 
@@ -16,13 +19,34 @@ const initialValues: ForgotPasswordValues = {
 }
 
 const useForgotPasswordForm = () => {
-  const router = useRouter()
-
   const [values, setValues] = useState<ForgotPasswordValues>(initialValues)
 
   const [errors, setErrors] = useState<ForgotPasswordErrors>({})
 
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSent, setIsSent] = useState(false)
+  const [cooldown, setCooldown] = useState(0)
+
+  useEffect(() => {
+    if (cooldown <= 0) {
+      return
+    }
+
+    const timer = window.setInterval(() => {
+      setCooldown((currentCooldown) => {
+        if (currentCooldown <= 1) {
+          window.clearInterval(timer)
+          return 0
+        }
+
+        return currentCooldown - 1
+      })
+    }, 1000)
+
+    return () => {
+      window.clearInterval(timer)
+    }
+  }, [cooldown])
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
@@ -37,6 +61,8 @@ const useForgotPasswordForm = () => {
       [name]: undefined,
       form: undefined,
     }))
+
+    setIsSent(false)
   }
 
   const validate = (): ForgotPasswordErrors => {
@@ -54,6 +80,10 @@ const useForgotPasswordForm = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
+    if (isSubmitting || cooldown > 0) {
+      return
+    }
+
     const validationErrors = validate()
 
     if (Object.keys(validationErrors).length > 0) {
@@ -67,13 +97,20 @@ const useForgotPasswordForm = () => {
     try {
       const email = normalizeEmail(values.email)
 
-      // TODO: Send password reset request to the API.
-      await new Promise((resolve) => setTimeout(resolve, 600))
+      const response = await forgotPassword({
+        email,
+      })
 
-      router.push(`/check-email?email=${encodeURIComponent(email)}`)
-    } catch {
+      setIsSent(true)
+      setCooldown(response.retryAfterSeconds)
+    } catch (error: unknown) {
+      const normalizedError = normalizeApiError(error)
+
       setErrors({
-        form: 'We couldn’t send the reset email. Please try again.',
+        email: normalizedError.fieldErrors.email?.[0],
+        form: normalizedError.fieldErrors.email?.length
+          ? undefined
+          : 'We couldn’t send the reset link. Please try again.',
       })
     } finally {
       setIsSubmitting(false)
@@ -84,6 +121,8 @@ const useForgotPasswordForm = () => {
     values,
     errors,
     isSubmitting,
+    isSent,
+    cooldown,
     handleChange,
     handleSubmit,
   }

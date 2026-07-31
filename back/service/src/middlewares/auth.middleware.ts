@@ -2,7 +2,13 @@
 import jwt from 'jsonwebtoken'
 
 // Helpers
-import { registerSchema, loginSchema, verifyEmailSchema } from '@helpers/authSchemas'
+import {
+  forgotPasswordSchema,
+  loginSchema,
+  registerSchema,
+  resetPasswordSchema,
+  verifyEmailSchema,
+} from '@helpers/authSchemas'
 
 // Types
 import { Response, Request, NextFunction } from 'express'
@@ -11,21 +17,31 @@ import { ZodError } from 'zod'
 // Interfaces
 import { AuthRequest, Payload } from '@ts/interfaces/auth'
 
+const handleValidationError = (error: unknown, res: Response): boolean => {
+  if (!(error instanceof ZodError)) {
+    return false
+  }
+
+  res.status(400).json({
+    message: 'Validation failed',
+    errors: error.flatten().fieldErrors,
+  })
+
+  return true
+}
+
 export const authMiddleware = {
   register: async (req: Request, res: Response, next: NextFunction) => {
     try {
       req.body = await registerSchema.parseAsync(req.body)
 
       next()
-    } catch (err) {
-      if (err instanceof ZodError) {
-        return res.status(400).json({
-          message: 'Validation failed',
-          errors: err.flatten().fieldErrors,
-        })
+    } catch (error: unknown) {
+      if (handleValidationError(error, res)) {
+        return
       }
 
-      next(err)
+      next(error)
     }
   },
 
@@ -34,15 +50,40 @@ export const authMiddleware = {
       req.body = await loginSchema.parseAsync(req.body)
 
       next()
-    } catch (err) {
-      if (err instanceof ZodError) {
-        return res.status(400).json({
-          message: 'Validation failed',
-          errors: err.flatten().fieldErrors,
-        })
+    } catch (error: unknown) {
+      if (handleValidationError(error, res)) {
+        return
       }
 
-      next(err)
+      next(error)
+    }
+  },
+
+  forgotPassword: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      req.body = await forgotPasswordSchema.parseAsync(req.body)
+
+      next()
+    } catch (error: unknown) {
+      if (handleValidationError(error, res)) {
+        return
+      }
+
+      next(error)
+    }
+  },
+
+  resetPassword: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      req.body = await resetPasswordSchema.parseAsync(req.body)
+
+      next()
+    } catch (error: unknown) {
+      if (handleValidationError(error, res)) {
+        return
+      }
+
+      next(error)
     }
   },
 
@@ -79,15 +120,12 @@ export const authMiddleware = {
       req.body = await verifyEmailSchema.parseAsync(req.body)
 
       next()
-    } catch (err) {
-      if (err instanceof ZodError) {
-        return res.status(400).json({
-          message: 'Validation failed',
-          errors: err.flatten().fieldErrors,
-        })
+    } catch (error: unknown) {
+      if (handleValidationError(error, res)) {
+        return
       }
 
-      next(err)
+      next(error)
     }
   },
 }

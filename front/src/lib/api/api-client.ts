@@ -33,7 +33,13 @@ const refreshClient = axios.create({
   timeout: 10_000,
 })
 
-const REFRESH_EXCLUDED_PATHS = ['/auth/login', '/auth/register', '/auth/refresh']
+const REFRESH_EXCLUDED_PATHS = [
+  '/auth/login',
+  '/auth/register',
+  '/auth/refresh',
+  '/auth/forgot-password',
+  '/auth/reset-password',
+]
 
 let refreshPromise: Promise<void> | null = null
 
