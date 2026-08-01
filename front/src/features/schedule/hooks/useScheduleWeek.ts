@@ -11,13 +11,17 @@ interface UseScheduleWeekOptions {
 }
 
 const useScheduleWeek = ({ initialDate }: UseScheduleWeekOptions) => {
+  const initialDateTimestamp = initialDate?.getTime()
+
   const currentWeekStart = useMemo(() => {
     return getStartOfWeek(new Date())
   }, [])
 
   const initialWeekStart = useMemo(() => {
-    return getStartOfWeek(initialDate ?? new Date())
-  }, [initialDate])
+    const date = initialDateTimestamp === undefined ? new Date() : new Date(initialDateTimestamp)
+
+    return getStartOfWeek(date)
+  }, [initialDateTimestamp])
 
   const [weekStart, setWeekStart] = useState(initialWeekStart)
 
