@@ -1,5 +1,5 @@
 // Modules
-import { Prisma } from '../../../prisma/generated/client'
+import { isPostgresErrorWithCode, isPrismaErrorWithCode } from '@helpers/isPrismaError'
 
 // Configs
 import { prisma } from '@configs/index'
@@ -9,6 +9,7 @@ import { ConflictError, ForbiddenError, NotFoundError } from '@errors/index'
 
 // Local helpers
 import { createBookingOccurrences } from './booking-occurrences'
+import { createBookingOverlapConditions } from './booking-overlap-conditions'
 
 // Types
 import type { BookingOccurrence, CreateBookingInput } from './booking.types'
@@ -18,7 +19,6 @@ const ensureUserCanBook = async (userId: number): Promise<void> => {
     where: {
       id: userId,
     },
-
     select: {
       emailVerifiedAt: true,
     },
@@ -38,7 +38,6 @@ const ensureRoomExists = async (roomId: number): Promise<void> => {
     where: {
       id: roomId,
     },
-
     select: {
       id: true,
     },
@@ -56,18 +55,8 @@ const ensureOccurrencesAreAvailable = async (
   const overlappingBooking = await prisma.booking.findFirst({
     where: {
       roomId,
-
-      OR: occurrences.map(({ startDate, endDate }) => ({
-        startTime: {
-          lt: endDate,
-        },
-
-        endTime: {
-          gt: startDate,
-        },
-      })),
+      OR: createBookingOverlapConditions(occurrences),
     },
-
     select: {
       id: true,
     },
@@ -117,7 +106,6 @@ const createRecurringBooking = async (
       where: {
         seriesId: series.id,
       },
-
       orderBy: {
         startTime: 'asc',
       },
@@ -131,7 +119,10 @@ const createRecurringBooking = async (
 }
 
 const isBookingConflictError = (error: unknown): boolean => {
-  return error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2004'
+  return (
+    isPrismaErrorWithCode(error, 'P2004') ||
+    (isPrismaErrorWithCode(error, 'P2039') && isPostgresErrorWithCode(error, '23P01'))
+  )
 }
 
 export const createBooking = async (data: CreateBookingInput) => {

@@ -664,26 +664,30 @@
               "title": "Test intervals on adjacent days",
               "items": []
             }
-          ]
+          ],
+          "completed": true
         },
         {
           "id": "task-241fd293-e1fb-478b-9fde-3b6b71c821e8",
           "title": "Add authentication validation tests",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-7d0f65d6-7a47-440f-abf1-8e81381a790b",
           "title": "Add booking validation tests",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-4ea5082d-2b33-4b68-8adb-fd1bfecea188",
           "title": "Ensure tests run with npm test",
-          "items": []
+          "items": [],
+          "completed": true
         }
       ],
       "x": -557.6743373123674,
-      "y": 340.74778464084534
+      "y": 339.9680210615231
     },
     {
       "id": "task-5d377756-bc96-4fe2-95b1-673cc77cf623",
@@ -813,7 +817,8 @@
         {
           "id": "task-bd2b6bb5-72d1-4300-a4a0-ef7009403f60",
           "title": "Add API integration tests",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-eccb7e05-4ef7-4a9f-9aba-58959c4bc7ab",

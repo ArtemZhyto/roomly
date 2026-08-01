@@ -8,6 +8,12 @@ const ScheduleLoadingState = () => {
     >
       <span className='sr-only'>Loading room schedule...</span>
 
+      <div className='flex min-h-10.5 items-center gap-2 border-b border-border bg-surface px-4'>
+        <div className='h-2 w-2 animate-pulse rounded-full bg-border' />
+        <div className='h-3 w-32 animate-pulse rounded-full bg-border' />
+        <div className='ml-auto h-3 w-24 animate-pulse rounded-full bg-border' />
+      </div>
+
       <div className='grid min-w-240 grid-cols-[72px_repeat(7,minmax(132px,1fr))]'>
         <div className='h-16 border-b border-r border-border bg-surface-secondary' />
 

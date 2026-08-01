@@ -1,5 +1,5 @@
 // Modules
-import { Prisma } from '../../../prisma/generated/client'
+import { isPrismaErrorWithCode } from '@helpers/isPrismaError'
 
 // Configs
 import { env, prisma } from '@configs/index'
@@ -80,7 +80,7 @@ const createNotificationMessage = (currentBooking: CurrentBooking): string => {
 }
 
 const isDuplicateNotificationError = (error: unknown): boolean => {
-  return error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002'
+  return isPrismaErrorWithCode(error, 'P2002')
 }
 
 const createAndEmitNotification = async (
