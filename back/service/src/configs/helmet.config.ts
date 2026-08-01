@@ -8,13 +8,13 @@ export const helmetOptions: HelmetOptions = {
 
   contentSecurityPolicy: {
     directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'"],
-      styleSrc: ["'self'"],
-      imgSrc: ["'self'", 'data:'],
-      fontSrc: ["'self'"],
-      objectSrc: ["'none'"],
-      frameAncestors: ["'self'"],
+      defaultSrc: [`'self'`],
+      scriptSrc: [`'self'`],
+      styleSrc: [`'self'`],
+      imgSrc: [`'self'`, 'data:'],
+      fontSrc: [`'self'`],
+      objectSrc: [`'none'`],
+      frameAncestors: [`'self'`],
     },
   },
 }

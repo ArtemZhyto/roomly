@@ -10,4 +10,9 @@ COPY . .
 
 RUN npm run build
 
-CMD ["npm", "run", "start"]
+ENV PORT=3030
+ENV HOSTNAME=0.0.0.0
+
+EXPOSE 3030
+
+CMD ["node", ".next/standalone/server.js"]
