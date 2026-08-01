@@ -9,7 +9,7 @@
     "build": "tsc -p tsconfig.json && tsc-alias",
     "start": "tsx src/server.ts",
     "test": "jest --verbose --passWithNoTests ./tests --testPathIgnorePatterns=integration",
-    "test:integration": "node --experimental-vm-modules ../node_modules/jest/bin/jest.js --config jest.integration.config.js --runInBand --verbose --passWithNoTests"
+    "test:integration": "node scripts/run-integration-tests.mjs"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.9.0",

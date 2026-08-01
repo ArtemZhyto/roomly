@@ -6,4 +6,4 @@ config({
   path: resolve(process.cwd(), '../.env'),
 })
 
-process.env.DATABASE_URL = 'postgresql://bookingUser:bookingPassword@localhost:5001/roomly_test'
+process.env.DATABASE_URL = 'postgresql://bookingUser:bookingPassword@localhost:5002/roomly_test'
