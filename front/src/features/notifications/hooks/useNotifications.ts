@@ -4,9 +4,12 @@
 import { useContext } from 'react'
 
 // Context
-import { NotificationsContext } from '../context/NotificationsProvider'
+import { NotificationsContext } from '../context/notifications.context'
 
-const useNotifications = () => {
+// Types
+import type { NotificationsContextValue } from '../types/notification.types'
+
+const useNotifications = (): NotificationsContextValue => {
   const context = useContext(NotificationsContext)
 
   if (!context) {

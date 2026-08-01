@@ -22,7 +22,7 @@ const BookingDialog = ({
   children,
   onClose,
 }: BookingDialogProps) => {
-  const { dialogRef, overlayRef, closeModal } = useBookingDialog({
+  const { dialogRef, overlayRef, closeDialog } = useBookingDialog({
     isOpen,
     onClose,
   })
@@ -31,7 +31,7 @@ const BookingDialog = ({
     return null
   }
 
-  const childrenWithClose = injectCloseModal(children, closeModal)
+  const childrenWithClose = injectCloseModal(children, closeDialog)
 
   return (
     <div
@@ -40,7 +40,7 @@ const BookingDialog = ({
       role='presentation'
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) {
-          closeModal()
+          closeDialog()
         }
       }}
     >
@@ -53,7 +53,7 @@ const BookingDialog = ({
         aria-describedby='booking-dialog-description'
         tabIndex={-1}
       >
-        <BookingDialogHeader title={title} description={description} onClose={closeModal} />
+        <BookingDialogHeader title={title} description={description} onClose={closeDialog} />
 
         <div className={styles.content}>{childrenWithClose}</div>
       </section>

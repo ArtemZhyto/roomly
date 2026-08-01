@@ -34,3 +34,23 @@ export interface CreateNotificationInput {
   message?: string
   duration?: number
 }
+
+export interface NotificationsContextValue {
+  notifications: AppNotification[]
+  toasts: ToastNotification[]
+  unreadCount: number
+  isLoading: boolean
+  errorMessage: string | null
+
+  notify: (input: CreateNotificationInput) => string
+
+  dismissToast: (id: string) => void
+
+  markAsRead: (id: number) => Promise<void>
+  markAllAsRead: () => Promise<void>
+
+  removeNotification: (id: number) => Promise<void>
+  clearNotifications: () => Promise<void>
+
+  retry: () => Promise<void>
+}

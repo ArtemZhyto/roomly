@@ -1,0 +1,19 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.statsGrid,
+.bookingsGrid {
+  display: grid;
+  gap: 20px;
+}
+
+.statsGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.bookingsGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}

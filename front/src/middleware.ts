@@ -1,83 +1,31 @@
 // Modules
-import { type NextRequest, NextResponse } from 'next/server'
+import { NextResponse, type NextRequest } from 'next/server'
 
-interface CurrentUserResponse {
-  id: number
-  name: string
-  email: string
-  emailVerifiedAt: string | null
-}
+// Middleware API
+import { getCurrentUser, refreshAuthSession } from '@lib/middleware/auth-middleware.api'
 
-const GUEST_ONLY_ROUTES = ['/login', '/register', '/forgot-password', '/reset-password']
+// Constants
+import {
+  ACCESS_TOKEN_COOKIE,
+  API_URL,
+  AUTHENTICATED_REDIRECT,
+  ERROR_ROUTE,
+  GUEST_ONLY_ROUTES,
+  LOGIN_ROUTE,
+  REFRESH_TOKEN_COOKIE,
+  VERIFY_EMAIL_ROUTE,
+} from '@lib/middleware/auth-middleware.constants'
 
-const VERIFY_EMAIL_ROUTE = '/verify-email'
-const ERROR_ROUTE = '/error'
-const AUTHENTICATED_REDIRECT = '/rooms'
+// Cookies
+import {
+  clearAuthCookies,
+  copySetCookieHeaders,
+  createCookieHeader,
+  getSetCookieHeaders,
+} from '@lib/middleware/auth-middleware.cookies'
 
-const API_URL = process.env.API_URL
-
-const redirectTo = (request: NextRequest, pathname: string): NextResponse => {
-  return NextResponse.redirect(new URL(pathname, request.url))
-}
-
-const matchesRoute = (pathname: string, routes: string[]): boolean => {
-  return routes.some((route) => pathname === route || pathname.startsWith(`${route}/`))
-}
-
-const clearAuthCookies = (response: NextResponse): void => {
-  response.cookies.delete('accessToken')
-  response.cookies.delete('refreshToken')
-}
-
-const getSetCookieHeaders = (response: Response): string[] => {
-  const headers = response.headers as Headers & {
-    getSetCookie?: () => string[]
-  }
-
-  const cookies = headers.getSetCookie?.()
-
-  if (cookies?.length) {
-    return cookies
-  }
-
-  const combinedHeader = response.headers.get('set-cookie')
-
-  return combinedHeader ? [combinedHeader] : []
-}
-
-const copySetCookieHeaders = (source: Response, target: NextResponse): void => {
-  getSetCookieHeaders(source).forEach((cookie) => {
-    target.headers.append('set-cookie', cookie)
-  })
-}
-
-const createCookieHeader = (setCookieHeaders: string[]): string => {
-  return setCookieHeaders.map((cookie) => cookie.split(';')[0]).join('; ')
-}
-
-const getCurrentUser = async (cookieHeader: string): Promise<CurrentUserResponse | null> => {
-  if (!API_URL) {
-    return null
-  }
-
-  try {
-    const response = await fetch(`${API_URL}/auth/me`, {
-      method: 'GET',
-      headers: {
-        cookie: cookieHeader,
-      },
-      cache: 'no-store',
-    })
-
-    if (!response.ok) {
-      return null
-    }
-
-    return await response.json()
-  } catch {
-    return null
-  }
-}
+// Routes
+import { matchesRoute, redirectTo } from '@lib/middleware/auth-middleware.routes'
 
 const handleVerifyEmailRoute = async (
   request: NextRequest,
@@ -86,10 +34,47 @@ const handleVerifyEmailRoute = async (
   const user = await getCurrentUser(cookieHeader)
 
   if (!user) {
-    return redirectTo(request, '/login')
+    return redirectTo(request, LOGIN_ROUTE)
   }
 
-  return user.emailVerifiedAt ? redirectTo(request, AUTHENTICATED_REDIRECT) : NextResponse.next()
+  if (user.emailVerifiedAt) {
+    return redirectTo(request, AUTHENTICATED_REDIRECT)
+  }
+
+  return NextResponse.next()
+}
+
+const handleFailedRefresh = (request: NextRequest, isGuestOnlyRoute: boolean): NextResponse => {
+  const response = isGuestOnlyRoute ? NextResponse.next() : redirectTo(request, LOGIN_ROUTE)
+
+  clearAuthCookies(response)
+
+  return response
+}
+
+const handleVerifiedUserAfterRefresh = async (
+  request: NextRequest,
+  refreshResponse: Response,
+): Promise<NextResponse> => {
+  const setCookieHeaders = getSetCookieHeaders(refreshResponse)
+
+  const refreshedCookieHeader = createCookieHeader(setCookieHeaders)
+
+  const user = await getCurrentUser(refreshedCookieHeader)
+
+  let response: NextResponse
+
+  if (!user) {
+    response = redirectTo(request, LOGIN_ROUTE)
+  } else if (user.emailVerifiedAt) {
+    response = redirectTo(request, AUTHENTICATED_REDIRECT)
+  } else {
+    response = NextResponse.next()
+  }
+
+  copySetCookieHeaders(refreshResponse, response)
+
+  return response
 }
 
 export async function middleware(request: NextRequest): Promise<NextResponse> {
@@ -104,13 +89,10 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
   }
 
   const isGuestOnlyRoute = matchesRoute(pathname, GUEST_ONLY_ROUTES)
+  const isVerifyEmailRoute = matchesRoute(pathname, [VERIFY_EMAIL_ROUTE])
 
-  const isVerifyEmailRoute =
-    pathname === VERIFY_EMAIL_ROUTE || pathname.startsWith(`${VERIFY_EMAIL_ROUTE}/`)
-
-  const accessToken = request.cookies.get('accessToken')?.value
-
-  const refreshToken = request.cookies.get('refreshToken')?.value
+  const accessToken = request.cookies.get(ACCESS_TOKEN_COOKIE)?.value
+  const refreshToken = request.cookies.get(REFRESH_TOKEN_COOKIE)?.value
 
   const requestCookieHeader = request.headers.get('cookie') ?? ''
 
@@ -131,54 +113,30 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
       return NextResponse.next()
     }
 
-    return redirectTo(request, '/login')
+    return redirectTo(request, LOGIN_ROUTE)
   }
 
-  try {
-    const refreshResponse = await fetch(`${API_URL}/auth/refresh`, {
-      method: 'POST',
-      headers: {
-        cookie: requestCookieHeader,
-      },
-      cache: 'no-store',
-    })
+  const refreshResponse = await refreshAuthSession(requestCookieHeader)
 
-    if (!refreshResponse.ok) {
-      const response = isGuestOnlyRoute ? NextResponse.next() : redirectTo(request, '/login')
-
-      clearAuthCookies(response)
-
-      return response
-    }
-
-    const setCookieHeaders = getSetCookieHeaders(refreshResponse)
-
-    if (isVerifyEmailRoute) {
-      const refreshedCookieHeader = createCookieHeader(setCookieHeaders)
-
-      const user = await getCurrentUser(refreshedCookieHeader)
-
-      const response = user?.emailVerifiedAt
-        ? redirectTo(request, AUTHENTICATED_REDIRECT)
-        : user
-          ? NextResponse.next()
-          : redirectTo(request, '/login')
-
-      copySetCookieHeaders(refreshResponse, response)
-
-      return response
-    }
-
-    const response = isGuestOnlyRoute
-      ? redirectTo(request, AUTHENTICATED_REDIRECT)
-      : NextResponse.next()
-
-    copySetCookieHeaders(refreshResponse, response)
-
-    return response
-  } catch {
+  if (!refreshResponse) {
     return redirectTo(request, ERROR_ROUTE)
   }
+
+  if (!refreshResponse.ok) {
+    return handleFailedRefresh(request, isGuestOnlyRoute)
+  }
+
+  if (isVerifyEmailRoute) {
+    return handleVerifiedUserAfterRefresh(request, refreshResponse)
+  }
+
+  const response = isGuestOnlyRoute
+    ? redirectTo(request, AUTHENTICATED_REDIRECT)
+    : NextResponse.next()
+
+  copySetCookieHeaders(refreshResponse, response)
+
+  return response
 }
 
 export const config = {

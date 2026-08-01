@@ -1,0 +1,36 @@
+.toast-success {
+  border-color: color-mix(in srgb, var(--color-success-dark) 25%, var(--color-border));
+
+  .icon {
+    color: var(--color-success-dark);
+    background: var(--color-success-light);
+  }
+}
+
+.toast-error {
+  border-color: color-mix(in srgb, var(--color-danger) 30%, var(--color-border));
+
+  .icon {
+    color: var(--color-danger);
+
+    background: color-mix(in srgb, var(--color-danger) 10%, var(--color-surface));
+  }
+}
+
+.toast-warning {
+  border-color: color-mix(in srgb, var(--color-warning-dark) 30%, var(--color-border));
+
+  .icon {
+    color: var(--color-warning-dark);
+    background: var(--color-warning-light);
+  }
+}
+
+.toast-info {
+  border-color: color-mix(in srgb, var(--color-primary) 25%, var(--color-border));
+
+  .icon {
+    color: var(--color-primary-active);
+    background: var(--color-primary-subtle);
+  }
+}

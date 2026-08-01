@@ -1,117 +1,56 @@
 'use client'
 
 // Modules
-import { type ChangeEvent, type FormEvent, useEffect, useState } from 'react'
+import { useState, type FormEvent } from 'react'
 
 // API
 import { forgotPassword } from '../api'
 
+// Hooks
+import useCooldown from './useCooldown'
+import useForgotPasswordFormState from './useForgotPasswordFormState'
+
 // Lib
-import { normalizeApiError } from '@lib/api'
-import { validateEmail } from '../lib/authValidation'
 import normalizeEmail from '../lib/normalizeEmail'
 
-// Types
-import type { ForgotPasswordErrors, ForgotPasswordValues } from '../types/forgotPassword.types'
-
-const initialValues: ForgotPasswordValues = {
-  email: '',
-}
+import { mapForgotPasswordApiErrors, validateForgotPasswordForm } from '../lib/forgot-password'
 
 const useForgotPasswordForm = () => {
-  const [values, setValues] = useState<ForgotPasswordValues>(initialValues)
+  const { values, errors, isSent, handleChange, setErrors, clearErrors, markAsSent } =
+    useForgotPasswordFormState()
 
-  const [errors, setErrors] = useState<ForgotPasswordErrors>({})
+  const { cooldown, isCoolingDown, startCooldown } = useCooldown()
 
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isSent, setIsSent] = useState(false)
-  const [cooldown, setCooldown] = useState(0)
 
-  useEffect(() => {
-    if (cooldown <= 0) {
-      return
-    }
-
-    const timer = window.setInterval(() => {
-      setCooldown((currentCooldown) => {
-        if (currentCooldown <= 1) {
-          window.clearInterval(timer)
-          return 0
-        }
-
-        return currentCooldown - 1
-      })
-    }, 1000)
-
-    return () => {
-      window.clearInterval(timer)
-    }
-  }, [cooldown])
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target
-
-    setValues((currentValues) => ({
-      ...currentValues,
-      [name]: value,
-    }))
-
-    setErrors((currentErrors) => ({
-      ...currentErrors,
-      [name]: undefined,
-      form: undefined,
-    }))
-
-    setIsSent(false)
-  }
-
-  const validate = (): ForgotPasswordErrors => {
-    const nextErrors: ForgotPasswordErrors = {}
-
-    const emailError = validateEmail(values.email)
-
-    if (emailError) {
-      nextErrors.email = emailError
-    }
-
-    return nextErrors
-  }
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
 
-    if (isSubmitting || cooldown > 0) {
+    if (isSubmitting || isCoolingDown) {
       return
     }
 
-    const validationErrors = validate()
+    const validationErrors = validateForgotPasswordForm(values)
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors)
+
       return
     }
 
     setIsSubmitting(true)
-    setErrors({})
+    clearErrors()
 
     try {
-      const email = normalizeEmail(values.email)
-
       const response = await forgotPassword({
-        email,
+        email: normalizeEmail(values.email),
       })
 
-      setIsSent(true)
-      setCooldown(response.retryAfterSeconds)
+      markAsSent()
+
+      startCooldown(response.retryAfterSeconds)
     } catch (error: unknown) {
-      const normalizedError = normalizeApiError(error)
-
-      setErrors({
-        email: normalizedError.fieldErrors.email?.[0],
-        form: normalizedError.fieldErrors.email?.length
-          ? undefined
-          : 'We couldn’t send the reset link. Please try again.',
-      })
+      setErrors(mapForgotPasswordApiErrors(error))
     } finally {
       setIsSubmitting(false)
     }

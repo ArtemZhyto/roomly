@@ -2,12 +2,16 @@
 import { Router } from 'express'
 
 // Controllers
-import { roomsController } from '@controllers/rooms.controller'
+import {
+  getRoomAvailabilityController,
+  getRoomController,
+  getRoomsController,
+} from '@controllers/rooms'
 
 const router = Router()
 
-router.get('/', roomsController.getRoomsList)
-router.get('/:roomId/availability', roomsController.getRoomAvailability)
-router.get('/:roomId', roomsController.getRoomData)
+router.get('/', getRoomsController)
+router.get('/:roomId/availability', getRoomAvailabilityController)
+router.get('/:roomId', getRoomController)
 
 export default router

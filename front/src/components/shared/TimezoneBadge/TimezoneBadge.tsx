@@ -4,6 +4,9 @@
 import { useEffect, useState } from 'react'
 import { Clock3, Globe2 } from 'lucide-react'
 
+// Constants
+import { OFFICE_TIMEZONE } from '@features/schedule/constants'
+
 // Styles
 import styles from './TimezoneBadge.module.scss'
 
@@ -11,7 +14,7 @@ interface TimezoneBadgeProps {
   officeTimezone?: string
 }
 
-const TimezoneBadge = ({ officeTimezone = 'Europe/Kyiv' }: TimezoneBadgeProps) => {
+const TimezoneBadge = ({ officeTimezone = OFFICE_TIMEZONE }: TimezoneBadgeProps) => {
   const [userTimezone, setUserTimezone] = useState<string | null>(null)
 
   useEffect(() => {

@@ -1,0 +1,47 @@
+.content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+
+  margin-top: 22px;
+}
+
+.title {
+  margin: 0;
+
+  color: var(--color-text-primary);
+
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  margin-top: 18px;
+}
+
+.detail,
+.availability {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  color: var(--color-text-secondary);
+
+  font-size: 14px;
+  line-height: 1.5;
+
+  svg {
+    flex: 0 0 auto;
+  }
+}
+
+.availability {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border);
+}

@@ -1,92 +1,66 @@
 'use client'
 
 // Modules
-import { type ChangeEvent, type FormEvent, useState } from 'react'
+import { useState, type FormEvent } from 'react'
+
 import { useRouter } from 'next/navigation'
 
 // API
 import { resetPassword } from '../api'
 
+// Hooks
+import usePasswordVisibility from './usePasswordVisibility'
+import useResetPasswordFormState from './useResetPasswordFormState'
+
 // Lib
-import { normalizeApiError } from '@lib/api'
-import { validateConfirmedPassword, validatePassword } from '../lib/authValidation'
-
-// Types
-import type { ResetPasswordErrors, ResetPasswordValues } from '../types/resetPassword.types'
-
-const initialValues: ResetPasswordValues = {
-  password: '',
-  confirmPassword: '',
-}
+import {
+  mapResetPasswordApiErrors,
+  MISSING_RESET_PASSWORD_TOKEN_ERROR,
+  validateResetPasswordForm,
+} from '../lib/reset-password'
 
 const useResetPasswordForm = (token?: string) => {
   const router = useRouter()
 
-  const [values, setValues] = useState<ResetPasswordValues>(initialValues)
+  const { values, errors, handleChange, setErrors, clearErrors } = useResetPasswordFormState()
 
-  const [errors, setErrors] = useState<ResetPasswordErrors>({})
+  const { isVisible: isPasswordVisible, toggleVisibility: togglePasswordVisibility } =
+    usePasswordVisibility()
 
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false)
+  const {
+    isVisible: isConfirmPasswordVisible,
 
-  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false)
+    toggleVisibility: toggleConfirmPasswordVisibility,
+  } = usePasswordVisibility()
 
   const [isSubmitting, setIsSubmitting] = useState(false)
-
   const [isSuccess, setIsSuccess] = useState(false)
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target
-
-    setValues((currentValues) => ({
-      ...currentValues,
-      [name]: value,
-    }))
-
-    setErrors((currentErrors) => ({
-      ...currentErrors,
-      [name]: undefined,
-      form: undefined,
-    }))
-  }
-
-  const validate = (): ResetPasswordErrors => {
-    const nextErrors: ResetPasswordErrors = {}
-
-    const passwordError = validatePassword(values.password)
-
-    if (passwordError) {
-      nextErrors.password = passwordError
-    }
-
-    const confirmPasswordError = validateConfirmedPassword(values.password, values.confirmPassword)
-
-    if (confirmPasswordError) {
-      nextErrors.confirmPassword = confirmPasswordError
-    }
-
-    return nextErrors
-  }
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
+
+    if (isSubmitting) {
+      return
+    }
 
     if (!token) {
       setErrors({
-        form: 'This password reset link is missing or invalid.',
+        form: MISSING_RESET_PASSWORD_TOKEN_ERROR,
       })
 
       return
     }
 
-    const validationErrors = validate()
+    const validationErrors = validateResetPasswordForm(values)
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors)
+
       return
     }
 
     setIsSubmitting(true)
-    setErrors({})
+    clearErrors()
 
     try {
       await resetPassword({
@@ -97,33 +71,13 @@ const useResetPasswordForm = (token?: string) => {
 
       setIsSuccess(true)
     } catch (error: unknown) {
-      const normalizedError = normalizeApiError(error)
-
-      setErrors({
-        password: normalizedError.fieldErrors.password?.[0],
-
-        confirmPassword: normalizedError.fieldErrors.confirmPassword?.[0],
-
-        form:
-          normalizedError.fieldErrors.password?.length ||
-          normalizedError.fieldErrors.confirmPassword?.length
-            ? undefined
-            : getResetPasswordErrorMessage(normalizedError.message),
-      })
+      setErrors(mapResetPasswordApiErrors(error))
     } finally {
       setIsSubmitting(false)
     }
   }
 
-  const togglePasswordVisibility = () => {
-    setIsPasswordVisible((currentValue) => !currentValue)
-  }
-
-  const toggleConfirmPasswordVisibility = () => {
-    setIsConfirmPasswordVisible((currentValue) => !currentValue)
-  }
-
-  const goToSignIn = () => {
+  const goToSignIn = (): void => {
     router.push('/login')
   }
 
@@ -139,22 +93,6 @@ const useResetPasswordForm = (token?: string) => {
     togglePasswordVisibility,
     toggleConfirmPasswordVisibility,
     goToSignIn,
-  }
-}
-
-const getResetPasswordErrorMessage = (message: string): string => {
-  switch (message) {
-    case 'Invalid password reset token':
-      return 'This password reset link is invalid.'
-
-    case 'Password reset token has expired':
-      return 'This password reset link has expired. Please request a new one.'
-
-    case 'Password reset token has already been used':
-      return 'This password reset link has already been used. Please request a new one.'
-
-    default:
-      return 'We couldn’t reset your password. Please request a new reset link.'
   }
 }
 

@@ -1,0 +1,34 @@
+.status {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  gap: 7px;
+
+  padding: 4px 10px;
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.statusDot {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 auto;
+
+  border-radius: 50%;
+
+  background: currentColor;
+}
+
+.statusRooms {
+  color: var(--color-primary-active);
+  background: var(--color-primary-subtle);
+}
+
+.statusUpcoming {
+  color: var(--color-success-dark);
+  background: var(--color-success-light);
+}

@@ -1,0 +1,11 @@
+@media (prefers-reduced-motion: reduce) {
+  .trigger,
+  .menu,
+  .item {
+    transition: none;
+  }
+
+  .trigger:active {
+    transform: none;
+  }
+}

@@ -1,103 +1,49 @@
 'use client'
 
 // Modules
-import { type ChangeEvent, type FormEvent, useState } from 'react'
+import { useState, type FormEvent } from 'react'
+
 import { useRouter } from 'next/navigation'
 
 // API
 import { register } from '../api'
+
+// Providers
 import { useAuth } from '@providers/AuthProvider'
 
+// Hooks
+import usePasswordVisibility from './usePasswordVisibility'
+import useRegisterFormState from './useRegisterFormState'
+
 // Lib
-import { normalizeApiError } from '@lib/api'
-import {
-  validateConfirmedPassword,
-  validateEmail,
-  validateName,
-  validatePassword,
-} from '../lib/authValidation'
+import { mapRegisterApiErrors, REGISTER_SESSION_ERROR, validateRegisterForm } from '../lib/register'
 
-// Types
-import type { RegisterErrors, RegisterValues } from '../types/register.types'
-
-const initialValues: RegisterValues = {
-  name: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
-  acceptedTerms: false,
-}
-
-const DEFAULT_REGISTER_ERROR = 'We couldn’t create your account. Please try again.'
+// Lib
+import normalizeEmail from '../lib/normalizeEmail'
 
 const useRegisterForm = () => {
   const router = useRouter()
+
   const { refreshUser } = useAuth()
 
-  const [values, setValues] = useState<RegisterValues>(initialValues)
-  const [errors, setErrors] = useState<RegisterErrors>({})
+  const { values, errors, handleChange, setErrors, clearErrors } = useRegisterFormState()
 
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false)
-  const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false)
+  const { isVisible: isPasswordVisible, toggleVisibility: togglePasswordVisibility } =
+    usePasswordVisibility()
+
+  const { isVisible: isConfirmPasswordVisible, toggleVisibility: toggleConfirmPasswordVisibility } =
+    usePasswordVisibility()
+
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = event.target
-
-    setValues((currentValues) => ({
-      ...currentValues,
-      [name]: type === 'checkbox' ? checked : value,
-    }))
-
-    setErrors((currentErrors) => ({
-      ...currentErrors,
-      [name]: undefined,
-      form: undefined,
-    }))
-  }
-
-  const validate = (): RegisterErrors => {
-    const nextErrors: RegisterErrors = {}
-
-    const nameError = validateName(values.name)
-
-    if (nameError) {
-      nextErrors.name = nameError
-    }
-
-    const emailError = validateEmail(values.email)
-
-    if (emailError) {
-      nextErrors.email = emailError
-    }
-
-    const passwordError = validatePassword(values.password)
-
-    if (passwordError) {
-      nextErrors.password = passwordError
-    }
-
-    const confirmPasswordError = validateConfirmedPassword(values.password, values.confirmPassword)
-
-    if (confirmPasswordError) {
-      nextErrors.confirmPassword = confirmPasswordError
-    }
-
-    if (!values.acceptedTerms) {
-      nextErrors.acceptedTerms = 'You must accept the Terms and Privacy Policy.'
-    }
-
-    return nextErrors
-  }
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
 
     if (isSubmitting) {
       return
     }
 
-    const validationErrors = validate()
+    const validationErrors = validateRegisterForm(values)
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors)
@@ -106,14 +52,12 @@ const useRegisterForm = () => {
     }
 
     setIsSubmitting(true)
-    setErrors({})
+    clearErrors()
 
     try {
-      const email = values.email.trim().toLowerCase()
-
       await register({
         name: values.name.trim(),
-        email,
+        email: normalizeEmail(values.email),
         password: values.password,
         confirmPassword: values.confirmPassword,
       })
@@ -122,48 +66,19 @@ const useRegisterForm = () => {
 
       if (!currentUser) {
         setErrors({
-          form: 'Account was created, but the session could not be restored.',
+          form: REGISTER_SESSION_ERROR,
         })
 
         return
       }
 
-      router.replace(`/verify-email`)
+      router.replace('/verify-email')
       router.refresh()
-    } catch (error) {
-      const apiError = normalizeApiError(error)
-
-      const nameError = apiError.fieldErrors.name?.[0]
-
-      const emailError = apiError.fieldErrors.email?.[0]
-
-      const passwordError = apiError.fieldErrors.password?.[0]
-
-      const confirmPasswordError = apiError.fieldErrors.confirmPassword?.[0]
-
-      const hasFieldErrors = Boolean(
-        nameError || emailError || passwordError || confirmPasswordError,
-      )
-
-      setErrors({
-        name: nameError,
-        email:
-          emailError ?? (apiError.status === 409 ? 'This email is already in use.' : undefined),
-        password: passwordError,
-        confirmPassword: confirmPasswordError,
-        form: hasFieldErrors ? undefined : apiError.message || DEFAULT_REGISTER_ERROR,
-      })
+    } catch (error: unknown) {
+      setErrors(mapRegisterApiErrors(error))
     } finally {
       setIsSubmitting(false)
     }
-  }
-
-  const togglePasswordVisibility = () => {
-    setIsPasswordVisible((currentValue) => !currentValue)
-  }
-
-  const toggleConfirmPasswordVisibility = () => {
-    setIsConfirmPasswordVisible((currentValue) => !currentValue)
   }
 
   return {

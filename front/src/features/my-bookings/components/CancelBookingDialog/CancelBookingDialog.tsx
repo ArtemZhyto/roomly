@@ -1,16 +1,18 @@
 'use client'
 
 // Modules
-import { AlertTriangle, CalendarX2, LoaderCircle, Repeat2, X } from 'lucide-react'
+import { AlertTriangle, X } from 'lucide-react'
 
-// Types
-import type { BookingCancellationScope, MyBooking } from '../../types'
-
-// Utils
-import { formatBookingDate, formatBookingTimeRange } from '../../utils'
+// Local components
+import CancelBookingSummary from './components/CancelBookingSummary'
+import RecurringCancellationActions from './components/RecurringCancellationActions'
+import SingleCancellationActions from './components/SingleCancellationActions'
 
 // Hooks
 import useCancelBookingDialog from './useCancelBookingDialog'
+
+// Types
+import type { BookingCancellationScope, MyBooking } from '../../types'
 
 // Styles
 import styles from './CancelBookingDialog.module.scss'
@@ -41,11 +43,25 @@ const CancelBookingDialog = ({
 
   const isRecurring = booking.seriesId !== null
 
+  const backdropClassName = [styles.backdrop, isVisible ? styles.backdropVisible : '']
+    .filter(Boolean)
+    .join(' ')
+
+  const dialogClassName = [styles.dialog, isVisible ? styles.dialogVisible : '']
+    .filter(Boolean)
+    .join(' ')
+
+  const actionsClassName = [
+    styles.actions,
+
+    isRecurring ? styles.actionsRecurring : styles.actionsSingle,
+  ]
+    .filter(Boolean)
+    .join(' ')
+
   return (
     <div
-      className={[styles.backdrop, isVisible ? styles.backdropVisible : '']
-        .filter(Boolean)
-        .join(' ')}
+      className={backdropClassName}
       role='presentation'
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) {
@@ -55,11 +71,12 @@ const CancelBookingDialog = ({
     >
       <section
         ref={dialogRef}
-        className={[styles.dialog, isVisible ? styles.dialogVisible : ''].filter(Boolean).join(' ')}
+        className={dialogClassName}
         role='alertdialog'
         aria-modal='true'
         aria-labelledby='cancel-booking-title'
         aria-describedby='cancel-booking-description'
+        tabIndex={-1}
       >
         <button
           type='button'
@@ -86,113 +103,22 @@ const CancelBookingDialog = ({
               : 'This action will remove your reservation. You will need to book the room again if you change your mind.'}
           </p>
 
-          <div className={styles.bookingSummary}>
-            <strong>{booking.title}</strong>
-
-            <span>
-              {booking.roomName} · Floor {booking.roomFloor}
-            </span>
-
-            <span>
-              {formatBookingDate(booking.startAt)} ·{' '}
-              {formatBookingTimeRange(booking.startAt, booking.endAt)}
-            </span>
-          </div>
+          <CancelBookingSummary booking={booking} />
         </div>
 
-        <footer
-          className={[styles.actions, isRecurring ? styles.actionsRecurring : styles.actionsSingle]
-            .filter(Boolean)
-            .join(' ')}
-        >
+        <footer className={actionsClassName}>
           {isRecurring ? (
-            <>
-              <button
-                type='button'
-                className={styles.keepButton}
-                disabled={isLoading}
-                onClick={requestClose}
-              >
-                Keep booking
-              </button>
-
-              <div className={styles.cancelActions}>
-                <button
-                  type='button'
-                  className={styles.occurrenceButton}
-                  disabled={isLoading}
-                  onClick={() => {
-                    onConfirm('occurrence')
-                  }}
-                >
-                  <CalendarX2 size={17} strokeWidth={2} aria-hidden='true' />
-
-                  <span>
-                    Cancel this
-                    <small>Only this occurrence</small>
-                  </span>
-                </button>
-
-                <button
-                  type='button'
-                  className={styles.seriesButton}
-                  disabled={isLoading}
-                  onClick={() => {
-                    onConfirm('series')
-                  }}
-                >
-                  {isLoading ? (
-                    <LoaderCircle
-                      className={styles.spinner}
-                      size={17}
-                      strokeWidth={2}
-                      aria-hidden='true'
-                    />
-                  ) : (
-                    <Repeat2 size={17} strokeWidth={2} aria-hidden='true' />
-                  )}
-
-                  <span>
-                    {isLoading ? 'Cancelling...' : 'Cancel series'}
-
-                    {!isLoading && <small>All occurrences</small>}
-                  </span>
-                </button>
-              </div>
-            </>
+            <RecurringCancellationActions
+              isLoading={isLoading}
+              onClose={requestClose}
+              onConfirm={onConfirm}
+            />
           ) : (
-            <>
-              <button
-                type='button'
-                className={styles.dangerButton}
-                disabled={isLoading}
-                onClick={() => {
-                  onConfirm('occurrence')
-                }}
-              >
-                {isLoading ? (
-                  <LoaderCircle
-                    className={styles.spinner}
-                    size={17}
-                    strokeWidth={2}
-                    aria-hidden='true'
-                  />
-                ) : (
-                  <CalendarX2 size={17} strokeWidth={2} aria-hidden='true' />
-                )}
-
-                {isLoading ? 'Cancelling...' : 'Cancel booking'}
-              </button>
-
-              <button
-                type='button'
-                className={styles.keepButton}
-                disabled={isLoading}
-                onClick={requestClose}
-              >
-                Keep booking
-              </button>
-            </>
+            <SingleCancellationActions
+              isLoading={isLoading}
+              onClose={requestClose}
+              onConfirm={onConfirm}
+            />
           )}
         </footer>
       </section>

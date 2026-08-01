@@ -4,8 +4,16 @@ import apiClient from '@lib/api/api-client'
 // Types
 import type { RoomResponse } from '../types/room.types'
 
-const getRooms = async (): Promise<RoomResponse[]> => {
-  const response = await apiClient.get<RoomResponse[]>('/rooms')
+interface GetRoomsParams {
+  minCapacity?: number
+}
+
+const getRooms = async ({ minCapacity }: GetRoomsParams = {}): Promise<RoomResponse[]> => {
+  const response = await apiClient.get<RoomResponse[]>('/rooms', {
+    params: {
+      minCapacity,
+    },
+  })
 
   return response.data
 }

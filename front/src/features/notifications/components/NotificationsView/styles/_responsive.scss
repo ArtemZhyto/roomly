@@ -1,0 +1,41 @@
+@media (max-width: 48rem) {
+  .toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .toolbarActions {
+    width: 100%;
+  }
+
+  .secondaryButton,
+  .clearButton {
+    flex: 1;
+  }
+
+  .notificationContent {
+    gap: 0.75rem;
+    padding: 1rem 3rem 1rem 1rem;
+  }
+
+  .removeButton {
+    top: 0.75rem;
+    right: 0.75rem;
+  }
+}
+
+@media (max-width: 32rem) {
+  .toolbarActions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .notificationIcon {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+
+  .message {
+    font-size: 0.875rem;
+  }
+}

@@ -23,15 +23,13 @@
       "@components/*": ["./src/components/*"],
       "@components-shared/*": ["./src/components/shared/*"],
       "@components-ui/*": ["./src/components/ui/*"],
-      "@features/*": ["./src/features/*"],
       "@config/*": ["./src/config/*"],
+      "@features/*": ["./src/features/*"],
+      "@hooks/*": ["./src/hooks/*"],
       "@lib/*": ["./src/lib/*"],
       "@providers/*": ["./src/providers/*"],
-      "@hooks/*": ["./src/hooks/*"],
       "@services/*": ["./src/services/*"],
-      "@store/*": ["./src/store/*"],
-      "@shared-types/*": ["./src/types/*"],
-      "@utils/*": ["./src/utils/*"]
+      "@shared-types/*": ["./src/types/*"]
     },
     "types": ["node", "jest"]
   },

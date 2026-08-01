@@ -2,16 +2,25 @@
 import { Router } from 'express'
 
 // Controllers
-import { bookingsController } from '@controllers/bookings.controller'
+import {
+  cancelBookingController,
+  cancelBookingSeriesController,
+  createBookingController,
+  getUserBookingsController,
+} from '@controllers/bookings'
 
 // Middlewares
-import { bookingsMiddleware } from '@middlewares/bookings.middleware'
+import { validateBody } from '@middlewares/validate-body.middleware'
+
+// Validation
+import { createBookingSchema } from '@validation/bookings'
 
 const router = Router()
 
-router.delete('/:bookingId', bookingsController.deleteBooking)
-router.delete('/series/:seriesId', bookingsController.deleteBookingSeries)
-router.get('/', bookingsController.getBookingsList)
-router.post('/', bookingsMiddleware.createBooking, bookingsController.setBooking)
+router.get('/', getUserBookingsController)
+router.post('/', validateBody(createBookingSchema), createBookingController)
+
+router.delete('/series/:seriesId', cancelBookingSeriesController)
+router.delete('/:bookingId', cancelBookingController)
 
 export default router

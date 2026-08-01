@@ -1,0 +1,35 @@
+@media (max-width: 1024px) {
+  .panel {
+    min-height: auto;
+    padding: 34px 28px;
+  }
+
+  .content {
+    max-width: none;
+    gap: 34px;
+  }
+
+  .previewArea {
+    display: none;
+  }
+
+  .title {
+    max-width: 700px;
+
+    font-size: clamp(30px, 6vw, 46px);
+  }
+}
+
+@media (max-width: 640px) {
+  .panel {
+    padding: 26px 20px;
+  }
+
+  .description {
+    margin-top: 14px;
+  }
+
+  .footer {
+    display: none;
+  }
+}

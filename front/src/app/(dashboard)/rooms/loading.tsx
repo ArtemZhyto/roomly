@@ -10,6 +10,13 @@ const RoomsLoadingPage = () => {
         <div className='h-10 w-56 animate-pulse rounded-control bg-surface-secondary' />
       </header>
 
+      <section aria-label='Loading room filters'>
+        <div className='flex flex-col gap-4 sm:max-w-64'>
+          <div className='h-5 w-32 animate-pulse rounded-control bg-surface-secondary' />
+          <div className='h-11 w-full animate-pulse rounded-control bg-surface-secondary' />
+        </div>
+      </section>
+
       <div className='grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3'>
         {Array.from({ length: 6 }, (_, index) => (
           <article

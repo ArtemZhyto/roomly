@@ -1,81 +1,52 @@
-// Configs
-import { __CORS_OPTIONS } from '@configs/config'
-
 // Modules
 import { Server } from 'socket.io'
-import { parse } from 'cookie'
-import cookieParser from 'cookie-parser'
-import jwt from 'jsonwebtoken'
+
+// Types
 import type { Server as HttpServer } from 'node:http'
 
-// Interfaces
-import { Payload } from '@ts/interfaces/auth'
+// Configs
+import { corsOptions } from '@configs/index'
 
-const COOKIES_SECRET = process.env.COOKIES_SECRET
-const ACCESS_SECRET = process.env.ACCESS_SECRET
+// Middleware
+import { authenticateSocket } from './authenticate-socket.middleware'
 
-if (!COOKIES_SECRET) {
-  throw new Error('COOKIES_SECRET is not configured')
+// Socket types
+import type { SocketData } from './socket.types'
+
+type RoomlySocketServer = Server<
+  Record<string, never>,
+  Record<string, never>,
+  Record<string, never>,
+  SocketData
+>
+
+let socketServer: RoomlySocketServer | null = null
+
+export const getUserRoomName = (userId: number): string => {
+  return `user:${userId}`
 }
 
-if (!ACCESS_SECRET) {
-  throw new Error('ACCESS_SECRET is not configured')
-}
-
-let io: Server | null = null
-
-export const initializeSocket = (httpServer: HttpServer): Server => {
-  io = new Server(httpServer, {
+export const initializeSocket = (httpServer: HttpServer): RoomlySocketServer => {
+  socketServer = new Server(httpServer, {
     cors: {
-      origin: __CORS_OPTIONS.origin,
+      origin: corsOptions.origin,
       credentials: true,
     },
   })
 
-  io.use((socket, next) => {
-    try {
-      const rawCookies = socket.handshake.headers.cookie
+  socketServer.use(authenticateSocket)
 
-      if (!rawCookies) {
-        return next(new Error('Unauthorized'))
-      }
-
-      const cookies = parse(rawCookies)
-      const signedAccessToken = cookies.accessToken
-
-      if (!signedAccessToken) {
-        return next(new Error('Unauthorized'))
-      }
-
-      const accessToken = cookieParser.signedCookie(signedAccessToken, COOKIES_SECRET)
-
-      if (!accessToken || typeof accessToken !== 'string') {
-        return next(new Error('Unauthorized'))
-      }
-
-      const payload = jwt.verify(accessToken, ACCESS_SECRET) as Payload
-
-      socket.data.user = payload
-
-      next()
-    } catch {
-      next(new Error('Unauthorized'))
-    }
+  socketServer.on('connection', (socket) => {
+    void socket.join(getUserRoomName(socket.data.user.id))
   })
 
-  io.on('connection', (socket) => {
-    const user = socket.data.user as Payload
-
-    socket.join(`user:${user.id}`)
-  })
-
-  return io
+  return socketServer
 }
 
-export const getSocketServer = (): Server => {
-  if (!io) {
+export const getSocketServer = (): RoomlySocketServer => {
+  if (!socketServer) {
     throw new Error('Socket.IO is not initialized')
   }
 
-  return io
+  return socketServer
 }
