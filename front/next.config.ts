@@ -8,7 +8,6 @@ const nextConfig: NextConfig = {
   output: 'standalone',
 
   experimental: {
-    optimizeCss: true,
     externalDir: true,
   },
 

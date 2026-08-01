@@ -1,0 +1,40 @@
+.container {
+  position: relative;
+
+  flex: 0 0 auto;
+}
+
+.trigger {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-control);
+
+  color: var(--color-text-muted);
+  background: transparent;
+
+  cursor: pointer;
+
+  transition:
+    color 160ms ease,
+    background-color 160ms ease,
+    transform 160ms ease;
+
+  &:hover {
+    color: var(--color-text-primary);
+    background: var(--color-background);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}

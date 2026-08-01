@@ -3,7 +3,7 @@ services:
     build: .
     env_file:
       - .env
-      - .env.prod
+      - .env.docker
     volumes:
       - .:/app
       - /app/node_modules

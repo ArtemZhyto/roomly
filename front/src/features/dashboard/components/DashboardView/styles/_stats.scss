@@ -1,0 +1,44 @@
+.eyebrow {
+  margin: 0;
+
+  color: var(--color-text-secondary);
+
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.valueRow {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+
+  margin-top: 7px;
+}
+
+.value {
+  color: var(--color-text-primary);
+
+  font-size: 38px;
+  font-weight: 750;
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+.valueLabel {
+  color: var(--color-text-secondary);
+
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.description {
+  max-width: 340px;
+
+  margin: 17px 0 0;
+
+  color: var(--color-text-secondary);
+
+  font-size: 14px;
+  line-height: 1.55;
+}

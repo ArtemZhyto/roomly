@@ -1,3 +1,8 @@
 export { default as MyBookingsView } from './components/MyBookingsView'
 
-export type { MyBooking, MyBookingPeriod } from './types'
+export type {
+  BookingCancellationScope,
+  MyBooking,
+  MyBookingPeriod,
+  MyBookingsStatus,
+} from './types'

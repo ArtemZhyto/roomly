@@ -15,7 +15,7 @@ const PrivacyPage = () => {
       eyebrow='Legal'
       title='Privacy Policy'
       description='This policy explains what information Roomly collects and how it is used and protected.'
-      updatedAt='July 2026'
+      updatedAt='August 2026'
       sections={privacySections}
     />
   )

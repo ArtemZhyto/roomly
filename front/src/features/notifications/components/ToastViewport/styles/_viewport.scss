@@ -1,0 +1,13 @@
+.viewport {
+  position: fixed;
+  z-index: 1000;
+  top: 20px;
+  right: 20px;
+
+  display: flex;
+  width: min(390px, calc(100vw - 32px));
+  flex-direction: column;
+  gap: 12px;
+
+  pointer-events: none;
+}

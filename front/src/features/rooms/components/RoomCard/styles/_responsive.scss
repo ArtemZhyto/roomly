@@ -1,0 +1,28 @@
+@media (max-width: 420px) {
+  .card {
+    min-height: auto;
+    padding: 19px;
+  }
+
+  .header {
+    gap: 10px;
+  }
+
+  .status {
+    padding-inline: 8px;
+
+    font-size: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .action,
+  .actionIcon {
+    transition: none;
+  }
+
+  .card:hover {
+    transform: none;
+  }
+}

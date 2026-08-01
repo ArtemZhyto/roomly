@@ -1,16 +1,17 @@
 // Types
 import type { ScheduleBooking, ScheduleSlotSelection } from '../../types'
+
 import type { ScheduleGridSlot } from './schedule-grid.types'
 
 // Utils
 import {
   createSlotEnd,
   createSlotStart,
-  formatDateForInput,
+  formatScheduleInputDate,
   formatScheduleTime,
   isSlotOccupied,
   isWithinOfficeHours,
-} from './schedule-grid.utils'
+} from './utils'
 
 // Styles
 import styles from './ScheduleGrid.module.scss'
@@ -21,6 +22,7 @@ interface ScheduleSlotButtonProps {
   bookings: ScheduleBooking[]
   currentTime: Date
   roomId: number
+
   onSelectSlot: (selection: ScheduleSlotSelection) => void
 }
 
@@ -33,36 +35,36 @@ const ScheduleSlotButton = ({
   onSelectSlot,
 }: ScheduleSlotButtonProps) => {
   const slotStart = createSlotStart(day, slot.index)
-
   const slotEnd = createSlotEnd(slotStart)
 
   const occupied = isSlotOccupied(slotStart, slotEnd, bookings)
 
   const isInsideOfficeHours = isWithinOfficeHours(slotStart, slotEnd)
-
   const isPast = slotStart.getTime() <= currentTime.getTime()
-
   const isAvailable = isInsideOfficeHours && !occupied && !isPast
 
-  const date = formatDateForInput(slotStart)
+  const date = formatScheduleInputDate(slotStart)
 
   const startTime = formatScheduleTime(slotStart)
-
   const endTime = formatScheduleTime(slotEnd)
 
   const slotLabel = `${date}, ${startTime} – ${endTime}`
 
   const className = [
     styles.gridSlot,
+
     occupied ? styles.gridSlotOccupied : '',
+
     isPast ? styles.gridSlotPast : '',
+
     !isInsideOfficeHours ? styles.gridSlotOutsideOffice : '',
+
     isAvailable ? styles.gridSlotAvailable : '',
   ]
     .filter(Boolean)
     .join(' ')
 
-  const handleClick = () => {
+  const handleClick = (): void => {
     if (!isAvailable) {
       return
     }
@@ -75,21 +77,21 @@ const ScheduleSlotButton = ({
     })
   }
 
+  const ariaLabel = isAvailable
+    ? `Book room on ${slotLabel}`
+    : occupied
+      ? `Occupied slot: ${slotLabel}`
+      : !isInsideOfficeHours
+        ? `Outside office hours: ${slotLabel}`
+        : `Unavailable past slot: ${slotLabel}`
+
   return (
     <button
       type='button'
       className={className}
-      onClick={handleClick}
       disabled={!isAvailable}
-      aria-label={
-        isAvailable
-          ? `Book room on ${slotLabel}`
-          : occupied
-            ? `Occupied slot: ${slotLabel}`
-            : !isInsideOfficeHours
-              ? `Outside office hours: ${slotLabel}`
-              : `Unavailable past slot: ${slotLabel}`
-      }
+      aria-label={ariaLabel}
+      onClick={handleClick}
     />
   )
 }

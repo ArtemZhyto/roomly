@@ -1,0 +1,39 @@
+@media (max-width: 820px) {
+  .toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .navigation {
+    justify-content: space-between;
+  }
+
+  .weekRange {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .toolbar {
+    padding: 16px;
+  }
+
+  .roomDetails {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .navigation {
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr) 40px;
+  }
+
+  .todayButton {
+    grid-column: 1 / -1;
+  }
+
+  .weekRange {
+    font-size: 14px;
+  }
+}

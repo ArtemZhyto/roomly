@@ -15,7 +15,7 @@ const TermsPage = () => {
       eyebrow='Legal'
       title='Terms of Service'
       description='These terms describe the rules and responsibilities that apply when using Roomly.'
-      updatedAt='July 2026'
+      updatedAt='August 2026'
       sections={termsSections}
     />
   )

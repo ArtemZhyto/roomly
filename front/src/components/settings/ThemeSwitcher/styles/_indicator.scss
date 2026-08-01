@@ -1,0 +1,26 @@
+.indicator {
+  display: grid;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  place-items: center;
+
+  border: 1px solid var(--color-border-strong);
+  border-radius: 50%;
+
+  span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+
+    background: transparent;
+  }
+}
+
+.optionSelected .indicator {
+  border-color: var(--color-primary-active);
+
+  span {
+    background: var(--color-primary-active);
+  }
+}

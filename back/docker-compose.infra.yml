@@ -12,22 +12,8 @@ services:
     networks:
       - app-network
 
-  roomly_redis:
-    image: redis:8-alpine
-    container_name: redis
-    restart: always
-    env_file:
-      - .env.prod
-    ports:
-      - '${REDIS_PORT}:6379'
-    volumes:
-      - redis_data:/data
-    networks:
-      - app-network
-
 volumes:
   postgres_data:
-  redis_data:
 
 networks:
   app-network:

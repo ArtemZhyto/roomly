@@ -1,5 +1,6 @@
 export type MyBookingPeriod = 'upcoming' | 'past'
 export type BookingCancellationScope = 'occurrence' | 'series'
+export type MyBookingsStatus = 'loading' | 'idle' | 'error'
 
 export interface MyBooking {
   id: number

@@ -2,29 +2,49 @@
 import { Router } from 'express'
 
 // Controllers
-import { authController } from '@controllers/auth.controller'
+import {
+  accountController,
+  passwordController,
+  sessionController,
+  verificationController,
+} from '@controllers/auth'
 
 // Middlewares
-import { authMiddleware } from '@middlewares/auth.middleware'
+import { requireAuth } from '@middlewares/auth'
+import { validateBody } from '@middlewares/validate-body.middleware'
+
+// Validation
+import {
+  forgotPasswordSchema,
+  loginSchema,
+  registerSchema,
+  resetPasswordSchema,
+  verifyEmailSchema,
+} from '@validation/auth'
 
 const router = Router()
 
-router.post('/register', authMiddleware.register, authController.register)
-router.post('/login', authMiddleware.login, authController.login)
+router.post('/register', validateBody(registerSchema), accountController.register)
+router.post('/login', validateBody(loginSchema), accountController.login)
+router.delete('/logout', sessionController.logout)
 
-router.post('/forgot-password', authMiddleware.forgotPassword, authController.forgotPassword)
-router.post('/reset-password', authMiddleware.resetPassword, authController.resetPassword)
+router.post(
+  '/forgot-password',
+  validateBody(forgotPasswordSchema),
+  passwordController.forgotPassword,
+)
+router.post('/reset-password', validateBody(resetPasswordSchema), passwordController.resetPassword)
 
-router.delete('/logout', authController.logout)
-router.post('/refresh', authController.refresh)
-router.get('/me', authMiddleware.requireAuth, authController.me)
+router.post('/refresh', sessionController.refresh)
+
+router.get('/me', requireAuth, accountController.me)
 
 router.post(
   '/verify-email',
-  authMiddleware.requireAuth,
-  authMiddleware.verifyEmail,
-  authController.verifyEmail,
+  requireAuth,
+  validateBody(verifyEmailSchema),
+  verificationController.verifyEmail,
 )
-router.post('/resend-verification', authMiddleware.requireAuth, authController.resendVerification)
+router.post('/resend-verification', requireAuth, verificationController.resendVerification)
 
 export default router

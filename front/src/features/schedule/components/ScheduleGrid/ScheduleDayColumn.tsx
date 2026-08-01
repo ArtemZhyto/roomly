@@ -8,7 +8,7 @@ import ScheduleSlotButton from './ScheduleSlotButton'
 
 // Utils
 import { isSameDay } from '../../utils'
-import { formatScheduleTime } from './schedule-grid.utils'
+import { formatScheduleTime } from './utils'
 
 // Styles
 import styles from './ScheduleGrid.module.scss'

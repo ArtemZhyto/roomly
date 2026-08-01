@@ -16,17 +16,17 @@
     "allowSyntheticDefaultImports": true,
     "typeRoots": ["./node_modules/@types", "../node_modules/@types"],
     "paths": {
-      "@workers/*": ["./src/workers/*"],
       "@configs/*": ["./src/configs/*"],
       "@controllers/*": ["./src/controllers/*"],
-      "@mails/*": ["./src/mails/*"],
+      "@errors/*": ["./src/errors/*"],
+      "@helpers/*": ["./src/helpers/*"],
       "@middlewares/*": ["./src/middlewares/*"],
       "@routes/*": ["./src/routes/*"],
-      "@helpers/*": ["./src/helpers/*"],
       "@services/*": ["./src/services/*"],
       "@sockets/*": ["./src/sockets/*"],
-      "@src/*": ["./src/*"],
-      "@ts/*": ["./ts/*"]
+      "@validation/*": ["./src/validation/*"],
+      "@workers/*": ["./src/workers/*"],
+      "@src/*": ["./src/*"]
     },
     "types": ["node", "jest"]
   },

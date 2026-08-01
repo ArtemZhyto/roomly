@@ -1,26 +1,25 @@
 // Modules
 import jwt from 'jsonwebtoken'
 
+// Configs
+import { env } from '@configs/index'
+
 // Interfaces
-import { Payload } from '@ts/interfaces/auth'
+import type { Payload } from '@services/auth'
 
-const ACCESS_SECRET = process.env.ACCESS_SECRET
-const REFRESH_SECRET = process.env.REFRESH_SECRET
-
-if (!ACCESS_SECRET) {
-  throw new Error('ACCESS_SECRET is not configured')
+interface Tokens {
+  accessToken: string
+  refreshToken: string
 }
 
-if (!REFRESH_SECRET) {
-  throw new Error('REFRESH_SECRET is not configured')
-}
+export const createTokens = (payload: Payload): Tokens => {
+  const accessToken = jwt.sign(payload, env.accessSecret, {
+    expiresIn: '15m',
+  })
 
-const ACCESS_AGE = Math.floor(Number(process.env.ACCESS_AGE) / 1000)
-const REFRESH_AGE = Math.floor(Number(process.env.REFRESH_AGE) / 1000)
-
-export const createTokens = (payload: Payload) => {
-  const accessToken = jwt.sign(payload, ACCESS_SECRET, { expiresIn: ACCESS_AGE })
-  const refreshToken = jwt.sign(payload, REFRESH_SECRET, { expiresIn: REFRESH_AGE })
+  const refreshToken = jwt.sign(payload, env.refreshSecret, {
+    expiresIn: '30d',
+  })
 
   return {
     accessToken,

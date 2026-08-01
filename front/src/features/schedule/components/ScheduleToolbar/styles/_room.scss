@@ -1,0 +1,60 @@
+.room {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 14px;
+}
+
+.roomIcon {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  flex: 0 0 auto;
+  place-items: center;
+
+  border-radius: 14px;
+
+  color: var(--color-primary-active);
+  background: var(--color-primary-subtle);
+}
+
+.roomContent {
+  min-width: 0;
+}
+
+.roomName {
+  overflow: hidden;
+
+  margin: 0;
+
+  color: var(--color-text-primary);
+
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.roomDetails {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+
+  margin-top: 5px;
+}
+
+.roomDetail {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+
+  color: var(--color-text-secondary);
+
+  font-size: 13px;
+  line-height: 1.4;
+
+  svg {
+    flex: 0 0 auto;
+  }
+}

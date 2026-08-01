@@ -1,0 +1,63 @@
+.navigation {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 8px;
+}
+
+.iconButton,
+.todayButton {
+  display: inline-grid;
+  min-height: 40px;
+  place-items: center;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-control);
+
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+
+  cursor: pointer;
+
+  transition:
+    color var(--transition-fast) ease,
+    border-color var(--transition-fast) ease,
+    background-color var(--transition-fast) ease;
+}
+
+.iconButton {
+  width: 40px;
+  padding: 0;
+}
+
+.todayButton {
+  padding: 0 14px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  &:disabled {
+    color: var(--color-text-muted);
+    background: var(--color-surface-secondary);
+
+    cursor: default;
+  }
+}
+
+.iconButton:hover,
+.todayButton:not(:disabled):hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary-active);
+  background: var(--color-primary-subtle);
+}
+
+.weekRange {
+  min-width: 190px;
+
+  color: var(--color-text-primary);
+
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  white-space: nowrap;
+}

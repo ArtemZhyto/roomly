@@ -3,6 +3,7 @@ import Link from 'next/link'
 
 // Components
 import FieldError from '@components-ui/FieldError'
+import AuthPasswordField from '../AuthPasswordField'
 
 // Lib
 import getAuthInputClassName from '../../lib/getAuthInputClassName'
@@ -20,6 +21,15 @@ const LoginFields = ({
   onChange,
   onPasswordVisibilityToggle,
 }: LoginFieldsProps) => {
+  const forgotPasswordLink = (
+    <Link
+      href='/forgot-password'
+      className='text-sm font-semibold text-primary no-underline hover:underline'
+    >
+      Forgot password?
+    </Link>
+  )
+
   return (
     <>
       <div className='flex flex-col gap-2'>
@@ -52,54 +62,20 @@ const LoginFields = ({
         {errors.email && <FieldError id='login-email-error' message={errors.email} />}
       </div>
 
-      <div className='flex flex-col gap-2'>
-        <div className='flex items-center justify-between gap-4'>
-          <label htmlFor='password' className='text-[15px] font-semibold text-text-primary'>
-            Password
-          </label>
-
-          <Link
-            href='/forgot-password'
-            className='text-sm font-semibold text-primary no-underline hover:underline'
-          >
-            Forgot password?
-          </Link>
-        </div>
-
-        <div className={getAuthInputClassName(Boolean(errors.password))}>
-          <span
-            className='grid h-full basis-10.5 shrink-0 cursor-default select-none place-items-center text-base text-text-muted'
-            aria-hidden='true'
-          >
-            •
-          </span>
-
-          <input
-            id='password'
-            name='password'
-            type={isPasswordVisible ? 'text' : 'password'}
-            value={values.password}
-            onChange={onChange}
-            placeholder='Enter your password'
-            autoComplete='current-password'
-            aria-invalid={Boolean(errors.password)}
-            aria-describedby={errors.password ? 'login-password-error' : undefined}
-            className={`${fieldStyles.input} ${fieldStyles.passwordInput}`}
-          />
-
-          <button
-            type='button'
-            className={fieldStyles.visibilityButton}
-            onClick={onPasswordVisibilityToggle}
-            aria-label={isPasswordVisible ? 'Hide password' : 'Show password'}
-            aria-pressed={isPasswordVisible}
-          >
-            {isPasswordVisible ? 'Hide' : 'Show'}
-          </button>
-        </div>
-
-        {errors.password && <FieldError id='login-password-error' message={errors.password} />}
-      </div>
+      <AuthPasswordField
+        id='password'
+        name='password'
+        label='Password'
+        labelAside={forgotPasswordLink}
+        value={values.password}
+        placeholder='Enter your password'
+        autoComplete='current-password'
+        error={errors.password}
+        errorId='login-password-error'
+        isVisible={isPasswordVisible}
+        onChange={onChange}
+        onVisibilityToggle={onPasswordVisibilityToggle}
+      />
     </>
   )
 }

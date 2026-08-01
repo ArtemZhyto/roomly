@@ -1,0 +1,27 @@
+@media (max-width: 640px) {
+  .actionsSingle,
+  .cancelActions {
+    grid-template-columns: 1fr;
+  }
+
+  .dangerButton {
+    order: 1;
+  }
+
+  .keepButton {
+    order: 2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .keepButton,
+  .dangerButton,
+  .occurrenceButton,
+  .seriesButton {
+    transition: none;
+  }
+
+  .spinner {
+    animation-duration: 1.4s;
+  }
+}

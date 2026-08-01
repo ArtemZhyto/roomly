@@ -2,8 +2,11 @@
 
 // Modules
 import Link from 'next/link'
-import { useEffect, useId, useRef, useState } from 'react'
+
 import { LogOut, MoreHorizontal, Settings } from 'lucide-react'
+
+// Hooks
+import useProfileMenu from './hooks/useProfileMenu'
 
 // Types
 import type { ProfileMenuProps } from './profileMenu.types'
@@ -12,56 +15,12 @@ import type { ProfileMenuProps } from './profileMenu.types'
 import styles from './ProfileMenu.module.scss'
 
 const ProfileMenu = ({ isLogoutLoading = false, onLogout }: ProfileMenuProps) => {
-  const [isOpen, setIsOpen] = useState(false)
+  const { isOpen, menuId, containerRef, triggerRef, closeMenu, toggleMenu } = useProfileMenu()
 
-  const containerRef = useRef<HTMLDivElement>(null)
-  const triggerRef = useRef<HTMLButtonElement>(null)
-
-  const menuId = useId()
-
-  const closeMenu = () => {
-    setIsOpen(false)
-  }
-
-  const toggleMenu = () => {
-    setIsOpen((currentValue) => !currentValue)
-  }
-
-  const handleLogout = () => {
+  const handleLogout = (): void => {
     closeMenu()
     onLogout?.()
   }
-
-  useEffect(() => {
-    if (!isOpen) {
-      return
-    }
-
-    const handlePointerDown = (event: PointerEvent) => {
-      const target = event.target
-
-      if (target instanceof Node && !containerRef.current?.contains(target)) {
-        closeMenu()
-      }
-    }
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key !== 'Escape') {
-        return
-      }
-
-      closeMenu()
-      triggerRef.current?.focus()
-    }
-
-    document.addEventListener('pointerdown', handlePointerDown)
-    document.addEventListener('keydown', handleKeyDown)
-
-    return () => {
-      document.removeEventListener('pointerdown', handlePointerDown)
-      document.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [isOpen])
 
   const menuClassName = [styles.menu, isOpen ? styles.menuOpen : ''].filter(Boolean).join(' ')
 
@@ -93,11 +52,11 @@ const ProfileMenu = ({ isLogoutLoading = false, onLogout }: ProfileMenuProps) =>
           <span>Settings</span>
         </Link>
 
-        <div className={styles.separator} />
+        <div className={styles.separator} role='separator' />
 
         <button
           type='button'
-          className={`${styles.item} ${styles.logoutItem}`}
+          className={[styles.item, styles.logoutItem].join(' ')}
           role='menuitem'
           tabIndex={isOpen ? 0 : -1}
           disabled={isLogoutLoading}

@@ -1,0 +1,121 @@
+.schedulePreview {
+  overflow: hidden;
+
+  border: 1px solid rgb(255 255 255 / 12%);
+  border-radius: 22px;
+
+  background: rgb(255 255 255 / 8%);
+  box-shadow: 0 24px 70px rgb(0 0 0 / 22%);
+  backdrop-filter: blur(18px);
+
+  cursor: default;
+  user-select: none;
+}
+
+.scheduleHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+
+  padding: 22px 24px;
+  border-bottom: 1px solid rgb(255 255 255 / 10%);
+}
+
+.scheduleLabel {
+  margin: 0 0 3px;
+
+  color: rgb(255 255 255 / 55%);
+
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.scheduleTitle {
+  margin: 0;
+
+  color: var(--color-text-inverse);
+
+  font-size: 19px;
+  font-weight: 600;
+}
+
+.scheduleBadge {
+  flex-shrink: 0;
+
+  padding: 7px 11px;
+  border-radius: 999px;
+
+  color: var(--color-primary-active);
+  background: var(--color-primary-light);
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.scheduleList {
+  display: flex;
+  flex-direction: column;
+}
+
+.scheduleItem {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr) auto;
+  min-height: 72px;
+  align-items: center;
+  gap: 14px;
+
+  padding: 12px 24px;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid rgb(255 255 255 / 8%);
+  }
+}
+
+.scheduleTime {
+  color: rgb(255 255 255 / 56%);
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.scheduleDetails {
+  min-width: 0;
+}
+
+.scheduleName,
+.scheduleRoom {
+  overflow: hidden;
+  margin: 0;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.scheduleName {
+  color: var(--color-text-inverse);
+
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.scheduleRoom {
+  margin-top: 3px;
+
+  color: rgb(255 255 255 / 52%);
+
+  font-size: 13px;
+}
+
+.scheduleStatus {
+  padding: 5px 9px;
+  border-radius: 999px;
+
+  color: var(--color-primary-light);
+  background: rgb(6 182 212 / 16%);
+
+  font-size: 12px;
+  font-weight: 700;
+}

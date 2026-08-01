@@ -1,8 +1,8 @@
 // Modules
 import { CalendarDays } from 'lucide-react'
 
-// Lib
-import { formatDateInputValue } from './booking-form.utils'
+// Utils
+import { formatDateInputValue } from './utils'
 
 // Types
 import type { BookingFormErrors, BookingFormValues, UpdateBookingField } from './booking-form.types'

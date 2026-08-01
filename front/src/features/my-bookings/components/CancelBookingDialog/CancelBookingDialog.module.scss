@@ -1,4 +1,7 @@
 @use './styles/dialog';
 @use './styles/content';
-@use './styles/actions';
+@use './styles/action-layout';
+@use './styles/action-base';
+@use './styles/action-buttons';
+@use './styles/action-responsive';
 @use './styles/responsive';

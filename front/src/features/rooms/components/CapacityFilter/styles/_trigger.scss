@@ -1,0 +1,63 @@
+.trigger {
+  display: flex;
+  width: 100%;
+  min-height: 44px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  padding: 0 13px;
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--radius-control);
+
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+  box-shadow: 0 1px 2px rgb(15 23 42 / 4%);
+
+  cursor: pointer;
+
+  transition:
+    color 150ms ease,
+    border-color 150ms ease,
+    background-color 150ms ease,
+    box-shadow 150ms ease;
+
+  &:hover {
+    border-color: var(--color-input-border-hover);
+    background: var(--color-surface-hover);
+  }
+
+  &:focus-visible {
+    border-color: var(--color-border-focus);
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
+}
+
+.triggerContent {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 9px;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  svg {
+    flex: 0 0 auto;
+
+    color: var(--color-text-secondary);
+  }
+}
+
+.chevron {
+  flex: 0 0 auto;
+
+  color: var(--color-text-muted);
+
+  transition: transform 160ms ease;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}

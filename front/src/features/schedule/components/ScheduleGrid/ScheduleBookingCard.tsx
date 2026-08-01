@@ -5,7 +5,7 @@ import type { ScheduleBooking } from '../../types'
 import { SLOT_DURATION_MINUTES } from '../../constants'
 
 // Utils
-import { formatScheduleTime, getBookingPosition } from './schedule-grid.utils'
+import { formatScheduleTime, getBookingPosition } from './utils'
 
 // Styles
 import styles from './ScheduleGrid.module.scss'

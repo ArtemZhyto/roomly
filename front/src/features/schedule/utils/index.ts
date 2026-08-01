@@ -10,3 +10,5 @@ export {
 } from './schedule.utils'
 
 export type { ScheduleSlot } from './schedule.utils'
+
+export { parseScheduleDate, parseScheduleRoomId } from './schedule-page.utils'

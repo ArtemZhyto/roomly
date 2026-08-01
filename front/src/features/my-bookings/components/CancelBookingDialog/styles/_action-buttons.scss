@@ -1,0 +1,88 @@
+.keepButton {
+  border: 1px solid var(--color-border);
+
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+
+  &:hover:not(:disabled) {
+    border-color: var(--color-border-strong);
+
+    background: var(--color-surface-secondary);
+  }
+}
+
+.dangerButton {
+  border: 1px solid color-mix(in srgb, var(--color-danger) 34%, var(--color-border));
+
+  color: var(--color-danger);
+
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--color-danger) 7%, var(--color-surface)),
+    color-mix(in srgb, var(--color-danger) 3%, var(--color-surface))
+  );
+
+  &:hover:not(:disabled) {
+    border-color: var(--color-danger);
+
+    background: color-mix(in srgb, var(--color-danger) 10%, var(--color-surface));
+
+    box-shadow: 0 8px 20px color-mix(in srgb, var(--color-danger) 12%, transparent);
+  }
+}
+
+.occurrenceButton {
+  min-height: 58px;
+
+  border: 1px solid color-mix(in srgb, var(--color-danger) 32%, var(--color-border));
+
+  color: var(--color-danger);
+
+  background: linear-gradient(
+    135deg,
+    var(--color-surface),
+    color-mix(in srgb, var(--color-danger) 6%, var(--color-surface))
+  );
+
+  &:hover:not(:disabled) {
+    border-color: color-mix(in srgb, var(--color-danger) 70%, var(--color-border));
+
+    background: color-mix(in srgb, var(--color-danger) 9%, var(--color-surface));
+
+    transform: translateY(-1px);
+  }
+}
+
+.seriesButton {
+  min-height: 58px;
+
+  border: 1px solid var(--color-danger, #dc2626);
+
+  color: #fff;
+
+  background: linear-gradient(
+    135deg,
+    var(--color-danger, #dc2626),
+    color-mix(in srgb, var(--color-danger, #dc2626) 78%, #000)
+  );
+
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--color-danger, #dc2626) 20%, transparent);
+
+  &:hover:not(:disabled) {
+    border-color: var(--color-danger, #dc2626);
+
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--color-danger, #dc2626) 92%, #000),
+      color-mix(in srgb, var(--color-danger, #dc2626) 70%, #000)
+    );
+
+    transform: translateY(-1px);
+
+    box-shadow: 0 13px 28px color-mix(in srgb, var(--color-danger, #dc2626) 28%, transparent);
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-danger, #dc2626) 22%, transparent);
+  }
+}
