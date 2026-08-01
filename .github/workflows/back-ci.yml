@@ -1,4 +1,4 @@
-name: Backend ci
+name: Backend CI
 
 on:
   push:
@@ -7,6 +7,7 @@ on:
     paths:
       - 'back/**'
       - '.github/workflows/back-ci.yml'
+
   pull_request:
     branches:
       - main
@@ -18,42 +19,91 @@ permissions:
   contents: read
 
 jobs:
-  services:
-    name: Build & Test Services
+  service:
+    name: Build & Test Service
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: bookingUser
+          POSTGRES_PASSWORD: bookingPassword
+          POSTGRES_DB: roomly_test
+        ports:
+          - 5001:5432
+        options: >-
+          --health-cmd="pg_isready -U bookingUser -d roomly_test"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
 
     defaults:
       run:
         working-directory: back
 
-    steps:
-      - uses: actions/checkout@v4
+    env:
+      MODE: dev
+      DOMAIN: localhost
+      SERVICE_PORT: 5000
 
-      - uses: actions/setup-node@v4
+      DATABASE_URL: postgresql://bookingUser:bookingPassword@localhost:5001/roomly_test
+
+      FRONTEND_URL: http://localhost:3030
+
+      ACCESS_SECRET: ci-access-secret-roomly
+      REFRESH_SECRET: ci-refresh-secret-roomly
+      COOKIES_SECRET: ci-cookies-secret-roomly
+
+      ACCESS_AGE: 900000
+      REFRESH_AGE: 2592000000
+
+      OFFICE_TIME_ZONE: Europe/Kyiv
+      OFFICE_OPEN_HOUR: 9
+      OFFICE_CLOSE_HOUR: 19
+
+      NOTIFY_BEFORE_MINUTES: 10
+
+      EMAIL_VERIFICATION_EXPIRES_HOURS: 24
+      EMAIL_VERIFICATION_RESEND_COOLDOWN_SECONDS: 60
+
+      PASSWORD_RESET_TOKEN_TTL_MINUTES: 30
+      PASSWORD_RESET_RESEND_COOLDOWN_SECONDS: 60
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: |
-            back/package-lock.json
+          cache-dependency-path: back/package-lock.json
 
-      - name: Install root deps
+      - name: Install backend dependencies
         run: npm ci
 
-      - name: Install service deps
+      - name: Install service dependencies
         working-directory: back/service
         run: npm ci
 
-      - name: Prisma generate (if exists)
+      - name: Generate Prisma Client
         working-directory: back/service
-        run: |
-          if [ -d "prisma" ]; then
-            npx prisma generate
-          fi
+        run: npx prisma generate
+
+      - name: Apply database migrations
+        working-directory: back/service
+        run: npx prisma migrate deploy
+
+      - name: Run unit tests
+        working-directory: back/service
+        run: npm test
+
+      - name: Run integration tests
+        working-directory: back/service
+        run: npm run test:integration
 
       - name: Build service
         working-directory: back/service
         run: npm run build
-
-      - name: Test service
-        working-directory: back/service
-        run: npm test -- --passWithNoTests

@@ -2,10 +2,10 @@
 import { toZonedTime } from 'date-fns-tz'
 
 // Configs
-import { env } from '@configs/index'
+import { env } from '@configs/env'
 
 // Errors
-import { BadRequestError } from '@errors/index'
+import { BadRequestError } from '@errors/app-error'
 
 const MINIMUM_BOOKING_DURATION_MINUTES = 30
 const MAXIMUM_BOOKING_DURATION_MINUTES = 240
@@ -58,7 +58,9 @@ export const validateBookingTime = (startDate: Date, endDate: Date): void => {
 
   if (!isSameOfficeDay || startMinutes < officeOpenMinutes || endMinutes > officeCloseMinutes) {
     throw new BadRequestError(
-      `Booking must be within office hours from ${formattedOpenHour}:00 to ${formattedCloseHour}:00 ${env.officeTimeZone}`,
+      `Booking must be within office hours from ` +
+        `${formattedOpenHour}:00 to ${formattedCloseHour}:00 ` +
+        `${env.officeTimeZone}`,
     )
   }
 

@@ -10,8 +10,7 @@
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "format": "prettier --write .",
-    "test": "jest --verbose --passWithNoTests"
+    "format": "prettier --write ."
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
