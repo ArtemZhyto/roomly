@@ -3,11 +3,14 @@ services:
     build:
       context: .
       dockerfile: service/dockerfile
+    depends_on:
+      roomly_postgres:
+        condition: service_healthy
     volumes:
       - ./service:/app/service
       - /app/node_modules
       - /app/dist
-    command: npm run dev # Use dev for hot-reloading during development
+    command: sh -c "npx prisma migrate deploy && npm run dev" # Use dev for hot-reloading during development
     env_file:
       - .env
       - .env.prod

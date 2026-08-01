@@ -3,7 +3,7 @@ import dotenv from 'dotenv'
 import path from 'node:path'
 
 dotenv.config({
-  path: path.resolve(process.cwd(), '../../../.env'),
+  path: path.resolve(process.cwd(), '../.env'),
 })
 
 const requireEnvironmentVariable = (name: string): string => {
