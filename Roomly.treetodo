@@ -794,7 +794,8 @@
         {
           "id": "task-987493ab-82e4-4d12-bb15-70283f2b093d",
           "title": "Document race-condition protection",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-abdd3638-5d9c-489a-ab8d-9173b54378f4",
@@ -843,66 +844,78 @@
         {
           "id": "task-496f277f-9066-41b3-adc0-44116bc282db",
           "title": "Write final project overview",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-b8c6b77b-21b0-46c4-bd78-759a42471b8c",
           "title": "Document local setup instructions",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-f2afa3bb-029a-4c7a-88e5-48fc3ff070d2",
           "title": "Document Docker startup instructions",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-990b213c-990d-4ba7-bf22-1593682c5aad",
           "title": "Document database migration and seed commands",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-93b78d49-ce31-418a-a518-3ba7fef45298",
           "title": "Add test user credentials",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-185f6716-65fe-4339-9bf7-e147a9892997",
           "title": "List implemented bonus features",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-ceac253a-578c-4166-bce8-18252bd54fae",
           "title": "Explain booking overlap logic",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-b57d5b04-1e0a-4630-af48-9172c9bd6ab8",
           "title": "Explain UTC storage and time-zone conversion",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-3e3edc7d-a475-436f-9aae-b73b2b88e23f",
           "title": "Verify setup on a clean machine",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-599b558e-445a-4bbb-ad82-352b21e21d32",
           "title": "Remove dead code and unused dependencies",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-bd4fc172-2486-4d3a-a01b-ca1385820a71",
           "title": "Run final lint, build, and test checks",
-          "items": []
+          "items": [],
+          "completed": true
         },
         {
           "id": "task-696be5ba-0a7a-48ec-98e6-5fd0363ef2bc",
           "title": "Review commit and pull request history",
-          "items": []
+          "items": [],
+          "completed": true
         }
       ],
       "x": -558.2943975101293,
-      "y": 722.5157252435741
+      "y": 726.1930087063519
     }
   ],
   "settings": {
