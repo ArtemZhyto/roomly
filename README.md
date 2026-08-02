@@ -15,6 +15,7 @@ The project was developed for the UA-SKILLS junior development tournament and im
 
 ## Contents
 
+- [Screenshots](#screenshots)
 - [Features](#features)
 - [Implemented bonus features](#implemented-bonus-features)
 - [Technology stack](#technology-stack)
@@ -32,6 +33,41 @@ The project was developed for the UA-SKILLS junior development tournament and im
 - [Security](#security)
 - [Authorship](#authorship)
 - [License](#license)
+
+## Screenshots
+
+### Weekly schedule
+
+<table>
+  <tr>
+    <td align="center">
+      <strong>Light theme</strong><br />
+      <img src="./docs/screenshots/schedule-light.png" alt="Roomly weekly schedule in the light theme" width="100%" />
+    </td>
+    <td align="center">
+      <strong>Dark theme</strong><br />
+      <img src="./docs/screenshots/schedule-dark.png" alt="Roomly weekly schedule in the dark theme" width="100%" />
+    </td>
+  </tr>
+</table>
+
+### Booking flow
+
+<p align="center">
+  <img src="./docs/screenshots/booking-form.png" alt="Creating a meeting-room booking in Roomly" width="900" />
+</p>
+
+### Personal bookings
+
+<p align="center">
+  <img src="./docs/screenshots/my-bookings.png" alt="Upcoming and past Roomly bookings" width="900" />
+</p>
+
+### Mobile experience
+
+<p align="center">
+  <img src="./docs/screenshots/mobile-view.png" alt="Roomly weekly schedule on a mobile screen" width="420" />
+</p>
 
 ## Features
 
