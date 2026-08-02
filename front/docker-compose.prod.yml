@@ -2,7 +2,7 @@ services:
   roomly_frontend:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: dockerfile
       target: production
     env_file:
       - .env
